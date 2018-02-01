@@ -49,6 +49,12 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 .matches('Greeting', (session) => {
     session.send('You reached Greeting intent, you said \'%s\'.', session.message.text);
 })
+.matches('Create.Incident', (session,args) => {
+    console.log("Reached Create Incident: "+args);
+})
+.matches('Incident.Status', (session,args) => {
+    console.log("Reached Incident Status:"+args);
+})
 .matches('Help', (session) => {
     session.send('You reached Help intent, you said \'%s\'.', session.message.text);
 })
