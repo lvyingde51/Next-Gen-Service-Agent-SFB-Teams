@@ -2,7 +2,7 @@
     'use strict';
     
     var builder = require('botbuilder');    
-    var log = require('./utils/logs');
+    var log = require('../utils/logs');
 
     exports.load = function(intentDialog) {
         intentDialog.matches('Incident.Status', incidentStatus)
