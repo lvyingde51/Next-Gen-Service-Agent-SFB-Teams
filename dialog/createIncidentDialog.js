@@ -16,23 +16,13 @@
 
         log.consoleDefault(JSON.stringify(entities)); // Console Entity
         
-        session.beginDialog('createIncident', function(err) {
+        return session.beginDialog('createIncident', function(err) {
             if(err) {
                 session.send(new builder.Message().text('Error Occurred with incidentStatus: ' + err.message));
             }
         });
         
         
-    }];
-
-    bot.dialog('createIncident', [
-        function (session) {
-            builder.Prompts.choice(session, 'Please Choose a Severity level.', ['High', 'Medium', 'Low']);
-        },
-        function(session, results) {
-            session.userData.CISeverity = results.response.entity;
-
-        }    
-    ]);
+    }];    
 
 }());

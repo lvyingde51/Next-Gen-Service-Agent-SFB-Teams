@@ -6,7 +6,9 @@ var restify = require('restify');
 var builder = require('botbuilder');
 var botbuilder_azure = require("botbuilder-azure");
 var createIncidentDialog = require('./dialog/createIncidentDialog');
+var createIncidentBotDialog = require('./dialog/createIncidentBotDialog');
 var incidentStatusDialog = require('./dialog/incidentStatusDialog');
+var incidentStatusBotDialog = require('./dialog/incidentStatusBotDialog');
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -73,4 +75,6 @@ incidentStatusDialog.load(intents);
 bot.dialog('/', intents);
 
 // Custom Dialog Handling Starts Here
+bot.dialog('createIncident', createIncidentBotDialog.beginDialog);
+bot.dialog('incidentStatus', incidentStatusBotDialog.beginDialog);
 
