@@ -5,6 +5,8 @@ Microsoft Bot Framework.
 var restify = require('restify');
 var builder = require('botbuilder');
 var botbuilder_azure = require("botbuilder-azure");
+var createIncidentDialog = require('./dialog/createIncidentDialog');
+var incidentStatusDialog = require('./dialog/incidentStatusDialog');
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -61,12 +63,11 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 .onDefault((session) => {
     session.send('Sorry, I did not understand \'%s\'.', session.message.text);
 });
-
-var createIncidentDialog=require('./dialog/createIncidentDialog');
-var incidentStatusDialog=require('./dialog/incidentStatusDialog');
+console.log('Matched intent is '+JSON.stringify(intents));
 
 // Custom Intent Handling Starts Here
 createIncidentDialog.load(intents);
+incidentStatusDialog.load(intents);
 
 
 bot.dialog('/', intents);
