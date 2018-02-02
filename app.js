@@ -76,7 +76,7 @@ bot.dialog('/', intents);
 
 // Custom Dialog Handling Starts Here
 bot.dialog('createIncident', createIncidentBotDialog.beginDialog);
+bot.dialog('shortDescription', createIncidentBotDialog.shortDescription);
 bot.dialog('incidentStatus', incidentStatusBotDialog.beginDialog);
 bot.dialog('isSearchById', incidentStatusBotDialog.incidentID);
 bot.dialog('isSearchByList', incidentStatusBotDialog.prevIncidents);
-
