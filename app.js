@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------------------
-A simple echo bot for the Microsoft Bot Framework. 
+Microsoft Bot Framework. 
 -----------------------------------------------------------------------------*/
 
 var restify = require('restify');
