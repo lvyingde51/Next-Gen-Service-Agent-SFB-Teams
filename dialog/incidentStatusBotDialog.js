@@ -3,10 +3,12 @@
     
     var builder = require('botbuilder');    
     var log = require('../utils/logs');
+    var incidentArr = [];
 
+    // Incident Request Status List
     module.exports.beginDialog = [
         function (session) {
-            builder.Prompts.choice(session, 'how do you want me to search it?', ['By Incident Id', 'Last 10 Incidents']);
+            builder.Prompts.choice(session, 'How do you want me to search it?', ['By Incident Id', 'Last 10 Incidents']);
         },
         function(session, results) {
             session.userData.ISSearchType = results.response.entity;
@@ -25,6 +27,35 @@
                     }
                 });
             }
-        } 
+        }
+    ];
+
+    // Search Incident Status by ID
+    module.exports.incidentID = [
+        function (session) {
+            builder.Prompts.text(session, 'Please provide your Incident Id');
+        },
+        function(session, results) {
+            session.userData.ISIncidentId = results.response;
+        // Make API call to Service Now with Incident Id and get Response...
+            let msg = 'Below are the details for the requested incident:- \nIncident Id : INC 0010410 \nShort Description : Mouse not working \nStatus: In Progress \nAssigned To: Don Goodliffe \nWhat do you want to do next?';
+            session.endDialog(msg);
+        }
+    ];
+
+    // Search Last 10 Incident Status
+    module.exports.prevIncidents = [
+        function (session) {
+            // Make API call to Service Now and get Response for Last 10 requests...
+            incidentArr = [];
+            builder.Prompts.choice(session, 'List of Incidents', ['INC 0010410', 'INC 0010411', 'INC 0010412', 'INC 0010413', 'INC 0010414']);
+        },
+        function(session, results) {
+            session.userData.ISIncidentId = results.response.entity;
+
+            //Filter out JSON from previous API call and display the status of Incident from **incidentArr**
+            let msg = 'Below are the details for the requested incident:- \nIncident Id : INC 0010410 \nShort Description : Mouse not working \nStatus: In Progress \nAssigned To: Don Goodliffe \nWhat do you want to do next?';
+            session.endDialog(msg);
+        }
     ];
 }());
