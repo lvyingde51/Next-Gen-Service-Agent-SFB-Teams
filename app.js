@@ -61,6 +61,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
     session.send('You reached Help intent, you said \'%s\'.', session.message.text);
 })
 .matches('Cancel', (session) => {
+    console.log('Matched intent is Cancel Incident');
     session.send('You reached Cancel intent, you said \'%s\'.', session.message.text);
 })
 /*
