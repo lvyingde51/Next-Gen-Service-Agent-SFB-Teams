@@ -49,12 +49,6 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 .matches('Greeting', (session) => {
     session.send('You reached Greeting intent, you said \'%s\'.', session.message.text);
 })
-.matches('Create.Incident', (session,args) => {
-    console.log("Reached Create Incident: "+args);
-})
-.matches('Incident.Status', (session,args) => {
-    console.log("Reached Incident Status:"+args);
-})
 .matches('Help', (session) => {
     session.send('You reached Help intent, you said \'%s\'.', session.message.text);
 })
@@ -68,5 +62,14 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
     session.send('Sorry, I did not understand \'%s\'.', session.message.text);
 });
 
-bot.dialog('/', intents);    
+var createIncidentDialog=require('./dialog/createIncidentDialog');
+var incidentStatusDialog=require('./dialog/incidentStatusDialog');
+
+// Custom Intent Handling Starts Here
+createIncidentDialog.load(intents);
+
+
+bot.dialog('/', intents);
+
+// Custom Dialog Handling Starts Here
 
