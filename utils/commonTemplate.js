@@ -8,5 +8,28 @@
         this.urgency = null;
         this.json = true;
     }
+    
+    const incidentStatus = {
+        '1': () => {
+            return 'New';
+        },
+        '2': () => {
+            return 'In Progress';
+        },
+        '3': () => {
+            return 'On-hold';
+        },
+        '4': () => {
+            return 'Resolved';
+        },
+        '5': () => {
+            return 'Closed';
+        },
+        '6': () => {
+            return 'Cancelled';
+        }
+    };
+
     module.exports.jsonRequest = jsonRequest;
+    module.exports.incidentStatus = incidentStatus;
 }());

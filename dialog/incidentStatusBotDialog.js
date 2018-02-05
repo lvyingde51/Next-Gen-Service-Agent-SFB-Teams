@@ -5,6 +5,7 @@
     var log = require('../utils/logs');
     var apiService = require('../server/apiServices');
     var incidentstatusArr = [];
+    var commonTemplate = require('../utils/commonTemplate');
 
     // Incident Request Status List
     module.exports.beginDialog = [
@@ -47,7 +48,7 @@
                     session.send(msg);
                     next();
                 } else {
-                    let msg = 'Below are the details for the requested incident:- \nIncident Id : ' + session.userData.ISIncidentId + ' \nShort Description : '+ data.result[0].short_description +' \nStatus: In Progress \nAssigned To: '+ data.result[0].assigned_to +' \nWhat do you want to do next?';
+                    let msg = 'Below are the details for the requested incident :- \nIncident Id : ' + session.userData.ISIncidentId + ' \nShort Description : '+ data.result[0].short_description +' \nStatus: '+ commonTemplate.incidentStatus(data.result[0].state) +' \nAssigned To: '+ data.result[0].assigned_to +' \nWhat do you want to do next?';
                     session.endDialog(msg);
                 }
             });
@@ -77,7 +78,7 @@
             //Filter out JSON from previous API call and display the status of Incident from **incidentstatusArr**
             log.consoleDefault(incidentstatusArr);
             let arrIndex = incidentstatusArr.findIndex(x => x.number == session.userData.ISIncidentId);
-            let msg = 'Below are the details for the requested incident:- \nIncident Id : ' + session.userData.ISIncidentId + ' \nShort Description : '+ incidentstatusArr[arrIndex].short_description +' \nStatus: In Progress \nAssigned To: '+ incidentstatusArr[arrIndex].assigned_to +' \nWhat do you want to do next?';
+            let msg = 'Below are the details for the requested incident :- \nIncident Id : ' + session.userData.ISIncidentId + ' \nShort Description : '+ incidentstatusArr[arrIndex].short_description +' \nStatus: '+ commonTemplate.incidentStatus(incidentstatusArr[arrIndex].state) +' \nAssigned To: '+ incidentstatusArr[arrIndex].assigned_to +' \nWhat do you want to do next?';
             session.endDialog(msg);
         }
     ];
