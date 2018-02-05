@@ -50,6 +50,7 @@
     module.exports.viewResult= [
         function (session) {
             var dataService = "{ 'short_description': "+session.userData.shortDescription+",'caller_id': 'Pourab Karchaudhuri','category':"+session.userData.category+",'urgency': "+session.userData.severity+",'comments': 'Testing Create incident' },'json': true }";
+             console.log('||||||||||||||||||',dataService);
             apiService.createIncidentService(dataService, function (data) {
                 console.log('^^^^^^^^^^^^^^^^^^^^^',data);
                 let msg = 'Successfully created incident:- \nIncident Id : INC 0010410 \nShort Description : Mouse not working \nStatus: In Progress \nAssigned To: Don Goodliffe \nWhat do you want to do next?';

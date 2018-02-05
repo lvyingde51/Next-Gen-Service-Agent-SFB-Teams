@@ -75,7 +75,7 @@
         }        
     };
 
-    function createIncidentService(callback) {
+    function createIncidentService(dataService, callback) {
         try {
             var options = {
                 url: 'https://dev18442.service-now.com/api/now/v1/table/incident',
