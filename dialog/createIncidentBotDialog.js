@@ -56,13 +56,11 @@
             objData.short_description = session.userData.shortDescription;
             objData.urgency = session.userData.severity;
             apiService.createIncidentService(JSON.parse(JSON.stringify(objData)), function (data) {
-                data = JSON.parse(data);
                 console.log('Incident No : ',data.result.number);
                 console.log('Total Response : ',JSON.stringify(data));
-                let msg = 'Successfully created incident:- \nIncident Id : INC 123232 \nShort Description : Mouse not working \nStatus: In Progress \nAssigned To: Don Goodliffe \nWhat do you want to do next?';
+                let msg = 'Successfully created incident:- \nIncident Id : '+data.result.number+' \nShort Description : '+objData.short_description+' \nStatus: New \n Your Incident will be assigned to a live agent shortly and your incident will be followed from there. \n Or You can check status of your incident by typing your incident ID eg: INC1234567';
                 session.endDialog(msg);
-            });
-            
+            });            
         }
     ];
 }());
