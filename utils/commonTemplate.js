@@ -30,6 +30,38 @@
         }
     };
 
+    const categoryStatic = {
+        '1': {
+            'ENGLISH': 'Inquiry/Help'
+        },
+        '2': {
+            'ENGLISH': 'Software'
+        },
+        '3': {
+            'ENGLISH': 'Hardware'
+        },
+        '4': {
+            'ENGLISH': 'Network'
+        },
+        '5': {
+            'ENGLISH': 'Database'
+        }
+    };
+
+    const urgencyStatic = {
+        '1': {
+            'ENGLISH': 'High'
+        },
+        '2': {
+            'ENGLISH': 'Medium'
+        },
+        '3': {
+            'ENGLISH': 'Low'
+        }
+    };
+
     module.exports.jsonRequest = jsonRequest;
     module.exports.incidentStatus = incidentStatus;
+    module.exports.categoryStatic = categoryStatic;
+    module.exports.urgencyStatic = urgencyStatic;
 }());
