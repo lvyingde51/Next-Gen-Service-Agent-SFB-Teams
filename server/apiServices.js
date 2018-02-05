@@ -66,7 +66,7 @@
                   else {
                     log.consoleDefault('headers:' + response.headers);
                     log.consoleDefault('status code:' + response.statusCode);
-                    callback(null, body);
+                    callback(body);
                   }
             });
         }

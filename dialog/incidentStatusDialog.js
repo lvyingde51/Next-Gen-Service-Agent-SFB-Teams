@@ -15,6 +15,7 @@
 
         let entities = args.entities;
 
+        log.consoleDefault(JSON.stringify(args)); // Console Args
         log.consoleDefault(JSON.stringify(entities)); // Console Entity
 
         return session.beginDialog('incidentStatus', function(err) {
