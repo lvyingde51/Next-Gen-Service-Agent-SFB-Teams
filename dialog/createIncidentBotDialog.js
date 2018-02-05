@@ -36,7 +36,7 @@
     ];
     module.exports.category= [
         function (session) {
-            builder.Prompts.choice(session, 'Please Select your Category of the incident', ['Enquiry']);
+            builder.Prompts.choice(session, 'Please Select your Category of the incident', ['Inquiry/Help','Software','Hardware','Network','Database']);
         },
         function(session, results) {
             session.userData.category = results.response.entity;
@@ -51,14 +51,14 @@
     module.exports.viewResult= [
         function (session) {
             var objData = new jsonData.jsonRequest();
-            objData.caller_id = 'Pourab Karchaudhuri';
-            objData.category = '1';
-            objData.short_description = 'test check on json request';
-            objData.urgency = '2';
-            //var dataService = "{short_description: '"+session.userData.shortDescription+"',caller_id: 'Pourab Karchaudhuri',category:'"+session.userData.category+"',urgency: '"+session.userData.severity+"',comments: 'Testing Create incident',json: true }";
-            // console.log('||||||||||||||||||',JSON.stringify(dataService));
+            objData.caller_id = 'rubin.crotts@example.com';
+            objData.category = session.userData.category;
+            objData.short_description = session.userData.shortDescription;
+            objData.urgency = session.userData.severity;
             apiService.createIncidentService(JSON.parse(JSON.stringify(objData)), function (data) {
-                console.log('^^^^^^^^^^^^^^^^^^^^^',JSON.stringify(data));
+                data = JSON.parse(data);
+                console.log('Incident No : ',data.result.number);
+                console.log('Total Response : ',JSON.stringify(data));
                 let msg = 'Successfully created incident:- \nIncident Id : INC 123232 \nShort Description : Mouse not working \nStatus: In Progress \nAssigned To: Don Goodliffe \nWhat do you want to do next?';
                 session.endDialog(msg);
             });
