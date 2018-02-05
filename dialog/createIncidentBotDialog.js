@@ -4,6 +4,7 @@
     var builder = require('botbuilder');
     var apiService = require('../server/apiServices');
     var log = require('../utils/logs');
+    var jsonData = require('../utils/commonTemplate');
 
     module.exports.beginDialog= [
         function (session) {
@@ -49,9 +50,14 @@
     ];
     module.exports.viewResult= [
         function (session) {
-            var dataService = "{short_description: '"+session.userData.shortDescription+"',caller_id: 'Pourab Karchaudhuri',category:'"+session.userData.category+"',urgency: '"+session.userData.severity+"',comments: 'Testing Create incident',json: true }";
-             console.log('||||||||||||||||||',JSON.stringify(dataService));
-            apiService.createIncidentService(dataService, function (data) {
+            var objData = new jsonData.jsonRequest();
+            objData.caller_id = 'Pourab Karchaudhuri';
+            objData.category = '1';
+            objData.short_description = 'test check on json request';
+            objData.urgency = '2';
+            //var dataService = "{short_description: '"+session.userData.shortDescription+"',caller_id: 'Pourab Karchaudhuri',category:'"+session.userData.category+"',urgency: '"+session.userData.severity+"',comments: 'Testing Create incident',json: true }";
+            // console.log('||||||||||||||||||',JSON.stringify(dataService));
+            apiService.createIncidentService(JSON.parse(JSON.stringify(objData)), function (data) {
                 console.log('^^^^^^^^^^^^^^^^^^^^^',JSON.stringify(data));
                 let msg = 'Successfully created incident:- \nIncident Id : INC 123232 \nShort Description : Mouse not working \nStatus: In Progress \nAssigned To: Don Goodliffe \nWhat do you want to do next?';
                 session.endDialog(msg);
