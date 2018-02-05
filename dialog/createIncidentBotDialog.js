@@ -16,7 +16,6 @@
                     session.send(new builder.Message().text('Error Occurred with shortDescription' + err.message));
                 }
             });
-            
         }
     ];
     module.exports.shortDescription= [
@@ -31,7 +30,26 @@
                     session.send(new builder.Message().text('Error Occurred with category' + err.message));
                 }
             });
-            
+        }
+    ];
+    module.exports.category= [
+        function (session) {
+            builder.Prompts.text(choice, 'Please Select your Category of the incident', ['Enquiry']);
+        },
+        function(session, results) {
+            session.userData.category = results.response.entity;
+
+            session.beginDialog('viewResult', function(err) {
+                if(err) {
+                    session.send(new builder.Message().text('Error Occurred with viewResult' + err.message));
+                }
+            });
+        }
+    ];
+    module.exports.viewResult= [
+        function (session) {
+            let msg = 'Successfully created incident:- \nIncident Id : INC 0010410 \nShort Description : Mouse not working \nStatus: In Progress \nAssigned To: Don Goodliffe \nWhat do you want to do next?';
+            session.endDialog(msg);
         }
     ];
 }());
