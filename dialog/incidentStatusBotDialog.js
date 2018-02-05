@@ -4,7 +4,7 @@
     var builder = require('botbuilder');
     var log = require('../utils/logs');
     var apiService = require('../server/apiServices');
-    var incidentArr = [];
+    var incidentstatusArr = [];
 
     // Incident Request Status List
     module.exports.beginDialog = [
@@ -51,14 +51,23 @@
     module.exports.prevIncidents = [
         function (session) {
             // Make API call to Service Now and get Response for Last 10 requests...
-            incidentArr = [];
-            builder.Prompts.choice(session, 'List of Incidents', ['INC 0010410', 'INC 0010411', 'INC 0010412', 'INC 0010413', 'INC 0010414']);
+            incidentstatusArr = [];
+            let incidentArr = [];
+            apiService.getIncidentStatusByList(function (data) {
+                log.consoleDefault(JSON.stringify(data));
+                incidentstatusArr.push(data.result);
+                for (let count = 0; count < data.result.length && count < 10; count++) {
+                    incidentArr.push(data.result[count].number);
+                }
+            });
+            builder.Prompts.choice(session, 'List of Incidents', incidentArr);
         },
         function (session, results) {
             session.userData.ISIncidentId = results.response.entity;
 
-            //Filter out JSON from previous API call and display the status of Incident from **incidentArr**
-            let msg = 'Below are the details for the requested incident:- \nIncident Id : INC 0010410 \nShort Description : Mouse not working \nStatus: In Progress \nAssigned To: Don Goodliffe \nWhat do you want to do next?';
+            //Filter out JSON from previous API call and display the status of Incident from **incidentstatusArr**
+            let arrIndex = incidentstatusArr.findIndex(x => x.number == session.userData.ISIncidentId);
+            let msg = 'Below are the details for the requested incident:- \nIncident Id : ' + session.userData.ISIncidentId + ' \nShort Description : '+ incidentstatusArr[arrIndex].short_description +' \nStatus: In Progress \nAssigned To: '+ incidentstatusArr[arrIndex].assigned_to +' \nWhat do you want to do next?';
             session.endDialog(msg);
         }
     ];
