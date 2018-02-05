@@ -82,3 +82,4 @@ bot.dialog('viewResult', createIncidentBotDialog.viewResult);
 bot.dialog('incidentStatus', incidentStatusBotDialog.beginDialog);
 bot.dialog('isSearchById', incidentStatusBotDialog.incidentID);
 bot.dialog('isSearchByList', incidentStatusBotDialog.prevIncidents);
+bot.endConversationAction('goodbyeAction', "Ok... See you later.", { matches: 'Goodbye' });
