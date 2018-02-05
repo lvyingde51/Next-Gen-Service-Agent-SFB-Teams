@@ -54,7 +54,7 @@
             incidentstatusArr = [];
             let incidentArr = [];
             apiService.getIncidentStatusByList(function (data) {
-                incidentstatusArr.push(data.result);
+                incidentstatusArr = data.result;
                 for (let count = 0; count < data.result.length && count < 10; count++) {
                     incidentArr.push(data.result[count].number);
                 }
@@ -67,6 +67,7 @@
             session.userData.ISIncidentId = results.response.entity;
 
             //Filter out JSON from previous API call and display the status of Incident from **incidentstatusArr**
+            log.consoleDefault(incidentstatusArr);
             let arrIndex = incidentstatusArr.findIndex(x => x.number == session.userData.ISIncidentId);
             let msg = 'Below are the details for the requested incident:- \nIncident Id : ' + session.userData.ISIncidentId + ' \nShort Description : '+ incidentstatusArr[arrIndex].short_description +' \nStatus: In Progress \nAssigned To: '+ incidentstatusArr[arrIndex].assigned_to +' \nWhat do you want to do next?';
             session.endDialog(msg);
