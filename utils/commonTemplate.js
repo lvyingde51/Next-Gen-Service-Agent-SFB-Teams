@@ -10,23 +10,23 @@
     }
     
     const incidentStatus = {
-        '1': () => {
-            return 'New';
+        '1': {
+            'ENGLISH': 'New'
         },
-        '2': () => {
-            return 'In Progress';
+        '2': {
+            'ENGLISH': 'In Progress'
         },
-        '3': () => {
-            return 'On-hold';
+        '3': {
+            'ENGLISH': 'On-hold'
         },
-        '4': () => {
-            return 'Resolved';
+        '4': {
+            'ENGLISH': 'Resolved'
         },
-        '5': () => {
-            return 'Closed';
+        '5': {
+            'ENGLISH': 'Closed'
         },
-        '6': () => {
-            return 'Cancelled';
+        '6': {
+            'ENGLISH': 'Cancelled'
         }
     };
 
