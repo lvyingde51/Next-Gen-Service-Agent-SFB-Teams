@@ -54,7 +54,7 @@
             incidentstatusArr = [];
             let incidentArr = [];
             apiService.getIncidentStatusByList(function (data) {
-                log.consoleDefault(JSON.stringify(data));
+                // log.consoleDefault(JSON.stringify(data));
                 incidentstatusArr.push(data.result);
                 for (let count = 0; count < data.result.length && count < 10; count++) {
                     incidentArr.push(data.result[count].number);
