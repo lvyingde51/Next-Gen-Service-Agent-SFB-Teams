@@ -82,4 +82,21 @@ bot.dialog('viewResult', createIncidentBotDialog.viewResult);
 bot.dialog('incidentStatus', incidentStatusBotDialog.beginDialog);
 bot.dialog('isSearchById', incidentStatusBotDialog.incidentID);
 bot.dialog('isSearchByList', incidentStatusBotDialog.prevIncidents);
+bot.recognizer({
+    recognize: function (context, done) {
+    var intent = { score: 0.0 };
+  
+          if (context.message.text) {
+              switch (context.message.text.toLowerCase()) {
+                  case 'help':
+                      intent = { score: 1.0, intent: 'Help' };
+                      break;
+                  case 'goodbye':
+                      intent = { score: 1.0, intent: 'Goodbye' };
+                      break;
+              }
+          }
+          done(null, intent);
+      }
+  });
 bot.endConversationAction('goodbyeAction', "Ok... See you later.", { matches: 'Goodbye' });
