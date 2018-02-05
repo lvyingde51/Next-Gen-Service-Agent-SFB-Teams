@@ -34,7 +34,7 @@
     ];
     module.exports.category= [
         function (session) {
-            builder.Prompts.text(choice, 'Please Select your Category of the incident', ['Enquiry']);
+            builder.Prompts.choice(choice, 'Please Select your Category of the incident', ['Enquiry']);
         },
         function(session, results) {
             session.userData.category = results.response.entity;
