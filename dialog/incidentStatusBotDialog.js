@@ -60,6 +60,8 @@
                     incidentArr.push(data.result[count].number);
                 }
             });
+
+            log.consoleDefault(incidentArr);
             builder.Prompts.choice(session, 'List of Incidents', incidentArr);
         },
         function (session, results) {
