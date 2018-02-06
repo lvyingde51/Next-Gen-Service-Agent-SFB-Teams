@@ -93,4 +93,38 @@
             session.endDialog(msg);
         }
     ];
+
+    // Fetch Incident Status Directly
+    module.exports.getincidentStatus = [
+        function (session, args) {
+            try {
+                log.consoleDefault(args); // Console Args
+                session.userData.ISIncidentId = args.resolution.value;
+
+                // Make API call to Service Now with Incident Id and get Response...
+                apiService.getIncidentStatusByNumber(session.userData.ISIncidentId, function (data) {
+                    log.consoleDefault(JSON.stringify(data));
+                    if (!data) {
+                        let msg = 'An error has occurred while fetching the details... Please try again later...';
+                        session.endDialog(msg);
+                        return false;
+                    }
+
+                    if (data.hasOwnProperty('error')) {
+                        let msg = 'Incident Number does not exist in our database. ' + data.error.message + ' Please try again';
+                        session.endDialog(msg);
+                    } else {
+                        let msg = 'Below are the details for the requested incident :- \nIncident Id : ' + session.userData.ISIncidentId + ' \nShort Description : ' + data.result[0].short_description + ' \nStatus: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' \nAssigned To: ' + data.result[0].assigned_to + ' \nWhat do you want to do next?';
+                        session.endDialog(msg);
+                    }
+                });
+            }
+            catch (err) {
+                log.consoleDefault('Incident status Error:' + err);
+                let msg = 'An error has occurred... Please try again later...';
+                session.endDialog(msg);
+                return false;
+            }
+        }
+    ];
 }());

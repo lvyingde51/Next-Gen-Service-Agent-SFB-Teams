@@ -18,11 +18,19 @@
         log.consoleDefault(JSON.stringify(args)); // Console Args
         log.consoleDefault(JSON.stringify(entities)); // Console Entity
 
-        return session.beginDialog('incidentStatus', function(err) {
-            if(err) {
-                session.send(new builder.Message().text('Error Occurred with incidentStatus: ' + err.message));
-            }
-        });
+        if(!entities) {
+            return session.beginDialog('incidentStatus', function(err) {
+                if(err) {
+                    session.send(new builder.Message().text('Error Occurred with incidentStatus: ' + err.message));
+                }
+            });
+        } else {
+            return session.beginDialog('getincidentStatus', entities, function(err) {
+                if(err) {
+                    session.send(new builder.Message().text('Error Occurred with incidentStatus: ' + err.message));
+                }
+            });
+        }        
     }];
 
 }());

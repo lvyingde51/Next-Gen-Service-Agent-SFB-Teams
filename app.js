@@ -80,6 +80,7 @@ bot.dialog('shortDescription', createIncidentBotDialog.shortDescription);
 bot.dialog('category', createIncidentBotDialog.category);
 bot.dialog('viewResult', createIncidentBotDialog.viewResult);
 bot.dialog('incidentStatus', incidentStatusBotDialog.beginDialog);
+bot.dialog('getincidentStatus', incidentStatusBotDialog.getincidentStatus);
 bot.dialog('isSearchById', incidentStatusBotDialog.incidentID);
 bot.dialog('isSearchByList', incidentStatusBotDialog.prevIncidents);
 bot.recognizer({
