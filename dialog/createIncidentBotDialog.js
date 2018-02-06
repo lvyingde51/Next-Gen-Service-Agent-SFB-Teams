@@ -12,7 +12,7 @@
             builder.Prompts.choice(session, 'What is the severity?', ['High', 'Medium', 'Low']);
         },
         function(session, results) {
-            session.userData.severity = results.response.entity;
+            session.conversationData.severity = results.response.entity;
 
             session.beginDialog('shortDescription', function(err) {
                 if(err) {
@@ -26,7 +26,7 @@
             builder.Prompts.text(session, 'I need your (short) description of the incident');
         },
         function(session, results) {
-            session.userData.shortDescription = results.response;
+            session.conversationData.shortDescription = results.response;
 
             session.beginDialog('category', function(err) {
                 if(err) {
@@ -40,7 +40,7 @@
             builder.Prompts.choice(session, 'Choose any one category of the incident from the below list', ['Inquiry/Help','Software','Hardware','Network','Database']);
         },
         function(session, results) {
-            session.userData.category = results.response.entity;
+            session.conversationData.category = results.response.entity;
 
             session.beginDialog('viewResult', function(err) {
                 if(err) {
@@ -53,9 +53,9 @@
         function (session) {
             var objData = new jsonData.jsonRequest();
             objData.caller_id = 'rubin.crotts@example.com';
-            objData.category = session.userData.category;
-            objData.short_description = session.userData.shortDescription;
-            objData.urgency = session.userData.severity;
+            objData.category = session.conversationData.category;
+            objData.short_description = session.conversationData.shortDescription;
+            objData.urgency = session.conversationData.severity;
             apiService.createIncidentService(JSON.parse(JSON.stringify(objData)), function (data) {
                 console.log('Incident No : ',data.result.number);
                 console.log('Total Response : ',JSON.stringify(data));
