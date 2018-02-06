@@ -57,8 +57,24 @@
                     let msg = 'Incident Number does not exist in our database. ' + data.error.message + ' Please try again';
                     session.endDialog(msg);
                 } else {
-                    let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + data.result[0].assigned_to;
-                    session.endDialog(msg);
+                    let assignedTo = data.result[0].assigned_to == '' ? '-' : data.result[0].assigned_to.link;
+                    log.consoleDefault(assignedTo);
+                    if(assignedTo == '-') {
+                        let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + data.result[0].assigned_to;
+                        session.endDialog(msg);
+                    } else {
+                        apiService.getAssignedToDetails(assignedTo, function (resp) {
+                            if (!resp) {
+                                let msg = 'An error has occurred while fetching the details... Please try again later...';
+                                session.endDialog(msg);
+                                return false;
+                            } else {
+                                log.consoleDefault(JSON.stringify(resp));
+                                let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
+                                session.endDialog(msg);
+                            }
+                        });
+                    }                                        
                 }
             });
         }

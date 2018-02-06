@@ -89,6 +89,44 @@
         }
     };
 
+    function getAssignedToDetails(link, callback) {
+        try {
+            var options = {
+                url: link,
+                method: 'GET',
+                header: header,
+                body: '',
+                json: true,
+                auth: {
+                    user: ServiceNowUserName,
+                    password: ServiceNowPwd
+                }
+            };
+
+            requestAPI(options, function (error, response, body) {
+                if (error) {
+                    log.consoleDefault(JSON.stringify(error));
+                    return
+                }
+                else {
+                    try {
+                        log.consoleDefault('headers:' + response.headers);
+                        log.consoleDefault('status code:' + response.statusCode);
+                        // log.consoleDefault('JSON parser:' + JSON.parse(body));
+                        callback(body);
+                    }
+                    catch (e) {
+                        log.consoleDefault('API Error:' + e);
+                        callback(null);
+                    }
+                }
+            });
+        }
+        catch (err) {
+            log.consoleDefault(JSON.stringify(err));
+        }
+    };
+
     function createIncidentService(dataService, callback) {
         try {
             var options = {
@@ -123,4 +161,5 @@
     module.exports.getIncidentStatusByNumber = getIncidentStatusByNumber;
     module.exports.getIncidentStatusByList = getIncidentStatusByList;
     module.exports.createIncidentService = createIncidentService;
+    module.exports.getAssignedToDetails = getAssignedToDetails;
 }());
