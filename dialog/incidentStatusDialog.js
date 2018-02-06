@@ -19,7 +19,7 @@
         log.consoleDefault(JSON.stringify(entities)); // Console Entity
 
         if(session.message.text.indexOf('INC') > -1) {
-            session.conversationData.ISIncidentId = session.message.text.indexOf('INC');
+            session.conversationData.ISIncidentId = session.message.text.substring(session.message.text.indexOf('INC'));
             log.consoleDefault(session.message.text.indexOf('INC'));
         } else {
             session.conversationData.ISIncidentId = builder.EntityRecognizer.findEntity(args.entities, 'builtin.number') ? builder.EntityRecognizer.findEntity(args.entities, 'builtin.number').entity : '';
