@@ -163,9 +163,9 @@ bot.on('conversationUpdate', function (message) {
 });*/
 bot.on('error', function (e) {
     console.log('And error ocurred', e);
-    var reply = new builder.Message()
+   /* var reply = new builder.Message()
     .text(`If you have any issue, you can reach us at helpdesk@hexaware.com<br/>or call us on 044-67487500`);
-    bot.send(reply);
+    bot.send(reply);*/
     
 });
 function createHeroCard(session) {
