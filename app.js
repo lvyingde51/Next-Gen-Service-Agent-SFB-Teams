@@ -118,8 +118,8 @@ bot.on('conversationUpdate', function (message) {
                 .address(message.address)
                 .text(txt);
         bot.send(reply);
-        let msg = new builder.Message(session).addAttachment(createHeroCard(session));
-        session.send(msg);
+        let msg = new builder.Message(bot).addAttachment(createHeroCard(bot));
+        bot.send(msg);
     } else if (message.membersRemoved) {
         // See if bot was removed
         var botId = message.address.bot.id;
