@@ -125,3 +125,6 @@ bot.on('conversationUpdate', function (message) {
         }
     }
 });
+bot.on('error', function (e) {
+    console.log('And error ocurred', e);
+});
