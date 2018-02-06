@@ -109,7 +109,7 @@ bot.recognizer({
       }
   });
 bot.endConversationAction('goodbyeAction', "Ok... See you later.", { matches: 'Goodbye' });
-bot.on('conversationUpdate', function (session,message) {
+bot.on('conversationUpdate', function (message) {
      if (message.membersAdded && message.membersAdded.length > 0) {
         // Say hello
         var isGroup = message.address.conversation.isGroup;
@@ -118,8 +118,14 @@ bot.on('conversationUpdate', function (session,message) {
                 .address(message.address)
                 .text(txt);
         bot.send(reply);
-        let msg = new builder.Message(session).addAttachment(createHeroCard(session));
-        session.send(msg);
+        session.beginDialog('welcomeCard', function (err) {
+            if (err) {
+                session.send(new builder.Message()
+                    .text('Error while opening welcome card: ' + err.message));
+            }
+        });
+
+      
     } else if (message.membersRemoved) {
         // See if bot was removed
         var botId = message.address.bot.id;
@@ -135,6 +141,7 @@ bot.on('conversationUpdate', function (session,message) {
         }
     }
 });
+
 bot.on('error', function (e) {
     console.log('And error ocurred', e);
 });
@@ -151,3 +158,7 @@ function createHeroCard(session) {
             builder.CardAction.imBack(session, 'incident status', 'INCIDENT STATUS')
         ]);
 }
+bot.dialog('welcomeCard', function (session) {
+    let msg = new builder.Message(session).addAttachment(createHeroCard(session));
+    session.endDialog(msg);
+})
