@@ -43,6 +43,11 @@
             // Make API call to Service Now with Incident Id and get Response...
             apiService.getIncidentStatusByNumber(session.userData.ISIncidentId, function (data) {
                 log.consoleDefault(JSON.stringify(data));
+                if(!data) {
+                    let msg = 'An error has occurred while fetching the details... Please try again later...';
+                    session.send(msg);
+                    return false;
+                }
 
                 if(data.hasOwnProperty('error')) {
                     let msg = 'Incident Number does not exist in our database. ' + data.error.message + ' Please try again';
@@ -74,6 +79,7 @@
                 } else {
                     let msg = 'An error has occurred while retrieving the data... Please try again later...';
                     session.send(msg);
+                    return false;
                 }
                 
             });            

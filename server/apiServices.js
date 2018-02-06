@@ -41,6 +41,7 @@
                       }
                       catch(e) {
                         log.consoleDefault('API Error:' + e);
+                        callback(null);
                       }                    
                   }
             });
