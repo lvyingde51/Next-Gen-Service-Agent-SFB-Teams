@@ -21,7 +21,7 @@
         session.conversationData.ISIncidentId = builder.EntityRecognizer.findEntity(args.entities, 'builtin.number') ? builder.EntityRecognizer.findEntity(args.entities, 'builtin.number').entity : '';
         log.consoleDefault(session.conversationData.ISIncidentId);
 
-        if(!entities) {
+        if(session.conversationData.ISIncidentId === '' || session.conversationData.ISIncidentId === null || session.conversationData.ISIncidentId === undefined) {
             return session.beginDialog('incidentStatus', function(err) {
                 if(err) {
                     session.send(new builder.Message().text('Error Occurred with incidentStatus: ' + err.message));
