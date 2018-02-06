@@ -118,12 +118,7 @@ bot.on('conversationUpdate', function (message) {
                 .address(message.address)
                 .text(txt);
         bot.send(reply);
-        bot.beginDialog('welcomeCard', function (err) {
-            if (err) {
-                bot.send(new builder.Message()
-                    .text('Error while opening welcome card: ' + err.message));
-            }
-        });
+        bot.beginDialog(message.address, '*:/');
 
       
     } else if (message.membersRemoved) {
@@ -158,7 +153,7 @@ function createHeroCard(session) {
             builder.CardAction.imBack(session, 'incident status', 'INCIDENT STATUS')
         ]);
 }
-bot.dialog('welcomeCard', function (session) {
+bot.dialog('/', [function (session) {
     let msg = new builder.Message(session).addAttachment(createHeroCard(session));
     session.endDialog(msg);
-})
+}])
