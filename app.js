@@ -53,10 +53,10 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 .matches('Greeting', (session) => {
    // session.send('You reached Bot Welcome intent, you said \'%s\'.', session.message.text);
    var isGroup = session.message.address.conversation.isGroup;
-   var txt = isGroup ? "Hello everyone!" : `Hi ${session.message.user ? session.message.user.name : ''}, I am the ServiceNow Assistant.I am here to help you out <br/>
+   var txt = isGroup ? "Hello everyone!" : `Hi ${session.message.user ? session.message.user.name : ''}, I am the service now assistant.<br/>I am here to help you out <br/>
      You can ask me questions like:<br/>
     -Create high severity incident <br/>
-    -Incident status for <incident number without INC eg:0010505> <br/> 
+    -Incident status for "incident number without INC eg:0010505" <br/> 
     -Show latest incidents <br/> 
     -Say help for queries <br/> 
     -Say 'goodbye' to leave conversation`;
@@ -117,10 +117,10 @@ bot.on('conversationUpdate', function (message) {
      if (message.membersAdded && message.membersAdded.length > 0) {
         // Say hello
         var isGroup = message.address.conversation.isGroup;
-        var txt = isGroup ? "Hello everyone!" : `Hi ${message.user ? message.user.name : ''}, I am the service now assistant.I am here to help you out <br/>
+        var txt = isGroup ? "Hello everyone!" : `Hi ${message.user ? message.user.name : ' '}, I am the service now assistant.<br/>I am here to help you out <br/>
         You can ask me questions like:<br/>
        -Create high severity incident <br/>
-       -Incident status for incident number without INC eg:0010505 <br/> 
+       -Incident status for "incident number without INC eg:0010505" <br/> 
        -Show latest incidents <br/> 
        -Say help for queries <br/> 
        -Say 'goodbye' to leave conversation`;
