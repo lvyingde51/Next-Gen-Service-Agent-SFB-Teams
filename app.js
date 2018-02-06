@@ -109,7 +109,7 @@ bot.recognizer({
       }
   });
 bot.endConversationAction('goodbyeAction', "Ok... See you later.", { matches: 'Goodbye' });
-bot.on('conversationUpdate', function (message) {
+/*bot.on('conversationUpdate', function (message) {
      if (message.membersAdded && message.membersAdded.length > 0) {
         // Say hello
         var isGroup = message.address.conversation.isGroup;
@@ -118,7 +118,12 @@ bot.on('conversationUpdate', function (message) {
                 .address(message.address)
                 .text(txt);
         bot.send(reply);
-        bot.beginDialog(message.address, '*:/');
+        bot.beginDialog('welcomeCard', function (err) {
+            if (err) {
+                bot.send(new builder.Message()
+                    .text('Error while opening welcome card: ' + err.message));
+            }
+        });
 
       
     } else if (message.membersRemoved) {
@@ -136,7 +141,34 @@ bot.on('conversationUpdate', function (message) {
         }
     }
 });
-
+*/
+bot.dialog('firstRun', function (session) {  
+    console.log("first run dialog");  
+    session.userData.firstRun = true;
+    var isGroup = session.message.address.conversation.isGroup;
+    var txt = isGroup ? "Hello everyone!" : `Hi ${session.message.user.name ? session.message.user.name : ' '}, I am BI Service Agent.<br/>I am here to help you out <br/>You can ask me questions like:<br/>- Create high severity incident <br/>- Incident status for "incident number without INC eg:0010505" <br/>- Show latest incidents <br/>- Say help for any queries <br/>- Say 'goodbye' to leave conversation`;
+    var reply = new builder.Message()
+            .address(session.message.address)
+            .text(txt);
+    bot.send(reply);
+    session.beginDialog('welcomeCard', function (err) {
+        if (err) {
+            bot.send(new builder.Message()
+                .text('Error while opening welcome card: ' + err.message));
+        }
+    });
+}).triggerAction({
+    onFindAction: function (context, callback) {
+        console.log("first run dialog in find action");
+        // Only trigger if we've never seen user before
+        if (!context.userData.firstRun) {
+            // Return a score of 1.1 to ensure the first run dialog wins
+            callback(null, 1.1);
+        } else {
+            callback(null, 0.0);
+        }
+    }
+});
 bot.on('error', function (e) {
     console.log('And error ocurred', e);
 });
@@ -153,7 +185,7 @@ function createHeroCard(session) {
             builder.CardAction.imBack(session, 'incident status', 'INCIDENT STATUS')
         ]);
 }
-bot.dialog('/', [function (session) {
+bot.dialog('welcomeCard', function (session) {
     let msg = new builder.Message(session).addAttachment(createHeroCard(session));
     session.endDialog(msg);
-}])
+})
