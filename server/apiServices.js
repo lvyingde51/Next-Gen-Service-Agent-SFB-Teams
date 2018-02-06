@@ -31,24 +31,24 @@
                 if (error) {
                     log.consoleDefault(JSON.stringify(error));
                     return
-                  }
-                  else {
-                      try {
+                }
+                else {
+                    try {
                         log.consoleDefault('headers:' + response.headers);
                         log.consoleDefault('status code:' + response.statusCode);
                         log.consoleDefault('JSON parser:' + JSON.parse(body));
                         callback(body);
-                      }
-                      catch(e) {
+                    }
+                    catch (e) {
                         log.consoleDefault('API Error:' + e);
                         callback(null);
-                      }                    
-                  }
+                    }
+                }
             });
         }
-        catch(err) {
+        catch (err) {
             log.consoleDefault(JSON.stringify(err));
-        }        
+        }
     };
 
     function getIncidentStatusByList(callback) {
@@ -69,17 +69,23 @@
                 if (error) {
                     log.consoleDefault(JSON.stringify(error));
                     return
-                  }
-                  else {
-                    log.consoleDefault('headers:' + response.headers);
-                    log.consoleDefault('status code:' + response.statusCode);
-                    callback(body);
-                  }
+                }
+                else {
+                    try {
+                        log.consoleDefault('headers:' + response.headers);
+                        log.consoleDefault('status code:' + response.statusCode);
+                        callback(body);
+                    }
+                    catch (e) {
+                        log.consoleDefault('API Error:' + e);
+                        callback(null);
+                    }
+                }
             });
         }
-        catch(err) {
+        catch (err) {
             log.consoleDefault(JSON.stringify(err));
-        }        
+        }
     };
 
     function createIncidentService(dataService, callback) {
@@ -100,17 +106,17 @@
                 if (error) {
                     log.consoleDefault(JSON.stringify(error));
                     return
-                  }
-                  else {
+                }
+                else {
                     log.consoleDefault('headers:' + response.headers);
                     log.consoleDefault('status code:' + response.statusCode);
                     callback(body);
-                  }
+                }
             });
         }
-        catch(err) {
+        catch (err) {
             log.consoleDefault(JSON.stringify(err));
-        }        
+        }
     };
 
     module.exports.getIncidentStatusByNumber = getIncidentStatusByNumber;
