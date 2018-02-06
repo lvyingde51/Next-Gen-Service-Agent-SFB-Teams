@@ -36,10 +36,10 @@
     // Search Incident Status by ID
     module.exports.incidentID = [
         function (session, args, next) {            
-            if (!session.conversationData.ISSearchType) {
+            if (!session.conversationData.ISIncidentId) {
                 builder.Prompts.text(session, 'Please provide your Incident Id');
             } else {
-                next({ response: session.conversationData.ISSearchType });
+                next({ response: session.conversationData.ISIncidentId });
             }
         },
         function (session, results) {
