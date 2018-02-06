@@ -20,13 +20,15 @@
             }
         },
         function(session, results) {
-            session.conversationData.severity = results.response.entity;
+            if(session.conversationData.severity == '' || session.conversationData.severity == undefined) {
+                session.conversationData.severity = results.response.entity;
 
-            session.beginDialog('shortDescription', function(err) {
-                if(err) {
-                    session.send(new builder.Message().text('Error Occurred with shortDescription' + err.message));
-                }
-            });
+                session.beginDialog('shortDescription', function(err) {
+                    if(err) {
+                        session.send(new builder.Message().text('Error Occurred with shortDescription' + err.message));
+                    }
+                });
+            }
         }
     ];
     module.exports.shortDescription= [
@@ -42,13 +44,15 @@
             }
         },
         function(session, results) {
-            session.conversationData.shortDescription = results.response;
+            if(session.conversationData.shortDescription == '' || session.conversationData.shortDescription == undefined) {
+                session.conversationData.shortDescription = results.response;
 
-            session.beginDialog('category', function(err) {
-                if(err) {
-                    session.send(new builder.Message().text('Error Occurred with category' + err.message));
-                }
-            });
+                session.beginDialog('category', function(err) {
+                    if(err) {
+                        session.send(new builder.Message().text('Error Occurred with category' + err.message));
+                    }
+                });
+            }
         }
     ];
     module.exports.category= [
@@ -56,6 +60,7 @@
             if(session.conversationData.category == '' || session.conversationData.category == undefined) {
                 builder.Prompts.choice(session, 'Choose any one category of the incident from the below list', ['Inquiry/Help','Software','Hardware','Network','Database']);
             } else {
+                console.log('Inside the Entity viewResult');
                 session.beginDialog('viewResult', function(err) {
                     if(err) {
                         session.send(new builder.Message().text('Error Occurred with viewResult' + err.message));
@@ -64,17 +69,20 @@
             }
         },
         function(session, results) {
-            session.conversationData.category = results.response.entity;
-
-            session.beginDialog('viewResult', function(err) {
-                if(err) {
-                    session.send(new builder.Message().text('Error Occurred with viewResult' + err.message));
-                }
-            });
+            if(session.conversationData.category == '' || session.conversationData.category == undefined) {
+                session.conversationData.category = results.response.entity;
+                console.log('Inside the Non Entity viewResult');
+                session.beginDialog('viewResult', function(err) {
+                    if(err) {
+                        session.send(new builder.Message().text('Error Occurred with viewResult' + err.message));
+                    }
+                });
+            }
         }
     ];
     module.exports.viewResult= [
         function (session) {
+            console.log('Inside the viewResult');
             var objData = new jsonData.jsonRequest();
             objData.caller_id = 'rubin.crotts@example.com';
             objData.category = session.conversationData.category;
