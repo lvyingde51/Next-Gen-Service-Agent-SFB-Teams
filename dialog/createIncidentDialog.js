@@ -13,6 +13,9 @@
         log.consoleDefault('*** Create Incident ***'); // Console Start
 
         let entities = args.entities;
+        session.conversationData.category = '';
+        session.conversationData.short_description = '';
+        session.conversationData.urgency = '';
         session.conversationData.severity = builder.EntityRecognizer.findEntity(args.entities, 'urgency')?builder.EntityRecognizer.findEntity(args.entities, 'urgency').entity:'';
         session.conversationData.shortDescription = builder.EntityRecognizer.findEntity(args.entities, 'shortDescription')?builder.EntityRecognizer.findEntity(args.entities, 'shortDescription').entity:'';
         session.conversationData.category = builder.EntityRecognizer.findEntity(args.entities, 'category')?builder.EntityRecognizer.findEntity(args.entities, 'category').entity:'';
