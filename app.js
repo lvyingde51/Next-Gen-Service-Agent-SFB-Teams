@@ -118,9 +118,9 @@ bot.on('conversationUpdate', function (message) {
                 .address(message.address)
                 .text(txt);
         bot.send(reply);
-        session.beginDialog('welcomeCard', function (err) {
+        bot.beginDialog('welcomeCard', function (err) {
             if (err) {
-                session.send(new builder.Message()
+                bot.send(new builder.Message()
                     .text('Error while opening welcome card: ' + err.message));
             }
         });
