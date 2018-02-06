@@ -28,7 +28,7 @@
                 }
             });
         } else {
-            return session.beginDialog('incidentID', args, function(err) {
+            return session.beginDialog('isSearchById', args, function(err) {
                 if(err) {
                     session.send(new builder.Message().text('Error Occurred with incidentStatus: ' + err.message));
                 }
