@@ -52,7 +52,7 @@ var recognizer = new builder.LuisRecognizer(LuisModelUrl);
 var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 .matches('Greeting', (session) => {
    // session.send('You reached Bot Welcome intent, you said \'%s\'.', session.message.text);
-   let name = session.message.user ? message.user.name : '';
+   let name = session.message.user ? session.message.user.name : '';
    var isGroup = session.message.address.conversation.isGroup;
    var txt = isGroup ? "Hello everyone!" : `Hi ${name} I am the ServiceNow Assistant.I am here to help you out <br/>`;
    var reply = new builder.Message()
