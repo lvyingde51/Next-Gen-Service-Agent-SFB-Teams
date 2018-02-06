@@ -51,7 +51,13 @@ const LuisModelUrl = 'https://' + luisAPIHostName + '/luis/v1/application?id=' +
 var recognizer = new builder.LuisRecognizer(LuisModelUrl);
 var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 .matches('Greeting', (session) => {
-    session.send('You reached Bot Welcome intent, you said \'%s\'.', session.message.text);
+   // session.send('You reached Bot Welcome intent, you said \'%s\'.', session.message.text);
+   var isGroup = message.address.conversation.isGroup;
+   var txt = isGroup ? "Hello everyone!" : `Hi ${name} I am the ServiceNow Assistant.I am here to help you out <br/>`;
+   var reply = new builder.Message()
+           .address(message.address)
+           .text(txt);
+   bot.send(reply);
 })
 .matches('Help', (session) => {
     session.send('You reached Help intent, you said \'%s\'.', session.message.text);
@@ -102,10 +108,11 @@ bot.recognizer({
   });
 bot.endConversationAction('goodbyeAction', "Ok... See you later.", { matches: 'Goodbye' });
 bot.on('conversationUpdate', function (message) {
+    let name = message.user ? message.user.name : null;
     if (message.membersAdded && message.membersAdded.length > 0) {
         // Say hello
         var isGroup = message.address.conversation.isGroup;
-        var txt = isGroup ? "Hello everyone!" : "Hello...";
+        var txt = isGroup ? "Hello everyone!" : `Hi ${name} I am the ServiceNow Assistant.I am here to help you out <br/>`;
         var reply = new builder.Message()
                 .address(message.address)
                 .text(txt);
