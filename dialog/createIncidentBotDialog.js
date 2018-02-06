@@ -12,6 +12,7 @@
             if(session.conversationData.severity == '' || session.conversationData.severity == undefined) {
                 builder.Prompts.choice(session, 'What is the severity?', ['High', 'Medium', 'Low']);
             } else {
+                session.endDialog();
                 session.beginDialog('shortDescription', function(err) {
                     if(err) {
                         session.send(new builder.Message().text('Error Occurred with shortDescription' + err.message));
@@ -22,7 +23,7 @@
         function(session, results) {
             if(session.conversationData.severity == '' || session.conversationData.severity == undefined) {
                 session.conversationData.severity = results.response.entity;
-
+                session.endDialog();
                 session.beginDialog('shortDescription', function(err) {
                     if(err) {
                         session.send(new builder.Message().text('Error Occurred with shortDescription' + err.message));
@@ -36,6 +37,7 @@
             if(session.conversationData.shortDescription == '' || session.conversationData.shortDescription == undefined) {
                 builder.Prompts.text(session, 'I need your (short) description of the incident');
             } else {
+                session.endDialog();
                 session.beginDialog('category', function(err) {
                     if(err) {
                         session.send(new builder.Message().text('Error Occurred with category' + err.message));
@@ -46,7 +48,7 @@
         function(session, results) {
             if(session.conversationData.shortDescription == '' || session.conversationData.shortDescription == undefined) {
                 session.conversationData.shortDescription = results.response;
-
+                session.endDialog();
                 session.beginDialog('category', function(err) {
                     if(err) {
                         session.send(new builder.Message().text('Error Occurred with category' + err.message));
@@ -60,6 +62,7 @@
             if(session.conversationData.category == '' || session.conversationData.category == undefined) {
                 builder.Prompts.choice(session, 'Choose any one category of the incident from the below list', ['Inquiry/Help','Software','Hardware','Network','Database']);
             } else {
+                session.endDialog();
                 console.log('Inside the Entity viewResult');
                 session.beginDialog('viewResult', function(err) {
                     if(err) {
@@ -72,6 +75,7 @@
             if(session.conversationData.category == '' || session.conversationData.category == undefined) {
                 session.conversationData.category = results.response.entity;
                 console.log('Inside the Non Entity viewResult');
+                session.endDialog();
                 session.beginDialog('viewResult', function(err) {
                     if(err) {
                         session.send(new builder.Message().text('Error Occurred with viewResult' + err.message));
