@@ -83,7 +83,7 @@
             apiService.createIncidentService(JSON.parse(JSON.stringify(objData)), function (data) {
                 console.log('Incident No : ',data.result.number);
                 console.log('Total Response : ',JSON.stringify(data));
-                let msg = 'Successfully created incident:- \nIncident Id : '+data.result.number+'\nUrgency : '+objData.urgency+'\nCategory : '+objData.category+'\nShort Description : '+objData.short_description+' \nStatus: New \n Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: INC1234567';
+                let msg = 'Successfully created incident:- </br>Incident Id : '+data.result.number+'</br>Urgency : '+objData.urgency+'</br>Category : '+objData.category+'</br>Short Description : '+objData.short_description+' </br>Status: New </br> Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: `incident status INC1234567`';
                 session.endDialog(msg);
             });            
         }
