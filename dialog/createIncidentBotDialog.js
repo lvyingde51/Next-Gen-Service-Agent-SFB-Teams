@@ -9,7 +9,15 @@
 
     module.exports.beginDialog= [
         function (session) {
-            builder.Prompts.choice(session, 'What is the severity?', ['High', 'Medium', 'Low']);
+            if(session.conversationData.severity == '' || session.conversationData.severity == undefined) {
+                builder.Prompts.choice(session, 'What is the severity?', ['High', 'Medium', 'Low']);
+            } else {
+                session.beginDialog('shortDescription', function(err) {
+                    if(err) {
+                        session.send(new builder.Message().text('Error Occurred with shortDescription' + err.message));
+                    }
+                });
+            }
         },
         function(session, results) {
             session.conversationData.severity = results.response.entity;
@@ -23,7 +31,15 @@
     ];
     module.exports.shortDescription= [
         function (session) {
-            builder.Prompts.text(session, 'I need your (short) description of the incident');
+            if(session.conversationData.shortDescription == '' || session.conversationData.shortDescription == undefined) {
+                builder.Prompts.text(session, 'I need your (short) description of the incident');
+            } else {
+                session.beginDialog('category', function(err) {
+                    if(err) {
+                        session.send(new builder.Message().text('Error Occurred with category' + err.message));
+                    }
+                });
+            }
         },
         function(session, results) {
             session.conversationData.shortDescription = results.response;
@@ -37,7 +53,15 @@
     ];
     module.exports.category= [
         function (session) {
-            builder.Prompts.choice(session, 'Choose any one category of the incident from the below list', ['Inquiry/Help','Software','Hardware','Network','Database']);
+            if(session.conversationData.category == '' || session.conversationData.category == undefined) {
+                builder.Prompts.choice(session, 'Choose any one category of the incident from the below list', ['Inquiry/Help','Software','Hardware','Network','Database']);
+            } else {
+                session.beginDialog('viewResult', function(err) {
+                    if(err) {
+                        session.send(new builder.Message().text('Error Occurred with viewResult' + err.message));
+                    }
+                });
+            }
         },
         function(session, results) {
             session.conversationData.category = results.response.entity;
