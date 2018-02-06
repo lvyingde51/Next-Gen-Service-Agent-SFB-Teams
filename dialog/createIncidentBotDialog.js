@@ -93,8 +93,8 @@
                 console.log('Total Response : ',JSON.stringify(data));
                 let msg = 'Successfully created incident:- <br/>Incident Id : '+data.result.number+'<br/>Urgency : '+objData.urgency+'<br/>Category : '+objData.category+'<br/>Short Description : '+objData.short_description+' <br/>Status: New <br/> Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: `incident status INC1234567`';                
                 session.conversationData.category = '';
-                session.conversationData.short_description = '';
-                session.conversationData.urgency = '';
+                session.conversationData.shortDescription = '';
+                session.conversationData.severity = '';
                 session.endDialog(msg);
             });
         }
