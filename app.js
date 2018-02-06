@@ -62,7 +62,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
    session.send(msg);
 })
 .matches('Help', (session) => {
-    session.send(`If you have any issue, you can reach us at helpdesk@hexaware.com<br/>or call us on 044-67487500`);
+    session.send(`I am here to help you out <br/>You can ask me questions like:<br/>- Create high severity incident <br/>- Incident status for 'Incident Number eg:INC0010505' <br/>- Show latest incidents <br/>- Say 'help' for any queries <br/>- Say 'goodbye' to leave conversation`);
 })
 .matches('Cancel', (session) => {
     session.send('You reached Cancel intent, you said \'%s\'.', session.message.text);
@@ -163,6 +163,10 @@ bot.on('conversationUpdate', function (message) {
 });*/
 bot.on('error', function (e) {
     console.log('And error ocurred', e);
+    var reply = new builder.Message()
+    .text(`If you have any issue, you can reach us at helpdesk@hexaware.com<br/>or call us on 044-67487500`);
+    bot.send(reply);
+    
 });
 function createHeroCard(session) {
     return new builder.HeroCard(session)
@@ -173,11 +177,8 @@ function createHeroCard(session) {
         ])
         .buttons([
          /*   builder.CardAction.imBack(session, 'Book a Flight', 'Flight Booking Agent'),*/
-            builder.CardAction.imBack(session, 'create incident', 'INCIDENT REQUEST'),
-            builder.CardAction.imBack(session, 'incident status', 'INCIDENT STATUS')
+            builder.CardAction.imBack(session, 'INCIDENT REQUEST', 'INCIDENT REQUEST'),
+            builder.CardAction.imBack(session, 'INCIDENT REQUEST', 'INCIDENT STATUS')
         ]);
 }
-bot.dialog('welcomeCard', function (session) {
-    let msg = new builder.Message(session).addAttachment(createHeroCard(session));
-    session.endDialog(msg);
-})
+
