@@ -99,7 +99,7 @@
         function (session, args) {
             try {
                 log.consoleDefault(args); // Console Args
-                session.userData.ISIncidentId = args.resolution.value;
+                session.userData.ISIncidentId = args[0].resolution.value;
 
                 // Make API call to Service Now with Incident Id and get Response...
                 apiService.getIncidentStatusByNumber(session.userData.ISIncidentId, function (data) {
