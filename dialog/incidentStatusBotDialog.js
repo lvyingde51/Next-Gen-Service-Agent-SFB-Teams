@@ -10,8 +10,8 @@
 
     // Incident Request Status List
     module.exports.beginDialog = [
-        function (session) {
-            builder.Prompts.choice(session, 'How do you want me to search it?', ['By Incident Id', 'Last 10 Incidents']);
+        function (session, args) {
+            builder.Prompts.choice(session, 'How do you want me to search it?', ['By Incident Id', 'Last 10 Incidents']);            
         },
         function (session, results) {
             session.conversationData.ISSearchType = results.response.entity;
@@ -35,8 +35,12 @@
 
     // Search Incident Status by ID
     module.exports.incidentID = [
-        function (session) {
-            builder.Prompts.text(session, 'Please provide your Incident Id');
+        function (session) {            
+            if (!session.conversationData.ISSearchType) {
+                builder.Prompts.text(session, 'Please provide your Incident Id');
+            } else {
+                next({ response: session.conversationData.ISSearchType });
+            }
         },
         function (session, results) {
             session.conversationData.ISIncidentId = results.response;
@@ -94,37 +98,38 @@
         }
     ];
 
+    //************** Commented due to mismatch of conversational flow****************//
     // Fetch Incident Status Directly
-    module.exports.getincidentStatus = [
-        function (session, args) {
-            try {
-                log.consoleDefault(args); // Console Args
-                session.conversationData.ISIncidentId = args[0].resolution.value;
+    // module.exports.getincidentStatus = [
+    //     function (session, args) {
+    //         try {
+    //             log.consoleDefault(args); // Console Args
+    //             session.conversationData.ISIncidentId = args[0].resolution.value;
 
-                // Make API call to Service Now with Incident Id and get Response...
-                apiService.getIncidentStatusByNumber(session.conversationData.ISIncidentId, function (data) {
-                    log.consoleDefault(JSON.stringify(data));
-                    if (!data) {
-                        let msg = 'An error has occurred while fetching the details... Please try again later...';
-                        session.endDialog(msg);
-                        return false;
-                    }
+    //             // Make API call to Service Now with Incident Id and get Response...
+    //             apiService.getIncidentStatusByNumber(session.conversationData.ISIncidentId, function (data) {
+    //                 log.consoleDefault(JSON.stringify(data));
+    //                 if (!data) {
+    //                     let msg = 'An error has occurred while fetching the details... Please try again later...';
+    //                     session.endDialog(msg);
+    //                     return false;
+    //                 }
 
-                    if (data.hasOwnProperty('error')) {
-                        let msg = 'Incident Number does not exist in our database. ' + data.error.message + ' Please try again';
-                        session.endDialog(msg);
-                    } else {
-                        let msg = 'Below are the details for the requested incident :- \nIncident Id : ' + session.conversationData.ISIncidentId + ' \nShort Description : ' + data.result[0].short_description + ' \nStatus: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' \nAssigned To: ' + data.result[0].assigned_to + ' \nWhat do you want to do next?';
-                        session.endDialog(msg);
-                    }
-                });
-            }
-            catch (err) {
-                log.consoleDefault('Incident status Error:' + err);
-                let msg = 'An error has occurred... Please try again later...';
-                session.endDialog(msg);
-                return false;
-            }
-        }
-    ];
+    //                 if (data.hasOwnProperty('error')) {
+    //                     let msg = 'Incident Number does not exist in our database. ' + data.error.message + ' Please try again';
+    //                     session.endDialog(msg);
+    //                 } else {
+    //                     let msg = 'Below are the details for the requested incident :- \nIncident Id : ' + session.conversationData.ISIncidentId + ' \nShort Description : ' + data.result[0].short_description + ' \nStatus: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' \nAssigned To: ' + data.result[0].assigned_to + ' \nWhat do you want to do next?';
+    //                     session.endDialog(msg);
+    //                 }
+    //             });
+    //         }
+    //         catch (err) {
+    //             log.consoleDefault('Incident status Error:' + err);
+    //             let msg = 'An error has occurred... Please try again later...';
+    //             session.endDialog(msg);
+    //             return false;
+    //         }
+    //     }
+    // ];
 }());
