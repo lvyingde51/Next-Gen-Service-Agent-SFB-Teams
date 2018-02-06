@@ -18,9 +18,10 @@
         log.consoleDefault(JSON.stringify(args)); // Console Args
         log.consoleDefault(JSON.stringify(entities)); // Console Entity
 
-        session.conversationData.ISSearchType = builder.EntityRecognizer.findEntity(args.entities, 'number') ? builder.EntityRecognizer.findEntity(args.entities, 'number').entity : '';
+        session.conversationData.ISSearchType = builder.EntityRecognizer.findEntity(args.entities, 'builtin.number') ? builder.EntityRecognizer.findEntity(args.entities, 'builtin.number').entity : '';
+        log.consoleDefault(session.conversationData.ISSearchType);
 
-        if(!session.conversationData.ISSearchType) {
+        if(!entities) {
             return session.beginDialog('incidentStatus', function(err) {
                 if(err) {
                     session.send(new builder.Message().text('Error Occurred with incidentStatus: ' + err.message));

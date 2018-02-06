@@ -57,7 +57,7 @@
                     let msg = 'Incident Number does not exist in our database. ' + data.error.message + ' Please try again';
                     session.endDialog(msg);
                 } else {
-                    let msg = 'Below are the details for the requested incident :- \nIncident Id : ' + session.conversationData.ISIncidentId + ' \nShort Description : ' + data.result[0].short_description + ' \nStatus: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' \nAssigned To: ' + data.result[0].assigned_to + ' \nWhat do you want to do next?';
+                    let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + data.result[0].assigned_to;
                     session.endDialog(msg);
                 }
             });
@@ -93,7 +93,7 @@
             //Filter out JSON from previous API call and display the status of Incident from **incidentstatusArr**
             log.consoleDefault(incidentstatusArr);
             let arrIndex = incidentstatusArr.findIndex(x => x.number == session.conversationData.ISIncidentId);
-            let msg = 'Below are the details for the requested incident :- \nIncident Id : ' + session.conversationData.ISIncidentId + ' \nShort Description : ' + incidentstatusArr[arrIndex].short_description + ' \nStatus: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' \nAssigned To: ' + incidentstatusArr[arrIndex].assigned_to + ' \nWhat do you want to do next?';
+            let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: ' + incidentstatusArr[arrIndex].assigned_to;
             session.endDialog(msg);
         }
     ];
@@ -119,7 +119,7 @@
     //                     let msg = 'Incident Number does not exist in our database. ' + data.error.message + ' Please try again';
     //                     session.endDialog(msg);
     //                 } else {
-    //                     let msg = 'Below are the details for the requested incident :- \nIncident Id : ' + session.conversationData.ISIncidentId + ' \nShort Description : ' + data.result[0].short_description + ' \nStatus: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' \nAssigned To: ' + data.result[0].assigned_to + ' \nWhat do you want to do next?';
+    //                     let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + data.result[0].assigned_to + ' <br/>What do you want to do next?';
     //                     session.endDialog(msg);
     //                 }
     //             });
