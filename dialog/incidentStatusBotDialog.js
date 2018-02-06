@@ -38,7 +38,7 @@
         function (session) {
             builder.Prompts.text(session, 'Please provide your Incident Id');
         },
-        function (session, results, next) {
+        function (session, results) {
             session.userData.ISIncidentId = results.response;
             // Make API call to Service Now with Incident Id and get Response...
             apiService.getIncidentStatusByNumber(session.userData.ISIncidentId, function (data) {
@@ -47,7 +47,6 @@
                 if(data.hasOwnProperty('error')) {
                     let msg = 'Incident Number does not exist in our database. ' + data.error.message + ' Please try again';
                     session.send(msg);
-                    next();
                 } else {
                     let msg = 'Below are the details for the requested incident :- \nIncident Id : ' + session.userData.ISIncidentId + ' \nShort Description : '+ data.result[0].short_description +' \nStatus: '+ commonTemplate.incidentStatus[data.result[0].state][lang] +' \nAssigned To: '+ data.result[0].assigned_to +' \nWhat do you want to do next?';
                     session.endDialog(msg);
@@ -63,14 +62,20 @@
             incidentstatusArr = [];
             let incidentArr = [];
             apiService.getIncidentStatusByList(function (data) {
-                incidentstatusArr = data.result.reverse();
-                // incidentstatusArr.slice((incidentstatusArr.length - 10), incidentstatusArr.length);
-                // incidentstatusArr.slice(Math.max(incidentstatusArr.length - 10, 1));
-                log.consoleDefault(incidentstatusArr);
-                for (let count = 0; count < incidentstatusArr.length && count < 10; count++) {
-                    incidentArr.push(incidentstatusArr[count].number);
+                if(data) {
+                    incidentstatusArr = data.result.reverse();
+                    // incidentstatusArr.slice((incidentstatusArr.length - 10), incidentstatusArr.length);
+                    // incidentstatusArr.slice(Math.max(incidentstatusArr.length - 10, 1));
+                    log.consoleDefault(incidentstatusArr);
+                    for (let count = 0; count < incidentstatusArr.length && count < 10; count++) {
+                        incidentArr.push(incidentstatusArr[count].number);
+                    }
+                    builder.Prompts.choice(session, 'List of Incidents', incidentArr);
+                } else {
+                    let msg = 'An error has occurred while retrieving the data... Please try again later...';
+                    session.send(msg);
                 }
-                builder.Prompts.choice(session, 'List of Incidents', incidentArr);
+                
             });            
         },
         function (session, results) {
