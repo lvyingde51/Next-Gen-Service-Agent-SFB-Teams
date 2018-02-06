@@ -154,6 +154,8 @@
             });
         }
         catch (err) {
+            let msg = 'Sorry !! It looks like we are experiencing some connection issues here. Please Try Again by creating a new incident!';
+            session.endDialog(msg);
             log.consoleDefault(JSON.stringify(err));
         }
     };
