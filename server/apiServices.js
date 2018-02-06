@@ -33,9 +33,15 @@
                     return
                   }
                   else {
-                    log.consoleDefault('headers:' + response.headers);
-                    log.consoleDefault('status code:' + response.statusCode);
-                    callback(body);
+                      try {
+                        log.consoleDefault('headers:' + response.headers);
+                        log.consoleDefault('status code:' + response.statusCode);
+                        log.consoleDefault('JSON parser:' + JSON.parse(body));
+                        callback(body);
+                      }
+                      catch(e) {
+                        log.consoleDefault('API Error:' + e);
+                      }                    
                   }
             });
         }
