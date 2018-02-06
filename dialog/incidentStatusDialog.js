@@ -18,8 +18,8 @@
         log.consoleDefault(JSON.stringify(args)); // Console Args
         log.consoleDefault(JSON.stringify(entities)); // Console Entity
 
-        session.conversationData.ISSearchType = builder.EntityRecognizer.findEntity(args.entities, 'builtin.number') ? builder.EntityRecognizer.findEntity(args.entities, 'builtin.number').entity : '';
-        log.consoleDefault(session.conversationData.ISSearchType);
+        session.conversationData.ISIncidentId = builder.EntityRecognizer.findEntity(args.entities, 'builtin.number') ? builder.EntityRecognizer.findEntity(args.entities, 'builtin.number').entity : '';
+        log.consoleDefault(session.conversationData.ISIncidentId);
 
         if(!entities) {
             return session.beginDialog('incidentStatus', function(err) {
