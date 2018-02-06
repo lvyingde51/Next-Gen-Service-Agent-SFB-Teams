@@ -53,14 +53,16 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 .matches('Greeting', (session) => {
    // session.send('You reached Bot Welcome intent, you said \'%s\'.', session.message.text);
    var isGroup = session.message.address.conversation.isGroup;
-   var txt = isGroup ? "Hello everyone!" : `Hi ${session.message.user ? session.message.user.name : ' '},I am the service now assistant.<br/>I am here to help you out <br/>You can ask me questions like:<br/>- Create high severity incident <br/>- Incident status for "incident number without INC eg:0010505" <br/>- Show latest incidents <br/>-S ay help for any queries <br/>- Say 'goodbye' to leave conversation`;
+   var txt = isGroup ? "Hello everyone!" : `Hi ${session.message.user ? session.message.user.name : ' '},I am the service now assistant.<br/>I am here to help you out <br/>You can ask me questions like:<br/>- Create high severity incident <br/>- Incident status for "incident number without INC eg:0010505" <br/>- Show latest incidents <br/>- Say 'help' for any queries <br/>- Say 'goodbye' to leave conversation`;
    var reply = new builder.Message()
            .address(session.message.address)
            .text(txt);
    bot.send(reply);
+   let msg = new builder.Message(session).addAttachment(createHeroCard(session));
+   session.send(msg);
 })
 .matches('Help', (session) => {
-    session.send(`I am a bot, if you have any issue, you can reach us at helpdesk@hexaware.com<br/>or call us on 044-67487500`);
+    session.send(`If you have any issue, you can reach us at helpdesk@hexaware.com<br/>or call us on 044-67487500`);
 })
 .matches('Cancel', (session) => {
     session.send('You reached Cancel intent, you said \'%s\'.', session.message.text);
@@ -111,11 +113,13 @@ bot.on('conversationUpdate', function (message) {
      if (message.membersAdded && message.membersAdded.length > 0) {
         // Say hello
         var isGroup = message.address.conversation.isGroup;
-        var txt = isGroup ? "Hello everyone!" : `Hi ${session.message.user ? session.message.user.name : ' '},I am the service now assistant.<br/>I am here to help you out <br/>You can ask me questions like:<br/>- Create high severity incident <br/>- Incident status for "incident number without INC eg:0010505" <br/>- Show latest incidents <br/>-S ay help for any queries <br/>- Say 'goodbye' to leave conversation`;
+        var txt = isGroup ? "Hello everyone!" : `Hi ${session.message.user.name ? session.message.user.name : ' '},I am the service now assistant.<br/>I am here to help you out <br/>You can ask me questions like:<br/>- Create high severity incident <br/>- Incident status for "incident number without INC eg:0010505" <br/>- Show latest incidents <br/>- Say help for any queries <br/>- Say 'goodbye' to leave conversation`;
         var reply = new builder.Message()
                 .address(message.address)
                 .text(txt);
         bot.send(reply);
+        let msg = new builder.Message(session).addAttachment(createHeroCard(session));
+        session.send(msg);
     } else if (message.membersRemoved) {
         // See if bot was removed
         var botId = message.address.bot.id;
@@ -134,3 +138,16 @@ bot.on('conversationUpdate', function (message) {
 bot.on('error', function (e) {
     console.log('And error ocurred', e);
 });
+function createHeroCard(session) {
+    return new builder.HeroCard(session)
+        .title('SERVICE NOW')
+        .text('Welcome to service now assistant')
+        .images([
+            builder.CardImage.create(session, 'https://madheesblog.files.wordpress.com/2015/08/icon-servicenow-big_2.png')
+        ])
+        .buttons([
+         /*   builder.CardAction.imBack(session, 'Book a Flight', 'Flight Booking Agent'),*/
+            builder.CardAction.imBack(session, 'create incident', 'INCIDENT REQEST'),
+            builder.CardAction.imBack(session, 'incident status', 'INCIDENT STATUS')
+        ]);
+}
