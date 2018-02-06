@@ -53,7 +53,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 .matches('Greeting', (session) => {
    // session.send('You reached Bot Welcome intent, you said \'%s\'.', session.message.text);
    var isGroup = session.message.address.conversation.isGroup;
-   var txt = isGroup ? "Hello everyone!" : `Hi ${session.message.sourceEvent.sender? session.message.sourceEvent.sender : ' '}, I am BI Service Agent.<br/>I am here to help you out <br/>You can ask me questions like:<br/>- Create high severity incident <br/>- Incident status for 'Incident Number eg:INC0010505' <br/>- Show latest incidents <br/>- Say 'help' for any queries <br/>- Say 'goodbye' to leave conversation`;
+   var txt = isGroup ? "Hello everyone!" : `Hi ${session.message.user.name? session.message.user.name : ' '}, I am BI Service Agent.<br/>I am here to help you out <br/>You can ask me questions like:<br/>- Create high severity incident <br/>- Incident status for 'Incident Number eg:INC0010505' <br/>- Show latest incidents <br/>- Say 'help' for any queries <br/>- Say 'goodbye' to leave conversation`;
    var reply = new builder.Message()
            .address(session.message.address)
            .text(txt);
@@ -178,7 +178,7 @@ function createHeroCard(session) {
         .buttons([
          /*   builder.CardAction.imBack(session, 'Book a Flight', 'Flight Booking Agent'),*/
             builder.CardAction.imBack(session, 'INCIDENT REQUEST', 'INCIDENT REQUEST'),
-            builder.CardAction.imBack(session, 'INCIDENT REQUEST', 'INCIDENT STATUS')
+            builder.CardAction.imBack(session, 'INCIDENT STATUS', 'INCIDENT STATUS')
         ]);
 }
 
