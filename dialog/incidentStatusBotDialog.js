@@ -19,7 +19,7 @@
             if (session.conversationData.ISSearchType === 'By Incident Id') {
                 session.beginDialog('isSearchById', function (err) {
                     if (err) {
-                        session.send(new builder.Message().text('Error Occurred with isSearchById' + err.message));
+                        session.send(new builder.Message().text('Error Occurred with isSearchById ' + err.message));
                     }
                 });
             }
@@ -35,7 +35,7 @@
 
     // Search Incident Status by ID
     module.exports.incidentID = [
-        function (session, next) {            
+        function (session, args, next) {            
             if (!session.conversationData.ISSearchType) {
                 builder.Prompts.text(session, 'Please provide your Incident Id');
             } else {
