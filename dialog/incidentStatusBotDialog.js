@@ -111,8 +111,25 @@
             //Filter out JSON from previous API call and display the status of Incident from **incidentstatusArr**
             log.consoleDefault(incidentstatusArr);
             let arrIndex = incidentstatusArr.findIndex(x => x.number == session.conversationData.ISIncidentId);
-            let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: ' + incidentstatusArr[arrIndex].assigned_to;
-            session.endDialog(msg);
+            let assignedTo = incidentstatusArr[arrIndex].assigned_to == '' ? '-' : incidentstatusArr[arrIndex].assigned_to.link;
+            log.consoleDefault(assignedTo);
+            if(assignedTo == '-') {
+                let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: Unassigned';
+                session.endDialog(msg);
+                return false;
+            } else {
+                apiService.getAssignedToDetails(assignedTo, function (resp) {
+                    if (!resp) {
+                        let msg = 'An error has occurred while fetching the details... Please try again later...';
+                        session.endDialog(msg);
+                        return false;
+                    } else {
+                        log.consoleDefault(JSON.stringify(resp));
+                        let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
+                        session.endDialog(msg);
+                    }
+                });
+            }
         }
     ];
 

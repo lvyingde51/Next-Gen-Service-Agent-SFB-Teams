@@ -62,7 +62,7 @@
 
     const apiList = {
         'INCIDENTSTATUS' : 'https://dev18442.service-now.com/api/now/v1/table/incident',
-        'SERVICEREQUEST' : 'https://dev18442.service-now.com/api/now/v1/table/sc_request'
+        'SERVICEREQUEST' : 'https://dev18442.service-now.com/api/now/v1/table/sc_req_item'
     };
 
     module.exports.jsonRequest = jsonRequest;
