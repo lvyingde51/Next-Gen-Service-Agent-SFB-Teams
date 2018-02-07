@@ -59,6 +59,7 @@
                 } else {
                     let assignedTo = data.result[0].assigned_to == '' ? '-' : data.result[0].assigned_to.link;
                     log.consoleDefault(assignedTo);
+                    log.consoleDefault(commonTemplate.incidentStatus[data.result[0].state][lang]);
                     if(assignedTo == '-') {
                         let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: Unassigned';
                         session.endDialog(msg);
