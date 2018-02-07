@@ -9,6 +9,8 @@ var createIncidentDialog = require('./dialog/createIncidentDialog');
 var createIncidentBotDialog = require('./dialog/createIncidentBotDialog');
 var incidentStatusDialog = require('./dialog/incidentStatusDialog');
 var incidentStatusBotDialog = require('./dialog/incidentStatusBotDialog');
+var requestStatusDialog = require('./dialog/requestStatusDialog');
+var requestStatusBotDialog = require('./dialog/requestStatusBotDialog');
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -80,6 +82,7 @@ console.log('Matched intent is '+JSON.stringify(intents));
 // Custom Intent Handling Starts Here
 createIncidentDialog.load(intents);
 incidentStatusDialog.load(intents);
+requestStatusDialog.load(intents);
 
 
 bot.dialog('/', intents);
@@ -93,6 +96,9 @@ bot.dialog('incidentStatus', incidentStatusBotDialog.beginDialog);
 // bot.dialog('getincidentStatus', incidentStatusBotDialog.getincidentStatus);
 bot.dialog('isSearchById', incidentStatusBotDialog.incidentID);
 bot.dialog('isSearchByList', incidentStatusBotDialog.prevIncidents);
+bot.dialog('srStatus', requestStatusBotDialog.beginDialog);
+bot.dialog('srSearchById', requestStatusBotDialog.serviceID);
+bot.dialog('srSearchByList', requestStatusBotDialog.prevIncidents);
 bot.recognizer({
     recognize: function (context, done) {
     var intent = { score: 0.0 };

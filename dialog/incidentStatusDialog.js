@@ -25,7 +25,7 @@
         if(session.conversationData.ISIncidentId === '' && session.message.text.toLowerCase().indexOf('inc') > -1 && incidentNumPattern.test(session.message.text.toLowerCase().substring(session.message.text.toLowerCase().indexOf('inc')))) {
             session.conversationData.ISIncidentId = session.message.text.toLowerCase().substring(session.message.text.toLowerCase().indexOf('inc'));
             log.consoleDefault(session.message.text.toLowerCase().indexOf('inc'));
-        }       
+        }
         log.consoleDefault(session.conversationData.ISIncidentId);
 
         if(session.conversationData.ISIncidentId === '' || session.conversationData.ISIncidentId === null || session.conversationData.ISIncidentId === undefined) {
