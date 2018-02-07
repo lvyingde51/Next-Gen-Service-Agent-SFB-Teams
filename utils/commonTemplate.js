@@ -60,8 +60,14 @@
         }
     };
 
+    const apiList = {
+        'INCIDENTSTATUS' : 'https://dev18442.service-now.com/api/now/v1/table/incident',
+        'SERVICEREQUEST' : 'https://dev18442.service-now.com/api/now/v1/table/sc_request'
+    };
+
     module.exports.jsonRequest = jsonRequest;
     module.exports.incidentStatus = incidentStatus;
     module.exports.categoryStatic = categoryStatic;
     module.exports.urgencyStatic = urgencyStatic;
+    module.exports.apiList = apiList;
 }());

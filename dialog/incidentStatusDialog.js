@@ -18,19 +18,15 @@
 
         log.consoleDefault(JSON.stringify(args)); // Console Args
         log.consoleDefault(JSON.stringify(entities)); // Console Entity
-
         log.consoleDefault(JSON.stringify(session.message.text.substring(session.message.text.indexOf('INC'))));
 
         if(session.message.text.indexOf('INC') > -1 && incidentNumPattern.test(session.message.text.substring(session.message.text.indexOf('INC')))) {
-            console.log('INS');
             session.conversationData.ISIncidentId = session.message.text.substring(session.message.text.indexOf('INC'));
             log.consoleDefault(session.message.text.indexOf('INC'));
         } else {
-            console.log('ENTITY');
             session.conversationData.ISIncidentId = builder.EntityRecognizer.findEntity(args.entities, 'builtin.number') ? builder.EntityRecognizer.findEntity(args.entities, 'builtin.number').entity : '';
         }        
         log.consoleDefault(session.conversationData.ISIncidentId);
-        // session.message.text
 
         if(session.conversationData.ISIncidentId === '' || session.conversationData.ISIncidentId === null || session.conversationData.ISIncidentId === undefined) {
             return session.beginDialog('incidentStatus', function(err) {

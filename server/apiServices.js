@@ -2,9 +2,9 @@
     'use strict';
     const requestAPI = require('request');
     var log = require('../utils/logs');
-    var builder = require('botbuilder');
+    var apiList = require('../utils/commonTemplate').apiList
     const ServiceNowUserName = '33238';
-    const ServiceNowPwd = 'abc123';
+    const ServiceNowPwd = 'abc123';    
 
     const header = {
         'Cache-Control': 'no-cache',
@@ -12,10 +12,10 @@
         'Content-Type': 'application/json'
     };
 
-    function getIncidentStatusByNumber(ticketnumber, callback) {
+    function getStatusByNumber(ticketnumber, type, callback) {
         try {
             var options = {
-                url: 'https://dev18442.service-now.com/api/now/v1/table/incident',
+                url: apiList[type],
                 qs: { number: ticketnumber },
                 method: 'GET',
                 header: header,
@@ -51,10 +51,10 @@
         }
     };
 
-    function getIncidentStatusByList(callback) {
+    function getStatusByList(type, callback) {
         try {
             var options = {
-                url: 'https://dev18442.service-now.com/api/now/v1/table/incident',
+                url: apiList[type],
                 method: 'GET',
                 header: header,
                 body: '',
@@ -160,8 +160,8 @@
         }
     };
 
-    module.exports.getIncidentStatusByNumber = getIncidentStatusByNumber;
-    module.exports.getIncidentStatusByList = getIncidentStatusByList;
+    module.exports.getStatusByNumber = getStatusByNumber;
+    module.exports.getStatusByList = getStatusByList;
     module.exports.createIncidentService = createIncidentService;
     module.exports.getAssignedToDetails = getAssignedToDetails;
 }());

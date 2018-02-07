@@ -7,6 +7,7 @@
     var incidentstatusArr = [];
     var commonTemplate = require('../utils/commonTemplate');
     const lang = 'ENGLISH';
+    const reqType = 'INCIDENTSTATUS';
 
     // Incident Request Status List
     module.exports.beginDialog = [
@@ -45,7 +46,7 @@
         function (session, results) {
             session.conversationData.ISIncidentId = results.response;
             // Make API call to Service Now with Incident Id and get Response...
-            apiService.getIncidentStatusByNumber(session.conversationData.ISIncidentId, function (data) {
+            apiService.getStatusByNumber(session.conversationData.ISIncidentId, reqType, function (data) {
                 log.consoleDefault(JSON.stringify(data));
                 if (!data) {
                     let msg = 'An error has occurred while fetching the details... Please try again later...';
@@ -87,7 +88,7 @@
             // Make API call to Service Now and get Response for Last 10 requests...
             incidentstatusArr = [];
             let incidentArr = [];
-            apiService.getIncidentStatusByList(function (data) {
+            apiService.getStatusByList(reqType, function (data) {
                 if (!data) {
                     let msg = 'An error has occurred while retrieving the data... Please try again later...';
                     session.endDialog(msg);
