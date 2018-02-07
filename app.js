@@ -65,7 +65,9 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
     session.send(`I am here to help you out <br/>You can ask me questions like:<br/>- Create high severity incident <br/>- Incident status for 'Incident Number eg:INC0010505' <br/>- Show latest incidents <br/>- Say 'help' for any queries <br/>- Say 'goodbye' to leave conversation`);
 })
 .matches('Cancel', (session) => {
-    session.send('You reached Cancel intent, you said \'%s\'.', session.message.text);
+    //session.send('You reached Cancel intent, you said \'%s\'.', session.message.text);
+    let cardAction=new CardAction();
+    cardAction.dialogAction(session,'goodbyeAction');
 })
 /*
 .matches('<yourIntent>')... See details at http://docs.botframework.com/builder/node/guides/understanding-natural-language/
