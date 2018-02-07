@@ -66,7 +66,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 })
 .matches('Cancel', (session) => {
     //session.send('You reached Cancel intent, you said \'%s\'.', session.message.text);
-    let cardAction=new CardAction();
+    let cardAction=new builder.CardAction();
     cardAction.dialogAction(session,'goodbyeAction');
 })
 /*
