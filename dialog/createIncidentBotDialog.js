@@ -12,8 +12,12 @@
             if(session.conversationData.severity == '' || session.conversationData.severity == undefined) {
                 builder.Prompts.choice(session, 'What is the severity?', ['High', 'Medium', 'Low']);
             } else {
-                builder.Prompts.choice(session, 'I find that your initial statement contained `'+session.conversationData.severity+'` can i take that as a severity for the incident ', ['Yes', 'No']);
-                
+                session.endDialog();
+                session.beginDialog('shortDescription', function(err) {
+                    if(err) {
+                        session.send(new builder.Message().text('Error Occurred with shortDescription' + err.message));
+                    }
+                });
             }
         },
         function(session, results) {
@@ -25,25 +29,6 @@
                         session.send(new builder.Message().text('Error Occurred with shortDescription' + err.message));
                     }
                 });
-            }
-            else
-            {
-                if(results.response.entity == 'Yes') {
-                    session.endDialog();
-                    session.beginDialog('shortDescription', function(err) {
-                        if(err) {
-                            session.send(new builder.Message().text('Error Occurred with shortDescription' + err.message));
-                        }
-                    });
-                } else {
-                    session.endDialog();
-                    session.conversationData.severity = '';
-                    session.beginDialog('beginDialog', function(err) {
-                        if(err) {
-                            session.send(new builder.Message().text('Error Occurred with beginDialog' + err.message));
-                        }
-                    });
-                }
             }
         }
     ];
