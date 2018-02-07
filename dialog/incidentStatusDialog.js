@@ -4,7 +4,7 @@
     var builder = require('botbuilder');    
     var log = require('../utils/logs');
     // var bot = require('./incidentStatusBotDialog');
-    const incidentNumPattern = '/^[INCinc]{3}[0-9]{7}$/g';
+    var incidentNumPattern = new RegExp('^[INCinc]{3}[0-9]{7}$');
 
     exports.load = function(intentDialog) {
         intentDialog.matches('Incident.Status', incidentStatus)
