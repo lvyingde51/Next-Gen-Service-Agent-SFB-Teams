@@ -4,6 +4,7 @@
     var builder = require('botbuilder');    
     var log = require('../utils/logs');
     // var bot = require('./incidentStatusBotDialog');
+    const incidentNumPattern = '/^[INCinc]{3}[0-9]{7}$/g';
 
     exports.load = function(intentDialog) {
         intentDialog.matches('Incident.Status', incidentStatus)
@@ -18,7 +19,9 @@
         log.consoleDefault(JSON.stringify(args)); // Console Args
         log.consoleDefault(JSON.stringify(entities)); // Console Entity
 
-        if(session.message.text.indexOf('INC') > -1) {
+        log.consoleDefault(JSON.stringify(session.message.text.substring(session.message.text.indexOf('INC'))));
+
+        if(session.message.text.indexOf('INC') > -1 && incidentNumPattern.test(session.message.text.substring(session.message.text.indexOf('INC')))) {
             console.log('INS');
             session.conversationData.ISIncidentId = session.message.text.substring(session.message.text.indexOf('INC'));
             log.consoleDefault(session.message.text.indexOf('INC'));
