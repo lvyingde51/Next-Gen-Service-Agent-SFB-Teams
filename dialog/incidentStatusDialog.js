@@ -20,12 +20,12 @@
         log.consoleDefault(JSON.stringify(entities)); // Console Entity
         log.consoleDefault(JSON.stringify(session.message.text.substring(session.message.text.indexOf('inc'))));
 
-        if(session.message.text.toLowerCase().indexOf('inc') > -1 && incidentNumPattern.test(session.message.text.toLowerCase().substring(session.message.text.toLowerCase().indexOf('inc')))) {
+        session.conversationData.ISIncidentId = builder.EntityRecognizer.findEntity(args.entities, 'IncidentNumber') ? builder.EntityRecognizer.findEntity(args.entities, 'IncidentNumber').entity : '';
+
+        if(session.conversationData.ISIncidentId === '' && session.message.text.toLowerCase().indexOf('inc') > -1 && incidentNumPattern.test(session.message.text.toLowerCase().substring(session.message.text.toLowerCase().indexOf('inc')))) {
             session.conversationData.ISIncidentId = session.message.text.toLowerCase().substring(session.message.text.toLowerCase().indexOf('inc'));
             log.consoleDefault(session.message.text.toLowerCase().indexOf('inc'));
-        } else {
-            session.conversationData.ISIncidentId = builder.EntityRecognizer.findEntity(args.entities, 'builtin.number') ? builder.EntityRecognizer.findEntity(args.entities, 'builtin.number').entity : '';
-        }        
+        }       
         log.consoleDefault(session.conversationData.ISIncidentId);
 
         if(session.conversationData.ISIncidentId === '' || session.conversationData.ISIncidentId === null || session.conversationData.ISIncidentId === undefined) {
