@@ -8,6 +8,14 @@
         this.urgency = null;
         this.json = true;
     }
+
+    function incidentCreatedData() {
+        this.incidentid = null;
+        this.urgency = null;
+        this.category = null;
+        this.short_description = null;
+        this.status = null;
+    }
     
     const incidentStatus = {
         '1': {
@@ -70,4 +78,5 @@
     module.exports.categoryStatic = categoryStatic;
     module.exports.urgencyStatic = urgencyStatic;
     module.exports.apiList = apiList;
+    module.exports.incidentCreatedData = incidentCreatedData;
 }());

@@ -5,6 +5,7 @@
     var apiService = require('../server/apiServices');
     var log = require('../utils/logs');
     var jsonData = require('../utils/commonTemplate');
+    var mailer = require('../utils/commonMailer').sendMail;
     const lang = 'ENGLISH';
 
     module.exports.beginDialog= [
@@ -106,6 +107,15 @@
             apiService.createIncidentService(JSON.parse(JSON.stringify(objData)), function (data) {
                 console.log('Incident No : ',data.result.number);
                 console.log('Total Response : ',JSON.stringify(data));
+                var objFinalData = new jsonData.incidentCreatedData();
+                objFinalData.incidentid = data.result.number;
+                objFinalData.urgency = objData.urgency;
+                objFinalData.category = objData.category;
+                objFinalData.short_description = objData.short_description;
+                objFinalData.status = 'New';
+
+                mailer('Create Incident', 'ArunP3@hexaware.com', objFinalData);
+
                 let msg = 'Successfully created incident:- <br/>Incident Id : '+data.result.number+'<br/>Urgency : '+objData.urgency+'<br/>Category : '+objData.category+'<br/>Short Description : '+objData.short_description+' <br/>Status: New <br/> Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: `incident status INC1234567`';                
                 session.conversationData.category = '';
                 session.conversationData.shortDescription = '';
