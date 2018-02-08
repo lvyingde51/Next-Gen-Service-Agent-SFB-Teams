@@ -52,6 +52,22 @@ var tableStorage = new botbuilder_azure.AzureBotStorage({ gzipData: false }, azu
 var bot = new builder.UniversalBot(connector);
 bot.set('storage', tableStorage);
 
+const logUserConversation = (event) => {
+    console.log('message: ' + event.text + ', user: ' + event.address.user.name);
+};
+
+// Middleware for logging
+bot.use({
+    receive: function (event, next) {
+        logUserConversation(event);
+        next();
+    },
+    send: function (event, next) {
+        logUserConversation(event);
+        next();
+    }
+});
+
 // Make sure you add code to validate these fields
 var luisAppId = process.env.LuisAppId;
 var luisAPIKey = process.env.LuisAPIKey;
@@ -104,6 +120,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 .matches('<yourIntent>')... See details at http://docs.botframework.com/builder/node/guides/understanding-natural-language/
 */
 .onDefault((session) => {
+    console.log("Entered Default:");
     session.beginDialog('default', function(err) {
         if(err) {
             session.send(new builder.Message().text('Error Occurred with default: ' + err.message));
