@@ -12,7 +12,7 @@
     // Service Request Status List
     module.exports.beginDialog = [
         function (session, args) {
-            builder.Prompts.choice(session, 'How do you want me to search it?', ['By Service ID', 'Last 10 Service Requests']);
+            builder.Prompts.choice(session, 'How do you want me to search it?', ['By Service ID', 'Last 10 Requests']);
         },
         function (session, results) {
             session.conversationData.SRSearchType = results.response.entity;
@@ -58,7 +58,7 @@
                     let msg = 'Service Id does not exist in our database. ' + data.error.message + ' Please try again';
                     session.endDialog(msg);
                     session.conversationData.SRNumber = '';
-                    session.beginDialog('srSearchById', args, function (err) {
+                    session.beginDialog('srSearchById', null, function (err) {
                         if (err) {
                             session.send(new builder.Message().text('Error Occurred with serviceRequest: ' + err.message));
                         }
