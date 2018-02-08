@@ -11,6 +11,7 @@ var incidentStatusDialog = require('./dialog/incidentStatusDialog');
 var incidentStatusBotDialog = require('./dialog/incidentStatusBotDialog');
 var requestStatusDialog = require('./dialog/requestStatusDialog');
 var requestStatusBotDialog = require('./dialog/requestStatusBotDialog');
+var defaultBotDialog = require('./dialog/defaultBotDialog');
 
 // Setup Restify Server
 var server = restify.createServer();
