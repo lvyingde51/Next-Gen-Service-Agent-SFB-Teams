@@ -11,6 +11,7 @@ var incidentStatusDialog = require('./dialog/incidentStatusDialog');
 var incidentStatusBotDialog = require('./dialog/incidentStatusBotDialog');
 var requestStatusDialog = require('./dialog/requestStatusDialog');
 var requestStatusBotDialog = require('./dialog/requestStatusBotDialog');
+var QnAClient = require('./lib/client');
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -23,6 +24,12 @@ var connector = new builder.ChatConnector({
     appId: process.env.MicrosoftAppId,
     appPassword: process.env.MicrosoftAppPassword,
     openIdMetadata: process.env.BotOpenIdMetadata 
+});
+
+var qnaClient = new QnAClient({
+    knowledgeBaseId: process.env.KB_ID,
+    subscriptionKey: process.env.QNA_KEY
+    // Optional field: Score threshold
 });
 
 // Listen for messages from users 
@@ -62,6 +69,23 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
    bot.send(reply);
    let msg = new builder.Message(session).addAttachment(createHeroCard(session));
    session.send(msg);
+})
+.matches('SmallTalk', (session) => {
+    qnaClient.post({ question: session.message.text }, function (err, res) {
+        if (err) {
+            console.error('Error from callback:', err);
+            session.send('Oops - something went wrong.');
+            return;
+        }
+
+        if (res) {
+            // Send reply from QnA back to user
+            session.send(res);
+        } else {
+            // Put whatever default message/attachments you want here
+            session.send('Hmm, I didn\'t quite understand you there. Care to rephrase?')
+        }
+    });
 })
 .matches('Help', (session) => {
     session.send(`I am here to help you out <br/>You can ask me questions like:<br/>- Create high severity incident <br/>- Incident status for 'Incident Number eg:INC0010505' <br/>- Show latest incidents <br/>- Say 'help' for any queries <br/>- Say 'goodbye' to leave conversation`);
