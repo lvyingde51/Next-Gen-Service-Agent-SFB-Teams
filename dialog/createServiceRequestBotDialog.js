@@ -4,9 +4,10 @@
     var builder = require('botbuilder');
     var apiService = require('../server/apiServices');
     var log = require('../utils/logs');
-    var serviceRequest = require('../utils/commonTemplate');
+    var createSR = require('../utils/commonTemplate').createSR;
     var mailer = require('../utils/commonMailer').sendMail;
     const lang = 'ENGLISH';
+    const reqType = 'CREATESERVICEREQUEST';
 
     module.exports.beginDialog = [
         function (session) {
@@ -51,26 +52,15 @@
 
     module.exports.createSR = [
         function (session) {
-            var objData = new serviceRequest.jsonRequest();
-            objData.caller_id = 'rubin.crotts@example.com';
-            objData.category = session.conversationData.category;
-            objData.short_description = session.conversationData.shortDescription;
-            objData.urgency = session.conversationData.severity;
-            apiService.createIncidentService(JSON.parse(JSON.stringify(objData)), function (data) {
-                
-                var objFinalData = new serviceRequest.incidentCreatedData();
-                objFinalData.incidentid = data.result.number;
-                objFinalData.urgency = objData.urgency;
-                objFinalData.category = objData.category;
-                objFinalData.short_description = objData.short_description;
-                objFinalData.status = 'New';
+            var objSRData = new createSR();
+            objSRData.short_description = session.conversationData.SoftwareName;
+            apiService.createIncidentService(JSON.parse(JSON.stringify(objSRData)), reqType, function (data) {
+                objSRData.sr_ID = data.result.number;
+                mailer('Create Service Request', 'ArunP3@hexaware.com', objSRData);
 
-                mailer('Create Service Request', 'ArunP3@hexaware.com', objFinalData);
-
-                let msg = 'Successfully created incident:- <br/>Incident Id : '+data.result.number+'<br/>Urgency : '+objData.urgency+'<br/>Category : '+objData.category+'<br/>Short Description : '+objData.short_description+' <br/>Status: New <br/> Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: `incident status INC1234567`';                
-                session.conversationData.category = '';
-                session.conversationData.shortDescription = '';
-                session.conversationData.severity = '';
+                let msg = 'We have created a Service Request for you. The Service Request Item Number is ' + data.result.number;
+                session.conversationData.SRType = '';
+                session.conversationData.SoftwareName = '';
                 session.endDialog(msg);
             });
         }

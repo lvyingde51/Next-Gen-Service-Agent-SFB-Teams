@@ -16,6 +16,11 @@
         this.short_description = null;
         this.status = null;
     }
+
+    function createSR() {
+        this.short_description = null;
+        this.sr_ID = null;
+    }
     
     const incidentStatus = {
         '1': {
@@ -81,4 +86,5 @@
     module.exports.urgencyStatic = urgencyStatic;
     module.exports.apiList = apiList;
     module.exports.incidentCreatedData = incidentCreatedData;
+    module.exports.createSR = createSR;
 }());

@@ -11,6 +11,8 @@ var incidentStatusDialog = require('./dialog/incidentStatusDialog');
 var incidentStatusBotDialog = require('./dialog/incidentStatusBotDialog');
 var requestStatusDialog = require('./dialog/requestStatusDialog');
 var requestStatusBotDialog = require('./dialog/requestStatusBotDialog');
+var createServiceRequestDialog = require('./dialog/createServiceRequestDialog');
+var createServiceRequestBotDialog = require('./dialog/createServiceRequestBotDialog');
 var QnAClient = require('./lib/client');
 var defaultBotDialog = require('./dialog/defaultBotDialog');
 
@@ -114,6 +116,7 @@ console.log('Matched intent is '+JSON.stringify(intents));
 createIncidentDialog.load(intents);
 incidentStatusDialog.load(intents);
 requestStatusDialog.load(intents);
+createServiceRequestDialog.load(intents);
 
 
 bot.dialog('/', intents);
@@ -130,6 +133,9 @@ bot.dialog('isSearchByList', incidentStatusBotDialog.prevIncidents);
 bot.dialog('srStatus', requestStatusBotDialog.beginDialog);
 bot.dialog('srSearchById', requestStatusBotDialog.serviceID);
 bot.dialog('srSearchByList', requestStatusBotDialog.prevIncidents);
+bot.dialog('createServiceRequest', createServiceRequestBotDialog.beginDialog);
+bot.dialog('showSoftwareList', createServiceRequestBotDialog.softwareList);
+bot.dialog('createSR', createServiceRequestBotDialog.createSR);
 bot.dialog('default', defaultBotDialog.beginDialog);
 bot.recognizer({
     recognize: function (context, done) {
