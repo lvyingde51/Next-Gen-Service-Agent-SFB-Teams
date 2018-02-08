@@ -82,7 +82,6 @@
                                                 <table>
                                                     <tr>
                                                         <th>Service Request Item Number</th>
-                                                        <th>Urgency</th>
                                                         <th>Requested For</th>
                                                     </tr>
                                                     <tr>
