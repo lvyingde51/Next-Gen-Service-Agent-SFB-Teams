@@ -57,10 +57,7 @@
                         session.send(new builder.Message().text('Error Occurred with category' + err.message));
                     }
                 });
-            }
-        },
-        function(session, results) {
-            if(session.conversationData.shortDescription == '' || session.conversationData.shortDescription == undefined) {
+            } else if(session.conversationData.shortDescription == '' || session.conversationData.shortDescription == undefined) {
                 session.conversationData.shortDescription = results.response;
                 session.endDialog();
                 session.beginDialog('category', function(err) {
