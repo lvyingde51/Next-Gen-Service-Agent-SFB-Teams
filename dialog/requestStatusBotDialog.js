@@ -43,7 +43,7 @@
                 next({ response: session.conversationData.SRNumber });
             }
         },
-        function (session, results) {
+        function (session, results, next) {
             session.conversationData.SRNumber = results.response;
             // Make API call to Service Now with Service Id and get Response...
             apiService.getStatusByNumber(session.conversationData.SRNumber, reqType, function (data) {
@@ -56,7 +56,8 @@
 
                 if (data.hasOwnProperty('error')) {
                     let msg = 'Service Id does not exist in our database. ' + data.error.message + ' Please try again';
-                    session.endDialog(msg);
+                    session.send(msg);
+                    next();
                 } else {
                     let assignedTo = data.result[0].assigned_to == '' ? '-' : data.result[0].assigned_to.link;
                     log.consoleDefault(assignedTo);
