@@ -72,7 +72,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
    session.send(msg);
 })
 .matches('SmallTalk', (session) => {
-    console.info('Error from callback:', session.message.text);
+    
     qnaClient.post({ question: session.message.text }, function (err, res) {
         if (err) {
             console.error('Error from callback:', err);
@@ -94,7 +94,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 })
 .matches('Cancel', (session) => {
     //session.send('You reached Cancel intent, you said \'%s\'.', session.message.text);
-    
+    session.send('Goodbye');
     builder.CardAction.dialogAction(session,'goodbyeAction');
 })
 /*
