@@ -72,6 +72,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
    session.send(msg);
 })
 .matches('SmallTalk', (session) => {
+    console.info('Error from callback:', session.message.text);
     qnaClient.post({ question: session.message.text }, function (err, res) {
         if (err) {
             console.error('Error from callback:', err);
