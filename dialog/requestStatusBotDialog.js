@@ -24,7 +24,7 @@
                     }
                 });
             }
-            if (session.conversationData.SRSearchType === 'Last 10 Service Requests') {
+            if (session.conversationData.SRSearchType === 'Last 10 Requests') {
                 session.beginDialog('srSearchByList', function (err) {
                     if (err) {
                         session.send(new builder.Message().text('Error Occurred with isSearchByList' + err.message));
