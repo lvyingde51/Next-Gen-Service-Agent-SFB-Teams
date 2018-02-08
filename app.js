@@ -49,12 +49,7 @@ var azureTableClient = new botbuilder_azure.AzureTableClient(tableName, process.
 var tableStorage = new botbuilder_azure.AzureBotStorage({ gzipData: false }, azureTableClient);
 
 // Create your bot with a function to receive messages from the user
-var bot = new builder.UniversalBot(connector,function (session) {
-    session.sendTyping();
-    setTimeout(function () {
-        session.send("Hello there...");
-    }, 3000);
-});
+var bot = new builder.UniversalBot(connector);
 bot.set('storage', tableStorage);
 
 const logUserConversation = (event) => {
@@ -125,7 +120,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 .matches('<yourIntent>')... See details at http://docs.botframework.com/builder/node/guides/understanding-natural-language/
 */
 .onDefault((session) => {
-    console.log("Entered Default:");
+    console.log("Entered Default");
     session.beginDialog('default', function(err) {
         if(err) {
             session.send(new builder.Message().text('Error Occurred with default: ' + err.message));
