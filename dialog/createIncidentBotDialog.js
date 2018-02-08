@@ -49,7 +49,7 @@
                         session.send(new builder.Message().text('Error Occurred with category' + err.message));
                     }
                 });
-            } else {
+            } else if(results.response.entity == 'no') {
                 session.endDialog();
                 session.conversationData.shortDescription = '';
                 session.beginDialog('shortDescription', function(err) {
