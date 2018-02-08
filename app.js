@@ -94,8 +94,9 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 })
 .matches('Cancel', (session) => {
     //session.send('You reached Cancel intent, you said \'%s\'.', session.message.text);
-    session.send('Goodbye');
     builder.CardAction.dialogAction(session,'goodbyeAction');
+    session.send('goodbye');
+    
 })
 /*
 .matches('<yourIntent>')... See details at http://docs.botframework.com/builder/node/guides/understanding-natural-language/
