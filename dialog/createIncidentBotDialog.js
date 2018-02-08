@@ -51,6 +51,7 @@
                 });
             } else {
                 session.endDialog();
+                session.conversationData.shortDescription = '';
                 session.beginDialog('shortDescription', function(err) {
                     if(err) {
                         session.send(new builder.Message().text('Error Occurred with category' + err.message));
