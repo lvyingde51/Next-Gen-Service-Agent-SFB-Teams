@@ -142,6 +142,10 @@ bot.recognizer({
                   case 'goodbye':
                       intent = { score: 1.0, intent: 'Goodbye' };
                       break;
+                    case 'cancel':
+                      intent = { score: 1.0, intent: 'Cancel' };
+                      break;
+                           
               }
           }
           done(null, intent);
