@@ -13,12 +13,8 @@
         log.consoleDefault('*** Create Service Request ***'); // Console Start
 
         let entities = args.entities;
-        // session.conversationData.category = '';
-        // session.conversationData.shortDescription = '';
-        // session.conversationData.severity = '';
-        // session.conversationData.severity = builder.EntityRecognizer.findEntity(args.entities, 'urgency')?builder.EntityRecognizer.findEntity(args.entities, 'urgency').entity:'';
-        // session.conversationData.shortDescription = builder.EntityRecognizer.findEntity(args.entities, 'shortDescription')?builder.EntityRecognizer.findEntity(args.entities, 'shortDescription').entity:'';
-        // session.conversationData.category = builder.EntityRecognizer.findEntity(args.entities, 'category')?builder.EntityRecognizer.findEntity(args.entities, 'category').entity:'';
+        session.conversationData.SoftwareName = '';
+        session.conversationData.SoftwareName = builder.EntityRecognizer.findEntity(args.entities, 'SoftwareName') ? builder.EntityRecognizer.findEntity(args.entities, 'SoftwareName').entity : '';
         log.consoleDefault(JSON.stringify(args)); // Console Args
         log.consoleDefault(JSON.stringify(entities)); // Console Entity
         
@@ -26,9 +22,7 @@
             if(err) {
                 session.send(new builder.Message().text('Error Occurred with incidentStatus: ' + err.message));
             }
-        });
-        
-        
+        });                
     }];    
 
 }());

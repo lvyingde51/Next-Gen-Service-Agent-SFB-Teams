@@ -7,6 +7,7 @@
     var jsonData = require('../utils/commonTemplate');
     var mailer = require('../utils/commonMailer').sendMail;
     const lang = 'ENGLISH';
+    const reqType = 'CREATEINCIDENT';
 
     module.exports.beginDialog= [
         function (session) {
@@ -104,7 +105,7 @@
             objData.category = session.conversationData.category;
             objData.short_description = session.conversationData.shortDescription;
             objData.urgency = session.conversationData.severity;
-            apiService.createIncidentService(JSON.parse(JSON.stringify(objData)), function (data) {
+            apiService.createIncidentService(JSON.parse(JSON.stringify(objData)), reqType, function (data) {
                 console.log('Incident No : ',data.result.number);
                 console.log('Total Response : ',JSON.stringify(data));
                 var objFinalData = new jsonData.incidentCreatedData();

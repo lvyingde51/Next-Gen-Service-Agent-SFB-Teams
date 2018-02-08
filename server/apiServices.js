@@ -127,10 +127,10 @@
         }
     };
 
-    function createIncidentService(dataService, callback) {
+    function createIncidentService(dataService, type, callback) {
         try {
             var options = {
-                url: 'https://dev18442.service-now.com/api/now/v1/table/incident',
+                url: apiList[type],
                 method: 'POST',
                 header: header,
                 body: dataService,
