@@ -66,7 +66,7 @@
                     });
                 } else {
                     log.consoleDefault(commonTemplate.incidentStatus[data.result[0].state][lang]);
-                    let msg = 'These are the details of the requested Service Request:- <br/>Requested Item Number : ' + session.conversationData.SRNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Installation Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Approval: ' + data.result[0].approval.toUpperCase() + ' <br/>Stage: ' + data.result[0].stage.toUpperCase().split('_').join(' ') + ' <br/>Due Date: ' + data.result[0].due_date;
+                    let msg = 'These are the details of the requested Service Request:- <br/>Requested Item Number : ' + session.conversationData.SRNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Installation Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Approval: ' + data.result[0].approval.toUpperCase() + ' <br/>Stage: ' + data.result[0].stage.toUpperCase().split('_').join(' ') + ' <br/>Due Date: ' + data.result[0].due_date.toDateString();
                     session.endDialog(msg);
                 }
             });
@@ -100,7 +100,7 @@
             //Filter out JSON from previous API call and display the status of Incident from **servicestatusArr**
             log.consoleDefault(servicestatusArr);
             let arrIndex = servicestatusArr.findIndex(x => x.number == session.conversationData.SRNumber);
-            let msg = 'These are the details of the requested Service Request:- <br/>Requested Item Number : ' + session.conversationData.SRNumber + ' <br/>Short Description : ' + servicestatusArr[arrIndex].short_description + ' <br/>Installation Status: ' + commonTemplate.incidentStatus[servicestatusArr[arrIndex].state][lang] + ' <br/>Approval: ' + servicestatusArr[arrIndex].approval.toUpperCase() + ' <br/>Stage: ' + servicestatusArr[arrIndex].Zstage.toUpperCase().split('_').join(' ') + ' <br/>Due Date: ' + servicestatusArr[arrIndex].due_date;
+            let msg = 'These are the details of the requested Service Request:- <br/>Requested Item Number : ' + session.conversationData.SRNumber + ' <br/>Short Description : ' + servicestatusArr[arrIndex].short_description + ' <br/>Installation Status: ' + commonTemplate.incidentStatus[servicestatusArr[arrIndex].state][lang] + ' <br/>Approval: ' + servicestatusArr[arrIndex].approval.toUpperCase() + ' <br/>Stage: ' + servicestatusArr[arrIndex].Zstage.toUpperCase().split('_').join(' ') + ' <br/>Due Date: ' + servicestatusArr[arrIndex].due_date.toDateString();
             session.endDialog(msg);
         }
     ];
