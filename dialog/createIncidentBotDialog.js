@@ -37,8 +37,21 @@
             if(session.conversationData.shortDescription == '' || session.conversationData.shortDescription == undefined) {
                 builder.Prompts.text(session, 'I need your (short) description of the incident');
             } else {
+                builder.Prompts.choice(session, 'We noticed you have given a short Description at the start of the conversation ie., `'+session.conversationData.shortDescription+'` Can we take it as the description of the incident?', ['yes', 'no']);
+                
+            }
+        },
+        function(session, results) {
+            if(results.response.entity == 'yes') {
                 session.endDialog();
                 session.beginDialog('category', function(err) {
+                    if(err) {
+                        session.send(new builder.Message().text('Error Occurred with category' + err.message));
+                    }
+                });
+            } else {
+                session.endDialog();
+                session.beginDialog('shortDescription', function(err) {
                     if(err) {
                         session.send(new builder.Message().text('Error Occurred with category' + err.message));
                     }
