@@ -12,6 +12,7 @@ var incidentStatusBotDialog = require('./dialog/incidentStatusBotDialog');
 var requestStatusDialog = require('./dialog/requestStatusDialog');
 var requestStatusBotDialog = require('./dialog/requestStatusBotDialog');
 var QnAClient = require('./lib/client');
+var defaultBotDialog = require('./dialog/defaultBotDialog');
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -99,7 +100,11 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 .matches('<yourIntent>')... See details at http://docs.botframework.com/builder/node/guides/understanding-natural-language/
 */
 .onDefault((session) => {
-    session.send('Sorry, I did not understand \'%s\'.', session.message.text);
+    session.beginDialog('default', function(err) {
+        if(err) {
+            session.send(new builder.Message().text('Error Occurred with default: ' + err.message));
+        }
+    }); 
 });
 console.log('Matched intent is '+JSON.stringify(intents));
 
@@ -123,6 +128,7 @@ bot.dialog('isSearchByList', incidentStatusBotDialog.prevIncidents);
 bot.dialog('srStatus', requestStatusBotDialog.beginDialog);
 bot.dialog('srSearchById', requestStatusBotDialog.serviceID);
 bot.dialog('srSearchByList', requestStatusBotDialog.prevIncidents);
+bot.dialog('default', defaultBotDialog.beginDialog);
 bot.recognizer({
     recognize: function (context, done) {
     var intent = { score: 0.0 };
