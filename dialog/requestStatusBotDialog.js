@@ -17,7 +17,7 @@
         function (session, results) {
             session.conversationData.SRSearchType = results.response.entity;
 
-            if (session.conversationData.SRSearchType === 'By Service Id') {
+            if (session.conversationData.SRSearchType === 'By Service ID') {
                 session.beginDialog('srSearchById', function (err) {
                     if (err) {
                         session.send(new builder.Message().text('Error Occurred with isSearchById ' + err.message));

@@ -5,7 +5,7 @@
     var log = require('../utils/logs');
 
     exports.load = function(intentDialog) {
-        intentDialog.matches('SR.Create', createServiceRequest)
+        intentDialog.matches('Create.SR', createServiceRequest)
     }
     
     var createServiceRequest = [(session,args) => {
