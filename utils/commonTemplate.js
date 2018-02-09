@@ -9,6 +9,13 @@
         this.json = true;
     }
 
+    function statusUpdate() {
+        this.caller_id = null;
+        this.comments = null;
+        this.incident_state = null;
+        this.json = true;
+    }
+
     function incidentCreatedData() {
         this.incidentid = null;
         this.urgency = null;
@@ -87,4 +94,5 @@
     module.exports.apiList = apiList;
     module.exports.incidentCreatedData = incidentCreatedData;
     module.exports.createSR = createSR;
+    module.exports.statusUpdate = statusUpdate;
 }());

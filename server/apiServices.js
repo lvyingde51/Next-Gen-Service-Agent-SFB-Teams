@@ -159,9 +159,42 @@
             log.consoleDefault(JSON.stringify(err));
         }
     };
+    function updateStatusCommentService(dataService, type, sys_id, callback) {
+        try {
+            var options = {
+                url: apiList[type]+'/'+sys_id,
+                method: 'PATCH',
+                header: header,
+                body: dataService,
+                json: true,
+                auth: {
+                    user: ServiceNowUserName,
+                    password: ServiceNowPwd
+                }
+            };
+
+            requestAPI(options, function (error, response, body) {
+                if (error) {
+                    log.consoleDefault(JSON.stringify(error));
+                    return
+                }
+                else {
+                    log.consoleDefault('headers:' + response.headers);
+                    log.consoleDefault('status code:' + response.statusCode);
+                    callback(body);
+                }
+            });
+        }
+        catch (err) {
+            //let msg = 'Sorry !! It looks like we are experiencing some connection issues here. Please Try Again by creating a new incident!';
+            //session.endDialog(msg);
+            log.consoleDefault(JSON.stringify(err));
+        }
+    };
 
     module.exports.getStatusByNumber = getStatusByNumber;
     module.exports.getStatusByList = getStatusByList;
     module.exports.createIncidentService = createIncidentService;
+    module.exports.updateStatusCommentService = updateStatusCommentService;
     module.exports.getAssignedToDetails = getAssignedToDetails;
 }());
