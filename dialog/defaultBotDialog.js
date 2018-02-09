@@ -11,6 +11,15 @@
     
     module.exports.beginDialog= [
         function (session) {
+            session.conversationData.capturedOption = '';
+            session.conversationData.capturedStr = '';
+            session.conversationData.comment = '';
+            session.conversationData.incident_state = '';
+            session.conversationData.urgency = '';
+            session.conversationData.category = '';
+            session.conversationData.short_description = '';
+            session.conversationData.sys_id = '';
+            
             var textsess = session.message.text;
             if(textsess.match(regex) != null) {
                 session.conversationData.capturedStr = textsess.match(regex);
@@ -80,6 +89,7 @@
                         session.conversationData.urgency = '';
                         session.conversationData.category = '';
                         session.conversationData.short_description = '';
+                        session.conversationData.sys_id = '';
                         session.endDialog(msg);
                     // }
                 });
