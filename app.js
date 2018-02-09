@@ -114,7 +114,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
     //session.send('You reached Cancel intent, you said \'%s\'.', session.message.text);
     //builder.CardAction.dialogAction(session,'goodbyeAction');
     //session.send('goodbye');
-    console.log(`Event Source Name: ${session.message.evetSource} : ${session.message.source} : ${session.message.address.channelId}`);
+    
     session.endConversation("Ok... See you later.");
     
 })
