@@ -161,6 +161,7 @@
     };
     function updateStatusCommentService(dataService, type, sys_id, callback) {
         try {
+            console.log('-- URL --',apiList[type]+'/'+sys_id);
             var options = {
                 url: apiList[type]+'/'+sys_id,
                 method: 'PATCH',
