@@ -145,6 +145,7 @@ bot.dialog('/', intents);
 
 // Custom Dialog Handling Starts Here
 bot.dialog('displayGreeting', welcomeBotDialog.beginGreeting);
+bot.dialog('chooseManagement', welcomeBotDialog.chooseManagement);
 bot.dialog('createIncident', createIncidentBotDialog.beginDialog);
 bot.dialog('shortDescription', createIncidentBotDialog.shortDescription);
 bot.dialog('category', createIncidentBotDialog.category);

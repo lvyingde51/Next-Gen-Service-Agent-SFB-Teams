@@ -15,9 +15,19 @@
                 .text(txt);
             session.send(reply);
             let msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session));
-            session.send(msg);
-        },
-        function (session, results) {
+            session.endDialog(msg);
+
+            session.beginDialog('chooseManagement', function(err) {
+                if(err) {
+                    session.send(new builder.Message().text('Error Occurred with chooseManagement: ' + err.message));
+                }
+            });
+        }
+    ];
+
+    module.exports.chooseManagement = [
+        function (session, args) {
+            log.consoleDefault(session.message.text);
             if (results.response.text.toUpperCase() === 'INCIDENT MANAGEMENT') {
                 let msg = new builder.Message(session).addAttachment(createIncidentHeroCard(session));
                 session.endDialog(msg);
