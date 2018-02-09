@@ -161,7 +161,7 @@
     };
     function updateStatusCommentService(dataService, type, sys_id, callback) {
         try {
-            console.log('-- URL --',apiList[type]+'/'+sys_id);
+            console.log('-- URL --',apiList[type]+'/'+sys_id+'?sysparm_exclude_ref_link=true');
             var options = {
                 url: apiList[type]+'/'+sys_id,
                 method: 'PATCH',
