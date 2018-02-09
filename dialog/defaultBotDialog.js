@@ -23,6 +23,7 @@
             var textsess = session.message.text;
             if(textsess.match(regex) != null) {
                 session.conversationData.capturedStr = textsess.match(regex);
+                console.log('-- incident ID --',session.conversationData.capturedStr);
                 apiService.getStatusByNumber(session.conversationData.capturedStr, reqType, function (data) {
                     log.consoleDefault(JSON.stringify(data));
                     if (!data) {
