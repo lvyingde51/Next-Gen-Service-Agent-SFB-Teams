@@ -31,8 +31,9 @@
                         session.conversationData.urgency = data.result[0].urgency;
                         session.conversationData.category = data.result[0].category;
                         session.conversationData.short_description = data.result[0].short_description;
+                        console.log('--status of incident-- ',session.conversationData.incident_state);
                         // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Canceled
-                        if(session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
+                        if(session.conversationData.incident_state == 'Closed' || session.conversationData.incident_state == 'Canceled') {
                             builder.Prompts.choice(session, 'What do you want to do with the entered incident number?', ['Reopen']);
                         } else {
                             builder.Prompts.choice(session, 'What do you want to do with the entered incident number?', ['add comment', 'Close']);
