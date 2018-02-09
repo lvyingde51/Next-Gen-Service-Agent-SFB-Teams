@@ -44,7 +44,7 @@
                         session.conversationData.short_description = data.result[0].short_description;
                         console.log('--status of incident-- ',session.conversationData.incident_state);
                         // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Canceled
-                        if(session.conversationData.incident_state == 'Closed' || session.conversationData.incident_state == 'Canceled') {
+                        if(session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
                             builder.Prompts.choice(session, 'What do you want to do with the entered incident number?', ['Reopen']);
                         } else {
                             builder.Prompts.choice(session, 'What do you want to do with the entered incident number?', ['add comment', 'Close']);
@@ -76,67 +76,46 @@
                 objData.comments = session.conversationData.comment;
                 objData.incident_state = session.conversationData.incident_state;
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType,session.conversationData.sys_id, function (data) {
-                    // if (!resp) {
-                    //     let msg = 'An error has occurred while fetching the details... Please try again later...';
-                    //     session.endDialog(msg);
-                    //     return false;
-                    // } else {
-                        // log.consoleDefault(JSON.stringify(resp));
-                        let msg = 'Successfully added comment for your incident:- <br/>Incident Id : '+session.conversationData.capturedStr+'<br/>Urgency : '+session.conversationData.urgency+'<br/>Category : '+session.conversationData.category+'<br/>Short Description : '+session.conversationData.short_description+' <br/>Status: '+session.conversationData.incident_state+' <br/> Comments : '+session.conversationData.comment;
-                        session.conversationData.capturedOption = '';
-                        session.conversationData.capturedStr = '';
-                        session.conversationData.comment = '';
-                        session.conversationData.incident_state = '';
-                        session.conversationData.urgency = '';
-                        session.conversationData.category = '';
-                        session.conversationData.short_description = '';
-                        session.conversationData.sys_id = '';
-                        session.endDialog(msg);
-                    // }
+                    let msg = 'Successfully added comment for your incident:- <br/>Incident Id : '+session.conversationData.capturedStr+'<br/>Urgency : '+session.conversationData.urgency+'<br/>Category : '+session.conversationData.category+'<br/>Short Description : '+session.conversationData.short_description+' <br/>Status: '+session.conversationData.incident_state+' <br/> Comments : '+session.conversationData.comment;
+                    session.conversationData.capturedOption = '';
+                    session.conversationData.capturedStr = '';
+                    session.conversationData.comment = '';
+                    session.conversationData.incident_state = '';
+                    session.conversationData.urgency = '';
+                    session.conversationData.category = '';
+                    session.conversationData.short_description = '';
+                    session.conversationData.sys_id = '';
+                    session.endDialog(msg);
                 });
             } else if(session.conversationData.capturedOption == 'Reopen') {
                 session.conversationData.comment = results.response;
                 objData.comments = session.conversationData.comment;
                 objData.incident_state = 'In Progress';
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType,session.conversationData.sys_id, function (data) {
-                    // if (!resp) {
-                    //     let msg = 'An error has occurred while fetching the details... Please try again later...';
-                    //     session.endDialog(msg);
-                    //     return false;
-                    // } else {
-                        //log.consoleDefault(JSON.stringify(resp));
-                        let msg = 'Successfully reopened your incident:- <br/>Incident Id : '+session.conversationData.capturedStr+'<br/>Urgency : '+session.conversationData.urgency+'<br/>Category : '+session.conversationData.category+'<br/>Short Description : '+session.conversationData.short_description+' <br/>Status: '+objData.incident_state+' <br/> Comments : '+session.conversationData.comment;
-                        session.conversationData.capturedOption = '';
-                        session.conversationData.capturedStr = '';
-                        session.conversationData.comment = '';
-                        session.conversationData.incident_state = '';
-                        session.conversationData.urgency = '';
-                        session.conversationData.category = '';
-                        session.conversationData.short_description = '';
-                        session.endDialog(msg);
-                    // }
+                    let msg = 'Successfully reopened your incident:- <br/>Incident Id : '+session.conversationData.capturedStr+'<br/>Urgency : '+session.conversationData.urgency+'<br/>Category : '+session.conversationData.category+'<br/>Short Description : '+session.conversationData.short_description+' <br/>Status: '+objData.incident_state+' <br/> Comments : '+session.conversationData.comment;
+                    session.conversationData.capturedOption = '';
+                    session.conversationData.capturedStr = '';
+                    session.conversationData.comment = '';
+                    session.conversationData.incident_state = '';
+                    session.conversationData.urgency = '';
+                    session.conversationData.category = '';
+                    session.conversationData.short_description = '';
+                    session.endDialog(msg);
                 });
             } else if(session.conversationData.capturedOption == 'Close') {
                 session.conversationData.comment = results.response;
                 objData.comments = session.conversationData.comment;
                 objData.incident_state = 'Closed';
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType, session.conversationData.sys_id,function (data) {
-                    // if (!resp) {
-                    //     let msg = 'An error has occurred while fetching the details... Please try again later...';
-                    //     session.endDialog(msg);
-                    //     return false;
-                    // } else {
-                        //log.consoleDefault(JSON.stringify(resp));
-                        let msg = 'Successfully closed your incident:- <br/>Incident Id : '+session.conversationData.capturedStr+'<br/>Urgency : '+session.conversationData.urgency+'<br/>Category : '+session.conversationData.category+'<br/>Short Description : '+session.conversationData.short_description+' <br/>Status: '+objData.incident_state+' <br/> Comments : '+session.conversationData.comment;
-                        session.conversationData.capturedOption = '';
-                        session.conversationData.capturedStr = '';
-                        session.conversationData.comment = '';
-                        session.conversationData.incident_state = '';
-                        session.conversationData.urgency = '';
-                        session.conversationData.category = '';
-                        session.conversationData.short_description = '';
-                        session.endDialog(msg);
-                    // }
+                    let msg = 'Successfully closed your incident:- <br/>Incident Id : '+session.conversationData.capturedStr+'<br/>Urgency : '+session.conversationData.urgency+'<br/>Category : '+session.conversationData.category+'<br/>Short Description : '+session.conversationData.short_description+' <br/>Status: '+objData.incident_state+' <br/> Comments : '+session.conversationData.comment;
+                    session.conversationData.capturedOption = '';
+                    session.conversationData.capturedStr = '';
+                    session.conversationData.comment = '';
+                    session.conversationData.incident_state = '';
+                    session.conversationData.urgency = '';
+                    session.conversationData.category = '';
+                    session.conversationData.short_description = '';
+                    session.endDialog(msg);
                 });
             }
         }
