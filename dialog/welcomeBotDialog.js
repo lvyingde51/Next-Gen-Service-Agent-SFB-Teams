@@ -15,10 +15,14 @@
                 .text(txt);
             session.send(reply);
             let msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session));
-            session.endDialog(msg);
-
-            session.beginDialog('chooseManagement', function(err) {
-                if(err) {
+            session.send(msg);
+        },
+        function (session, results) {
+            log.consoleDefault('Inside next fun');
+            log.consoleDefault(results);
+            session.endDialog();
+            session.beginDialog('chooseManagement', function (err) {
+                if (err) {
                     session.send(new builder.Message().text('Error Occurred with chooseManagement: ' + err.message));
                 }
             });
@@ -44,10 +48,10 @@
             .title(process.env.AgentName)
             .text(`Greetings from ${process.env.AgentName}`)
             .images([
-                builder.CardImage.create(session,process.env.LogoURL)
+                builder.CardImage.create(session, process.env.LogoURL)
             ])
             .buttons([
-             /*   builder.CardAction.imBack(session, 'Book a Flight', 'Flight Booking Agent'),*/
+                /*   builder.CardAction.imBack(session, 'Book a Flight', 'Flight Booking Agent'),*/
                 builder.CardAction.imBack(session, 'INCIDENT MANAGEMENT', 'INCIDENT MANAGEMENT'),
                 builder.CardAction.imBack(session, 'SERVICE MANAGEMENT', 'SERVICE MANAGEMENT')
                 // builder.CardAction.imBack(session, 'INCIDENT REQUEST', 'INCIDENT REQUEST'),
@@ -59,7 +63,7 @@
         return new builder.HeroCard(session)
             .title(process.env.AgentName)
             .images([
-                builder.CardImage.create(session,process.env.LogoURL)
+                builder.CardImage.create(session, process.env.LogoURL)
             ])
             .buttons([
                 builder.CardAction.imBack(session, 'INCIDENT REQUEST', 'INCIDENT REQUEST'),
@@ -72,7 +76,7 @@
             .title(process.env.AgentName)
             .text(`Greetings from ${process.env.AgentName}`)
             .images([
-                builder.CardImage.create(session,process.env.LogoURL)
+                builder.CardImage.create(session, process.env.LogoURL)
             ])
             .buttons([
                 builder.CardAction.imBack(session, 'SERVICE REQUEST', 'SERVICE REQUEST'),
