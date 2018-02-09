@@ -71,7 +71,7 @@
                 builder.CardImage.create(session, process.env.LogoURL)
             ])
             .buttons([
-                builder.CardAction.imBack(session, 'INCIDENT REQUEST', 'INCIDENT REQUEST'),
+                builder.CardAction.imBack(session, 'CREATE INCIDENT', 'CREATE INCIDENT'),
                 builder.CardAction.imBack(session, 'INCIDENT STATUS', 'INCIDENT STATUS')
             ]);
     }
@@ -84,7 +84,7 @@
                 builder.CardImage.create(session, process.env.LogoURL)
             ])
             .buttons([
-                builder.CardAction.imBack(session, 'SERVICE REQUEST', 'SERVICE REQUEST'),
+                builder.CardAction.imBack(session, 'CREATE SERVICE REQUEST', 'CREATE SERVICE REQUEST'),
                 builder.CardAction.imBack(session, 'SERVICE STATUS', 'SERVICE STATUS')
             ]);
     }
