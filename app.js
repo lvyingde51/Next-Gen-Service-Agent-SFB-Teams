@@ -112,8 +112,10 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 })
 .matches('Cancel', (session) => {
     //session.send('You reached Cancel intent, you said \'%s\'.', session.message.text);
-    builder.CardAction.dialogAction(session,'goodbyeAction');
-    session.send('goodbye');
+    //builder.CardAction.dialogAction(session,'goodbyeAction');
+    //session.send('goodbye');
+    console.log(`Event Source Name: ${session.message.evetSource}`);
+    bot.endConversation("Ok... See you later.");
     
 })
 /*
