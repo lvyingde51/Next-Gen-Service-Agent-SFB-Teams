@@ -117,22 +117,30 @@
 
                 mailer('Create Incident', 'ArunP3@hexaware.com', objFinalData);
 
-                let successMsg = `Successfully created incident:- <br/>- Incident Id : ${data.result.number}<br/>- Urgency : ${objData.urgency}<br/>- Category : ${objData.category}<br/>- Short Description : ${objData.short_description} <br/>- Status: New <br/>- Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: 'incident status ${data.result.number}'`;                
-                var msg = new builder.Message(session)
-                .text(successMsg)
-                .suggestedActions(
-                    builder.SuggestedActions.create(
-                            session, [
-                                
-                                builder.CardAction.imBack(session, "Create Incident", "Start Over"),
-                                builder.CardAction.imBack(session, "goodbye", "End Conversation")
-                            ]
-                        ));
+                let msg = `Successfully created incident:- <br/>- Incident Id : ${data.result.number}<br/>- Urgency : ${objData.urgency}<br/>- Category : ${objData.category}<br/>- Short Description : ${objData.short_description} <br/>- Status: New <br/>- Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: 'incident status ${data.result.number}'`;                
                 session.conversationData.category = '';
                 session.conversationData.shortDescription = '';
                 session.conversationData.severity = '';
-                session.endDialog(msg);
+                session.send(msg);
+                builder.Prompts.choice(session, "What would you like to do next?", "Start Over|End Conversation", { listStyle: builder.ListStyle.button });
             });
+        },
+        function (session,results) 
+        {
+            if(results.response.entity==='Start Over')
+            {
+             session.endDialog();
+             session.beginDialog('createIncident', function(err) {
+                if(err) {
+                    session.send(new builder.Message().text('Error Occurred with createIncident' + err.message));
+                }
+            });
+            }
+            else
+            {
+            session.endConversation("Ok... See you later.");
+            }
+
         }
     ];
 }());
