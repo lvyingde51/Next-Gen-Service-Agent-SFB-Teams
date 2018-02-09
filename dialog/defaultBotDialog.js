@@ -27,6 +27,7 @@
                         session.endDialog(msg);
                     } else {
                         session.conversationData.sys_id = data.result[0].sys_id;
+                        console.log('-- sys_id --',session.conversationData.sys_id);
                         session.conversationData.incident_state = data.result[0].incident_state;
                         session.conversationData.urgency = data.result[0].urgency;
                         session.conversationData.category = data.result[0].category;
