@@ -14,29 +14,22 @@
                 .address(session.message.address)
                 .text(txt);
             session.send(reply);
-            let msg = new builder.Message(session).addAttachment(createHeroCard(session));
+            let msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session));
             session.send(msg);
         },
         function (session, results) {
-
-            if (results.response.text.toLowerCase() === 'INCIDENT MANAGEMENT') {
-                // session.beginDialog('isSearchById', function (err) {
-                //     if (err) {
-                //         session.send(new builder.Message().text('Error Occurred with INCIDENT MANAGEMENT ' + err.message));
-                //     }
-                // });
+            if (results.response.text.toUpperCase() === 'INCIDENT MANAGEMENT') {
+                let msg = new builder.Message(session).addAttachment(createIncidentHeroCard(session));
+                session.endDialog(msg);
             }
-            if (session.conversationData.ISSearchType === 'SERVICE MANAGEMENT') {
-                // session.beginDialog('isSearchByList', function (err) {
-                //     if (err) {
-                //         session.send(new builder.Message().text('Error Occurred with SERVICE MANAGEMENT ' + err.message));
-                //     }
-                // });
+            if (results.response.text.toUpperCase() === 'SERVICE MANAGEMENT') {
+                let msg = new builder.Message(session).addAttachment(createServiceHeroCard(session));
+                session.endDialog(msg);
             }
         }
     ];
 
-    function createHeroCard(session) {
+    function createWelcomeHeroCard(session) {
         return new builder.HeroCard(session)
             .title(process.env.AgentName)
             .text(`Greetings from ${process.env.AgentName}`)
@@ -49,6 +42,31 @@
                 builder.CardAction.imBack(session, 'SERVICE MANAGEMENT', 'SERVICE MANAGEMENT')
                 // builder.CardAction.imBack(session, 'INCIDENT REQUEST', 'INCIDENT REQUEST'),
                 // builder.CardAction.imBack(session, 'INCIDENT STATUS', 'INCIDENT STATUS')
+            ]);
+    }
+
+    function createIncidentHeroCard(session) {
+        return new builder.HeroCard(session)
+            .title(process.env.AgentName)
+            .images([
+                builder.CardImage.create(session,process.env.LogoURL)
+            ])
+            .buttons([
+                builder.CardAction.imBack(session, 'INCIDENT REQUEST', 'INCIDENT REQUEST'),
+                builder.CardAction.imBack(session, 'INCIDENT STATUS', 'INCIDENT STATUS')
+            ]);
+    }
+
+    function createServiceHeroCard(session) {
+        return new builder.HeroCard(session)
+            .title(process.env.AgentName)
+            .text(`Greetings from ${process.env.AgentName}`)
+            .images([
+                builder.CardImage.create(session,process.env.LogoURL)
+            ])
+            .buttons([
+                builder.CardAction.imBack(session, 'SERVICE REQUEST', 'SERVICE REQUEST'),
+                builder.CardAction.imBack(session, 'SERVICE STATUS', 'SERVICE STATUS')
             ]);
     }
 }());
