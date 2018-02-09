@@ -69,10 +69,10 @@
             }
         },
         function(session, results) {
+            var objData = new jsonData.statusUpdate();
+            objData.caller_id = 'rubin.crotts@example.com';
             if(session.conversationData.capturedOption == 'add comment') {
                 session.conversationData.comment = results.response;
-                var objData = new jsonData.statusUpdate();
-                objData.caller_id = 'rubin.crotts@example.com';
                 objData.comments = session.conversationData.comment;
                 objData.incident_state = session.conversationData.incident_state;
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType,session.conversationData.sys_id, function (data) {
