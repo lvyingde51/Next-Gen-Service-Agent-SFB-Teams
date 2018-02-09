@@ -32,13 +32,13 @@
         '3': {
             'ENGLISH': 'On-hold'
         },
-        '4': {
+        '6': {
             'ENGLISH': 'Resolved'
         },
-        '5': {
+        '7': {
             'ENGLISH': 'Closed'
         },
-        '6': {
+        '8': {
             'ENGLISH': 'Cancelled'
         }
     };
