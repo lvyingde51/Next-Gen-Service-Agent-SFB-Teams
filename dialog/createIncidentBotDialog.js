@@ -130,7 +130,7 @@
             if(results.response.entity==='Start Over')
             {
              session.endDialog();
-             session.beginDialog('createIncident', function(err) {
+             session.beginDialog('displayGreeting', function(err) {
                 if(err) {
                     session.send(new builder.Message().text('Error Occurred with createIncident' + err.message));
                 }
