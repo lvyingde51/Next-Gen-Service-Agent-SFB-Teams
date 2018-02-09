@@ -24,7 +24,7 @@
             if(textsess.match(regex) != null) {
                 session.conversationData.capturedStr = textsess.match(regex);
                 apiService.getStatusByNumber(session.conversationData.capturedStr, reqType, function (data) {
-                    //log.consoleDefault(JSON.stringify(data));
+                    log.consoleDefault(JSON.stringify(data));
                     if (!data) {
                         let msg = 'An error has occurred while fetching the details... Please try again later...';
                         session.endDialog(msg);
