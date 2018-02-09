@@ -13,7 +13,7 @@
             var reply = new builder.Message()
                 .address(session.message.address)
                 .text(txt);
-            bot.send(reply);
+            session.send(reply);
             let msg = new builder.Message(session).addAttachment(createHeroCard(session));
             session.send(msg);
         },
