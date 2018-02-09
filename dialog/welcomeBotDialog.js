@@ -19,7 +19,7 @@
                     .text(txt);
                 session.send(reply);
                 let msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session));
-                session.send(msg);
+                session.endDialog(msg);
             }
         },
         function (session, results) {
