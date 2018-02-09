@@ -253,5 +253,5 @@ bot.on('error', function (e) {
 //             builder.CardAction.imBack(session, 'INCIDENT REQUEST', 'INCIDENT REQUEST'),
 //             builder.CardAction.imBack(session, 'INCIDENT STATUS', 'INCIDENT STATUS')
 //         ]);
-}
+// }
 
