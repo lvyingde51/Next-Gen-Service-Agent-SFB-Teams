@@ -5,6 +5,8 @@ Microsoft Bot Framework.
 var restify = require('restify');
 var builder = require('botbuilder');
 var botbuilder_azure = require("botbuilder-azure");
+var welcomeDialog = require('./dialog/welcomeDialog');
+var welcomeBotDialog = require('./dialog/welcomeBotDialog');
 var createIncidentDialog = require('./dialog/createIncidentDialog');
 var createIncidentBotDialog = require('./dialog/createIncidentBotDialog');
 var incidentStatusDialog = require('./dialog/incidentStatusDialog');
@@ -78,17 +80,17 @@ const LuisModelUrl = 'https://' + luisAPIHostName + '/luis/v1/application?id=' +
 // Main dialog with LUIS
 var recognizer = new builder.LuisRecognizer(LuisModelUrl);
 var intents = new builder.IntentDialog({ recognizers: [recognizer] })
-.matches('Greeting', (session) => {
-   // session.send('You reached Bot Welcome intent, you said \'%s\'.', session.message.text);
-  // var isGroup = session.message.address.conversation.isGroup;
-   var txt = `Hi ${session.message.user.name? session.message.user.name : ' '}, I am ${process.env.AgentName}.<br/>I am here to help you out <br/>You can ask me questions like:<br/>- Create high severity incident <br/>- Incident status for 'Incident Number eg:INC0010505' <br/>- Show latest incidents <br/>- Say 'help' for any queries <br/>- Say 'goodbye' to leave conversation`;
-   var reply = new builder.Message()
-           .address(session.message.address)
-           .text(txt);
-   bot.send(reply);
-   let msg = new builder.Message(session).addAttachment(createHeroCard(session));
-   session.send(msg);
-})
+// .matches('Greeting', (session) => {
+//    // session.send('You reached Bot Welcome intent, you said \'%s\'.', session.message.text);
+//   // var isGroup = session.message.address.conversation.isGroup;
+//    var txt = `Hi ${session.message.user.name? session.message.user.name : ' '}, I am ${process.env.AgentName}.<br/>I am here to help you out <br/>You can ask me questions like:<br/>- Create high severity incident <br/>- Incident status for 'Incident Number eg:INC0010505' <br/>- Show latest incidents <br/>- Say 'help' for any queries <br/>- Say 'goodbye' to leave conversation`;
+//    var reply = new builder.Message()
+//            .address(session.message.address)
+//            .text(txt);
+//    bot.send(reply);
+//    let msg = new builder.Message(session).addAttachment(createHeroCard(session));
+//    session.send(msg);
+// })
 .matches('SmallTalk', (session) => {
     
     qnaClient.post({ question: session.message.text }, function (err, res) {
@@ -132,6 +134,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 console.log('Matched intent is '+JSON.stringify(intents));
 
 // Custom Intent Handling Starts Here
+welcomeDialog.load(intents);
 createIncidentDialog.load(intents);
 incidentStatusDialog.load(intents);
 requestStatusDialog.load(intents);
@@ -141,6 +144,7 @@ createServiceRequestDialog.load(intents);
 bot.dialog('/', intents);
 
 // Custom Dialog Handling Starts Here
+bot.dialog('displayGreeting', welcomeBotDialog.beginGreeting);
 bot.dialog('createIncident', createIncidentBotDialog.beginDialog);
 bot.dialog('shortDescription', createIncidentBotDialog.shortDescription);
 bot.dialog('category', createIncidentBotDialog.category);
@@ -237,17 +241,17 @@ bot.on('error', function (e) {
     bot.send(reply);*/
     
 });
-function createHeroCard(session) {
-    return new builder.HeroCard(session)
-        .title(process.env.AgentName)
-        .text(`Greetings from ${process.env.AgentName}`)
-        .images([
-            builder.CardImage.create(session,process.env.LogoURL)
-        ])
-        .buttons([
-         /*   builder.CardAction.imBack(session, 'Book a Flight', 'Flight Booking Agent'),*/
-            builder.CardAction.imBack(session, 'INCIDENT REQUEST', 'INCIDENT REQUEST'),
-            builder.CardAction.imBack(session, 'INCIDENT STATUS', 'INCIDENT STATUS')
-        ]);
+// function createHeroCard(session) {
+//     return new builder.HeroCard(session)
+//         .title(process.env.AgentName)
+//         .text(`Greetings from ${process.env.AgentName}`)
+//         .images([
+//             builder.CardImage.create(session,process.env.LogoURL)
+//         ])
+//         .buttons([
+//          /*   builder.CardAction.imBack(session, 'Book a Flight', 'Flight Booking Agent'),*/
+//             builder.CardAction.imBack(session, 'INCIDENT REQUEST', 'INCIDENT REQUEST'),
+//             builder.CardAction.imBack(session, 'INCIDENT STATUS', 'INCIDENT STATUS')
+//         ]);
 }
 
