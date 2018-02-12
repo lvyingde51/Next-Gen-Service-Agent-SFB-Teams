@@ -37,7 +37,7 @@
     module.exports.shortDescription= [
         function (session) {
             if(session.conversationData.shortDescription == '' || session.conversationData.shortDescription == undefined) {
-                builder.Prompts.text(session, 'I need your (short) description of the incident');
+                builder.Prompts.text(session, 'Please give me a short description of the incident you’d like to report');
             } else {
                 builder.Prompts.choice(session, 'We noticed you have given a short Description at the start of the conversation ie., `'+session.conversationData.shortDescription+'` Can we take it as the description of the incident?', ['yes', 'no']);
                 
