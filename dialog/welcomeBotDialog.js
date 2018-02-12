@@ -25,12 +25,12 @@
                 session.send(reply);
 
                 switch (session.message.source) {
-                    case 'slack':
-                        let msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session));
-                        session.endDialog(msg);
-                        break;
                     case 'skypeforbusiness':
                         builder.Prompts.choice(session, 'Choose a service', ['Incident Management', 'Service Management']);
+                        break;
+                    default:
+                        let msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session));
+                        session.endDialog(msg);
                         break;
                 }
             }
@@ -38,11 +38,11 @@
         function (session, results) {
             log.consoleDefault(results);
 
-            if(results.response.entity) {
+            if (results.response.entity) {
                 let resp = results.response.entity;
                 session.conversationData.GreetingType = resp.toUpperCase();
             }
-            
+
             session.endDialog();
             session.beginDialog('chooseManagement', function (err) {
                 if (err) {
