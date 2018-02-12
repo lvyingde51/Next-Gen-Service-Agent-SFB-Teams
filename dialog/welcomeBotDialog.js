@@ -11,9 +11,11 @@
         function (session, args, next) {
             log.consoleDefault(session.message.source);
             log.consoleDefault(session.message.text);
-            log.consoleDefault(session.conversationData.GreetingType);
+            log.consoleDefault(session.conversationData.GreetingType.toUpperCase());
+            log.consoleDefault(session.message.text.toUpperCase() == 'INCIDENT MANAGEMENT');
             if (session.message.text.toUpperCase() == 'INCIDENT MANAGEMENT' || session.message.text.toUpperCase() == 'SERVICE MANAGEMENT') {
                 session.conversationData.GreetingType = session.message.text.toUpperCase();
+                log.consoleDefault(session.conversationData.GreetingType);
                 next({ response: session.conversationData.GreetingType });
             } else {
                 var txt = `Hi ${session.message.user.name ? session.message.user.name : ' '}, I am ${process.env.AgentName}.<br/>I am here to help you out <br/>You can ask me questions like:<br/>- Create high severity incident <br/>- Incident status for 'Incident Number eg:INC0010505' <br/>- Show latest incidents <br/>- Say 'help' for any queries <br/>- Say 'goodbye' to leave conversation`;
