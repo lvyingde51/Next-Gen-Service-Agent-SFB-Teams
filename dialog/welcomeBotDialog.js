@@ -4,16 +4,13 @@
     var builder = require('botbuilder');
     var log = require('../utils/logs');
     var commonTemplate = require('../utils/commonTemplate');
-    var botMessages = require('../utils/botDialogs');
     const lang = 'ENGLISH';
 
     // Incident Request Status List
     module.exports.beginGreeting = [
         function (session, args, next) {
             log.consoleDefault(session.message.source);
-            log.consoleDefault(session.message.text);
             if (session.message.text.toUpperCase() == 'INCIDENT MANAGEMENT' || session.message.text.toUpperCase() == 'SERVICE MANAGEMENT') {
-                console.log('Post Greeting Event fired');
                 session.conversationData.GreetingType = session.message.text.toUpperCase();
                 next({ response: session.conversationData.GreetingType });
             } else {
@@ -22,8 +19,6 @@
                     .address(session.message.address)
                     .text(txt);
                 session.send(reply);
-
-                // botMessages.greetingMessage['beginGreeting'](session, session.message.source);
 
                 switch (session.message.source) {
                     case 'slack':
