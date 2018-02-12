@@ -55,8 +55,15 @@
                 }
 
                 if (data.hasOwnProperty('error')) {
-                    let msg = 'Incident Number does not exist in our database. ' + data.error.message + ' Please try again';
+                    let msg = 'Incident Number does not exist in our database. ' + data.error.message + ' Please try again!!!';
                     session.endDialog(msg);
+
+                    session.conversationData.ISIncidentId = '';
+                    session.beginDialog('isSearchById', null, function (err) {
+                        if (err) {
+                            session.send(new builder.Message().text('Error Occurred with isSearchById: ' + err.message));
+                        }
+                    });
                 } else {
                     let assignedTo = data.result[0].assigned_to == '' ? '-' : data.result[0].assigned_to.link;
                     log.consoleDefault(assignedTo);
