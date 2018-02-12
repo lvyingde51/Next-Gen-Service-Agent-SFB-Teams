@@ -27,13 +27,13 @@
                         break;
                     case 'skypeforbusiness':
                         builder.Prompts.choice(session, 'Choose a service', ['INCIDENT MANAGEMENT', 'SERVICE MANAGEMENT']);
-                        session.endDialog();
                         break;
                 }
             }
         },
         function (session, results) {
             log.consoleDefault(results);
+            session.conversationData.GreetingType = results.response.entity;
             session.endDialog();
             session.beginDialog('chooseManagement', function (err) {
                 if (err) {
@@ -55,12 +55,46 @@
                 session.endDialog(msg);
             }
             else if (session.conversationData.GreetingType === 'INCIDENT MANAGEMENT' && session.message.source === 'skypeforbusiness') {
-                builder.Prompts.choice(session, 'Choose a service', ['CREATE INCIDENT', 'INCIDENT STATUS']);
-                session.endDialog();
+                builder.Prompts.choice(session, 'Choose a service', ['Create Incident', 'Incident Status']);
             }
             else if (session.conversationData.GreetingType === 'SERVICE MANAGEMENT' && session.message.source === 'skypeforbusiness') {
-                builder.Prompts.choice(session, 'Choose a service', ['CREATE SERVICE REQUEST', 'SERVICE STATUS']);
-                session.endDialog();
+                builder.Prompts.choice(session, 'Choose a service', ['Create Service Request', 'Service Status']);
+            }
+        },
+        function (session, results) {
+            switch (results.response.entity) {
+                case 'Create Incident':
+                    session.endDialog();
+                    session.beginDialog('createIncident', function (err) {
+                        if (err) {
+                            session.send(new builder.Message().text('Error Occurred with createIncident: ' + err.message));
+                        }
+                    });
+                    break;
+                case 'Incident Status':
+                    session.endDialog();
+                    session.beginDialog('incidentStatus', function (err) {
+                        if (err) {
+                            session.send(new builder.Message().text('Error Occurred with incidentStatus: ' + err.message));
+                        }
+                    });
+                    break;
+                case 'Create Service Request':
+                    session.endDialog();
+                    session.beginDialog('createServiceRequest', function (err) {
+                        if (err) {
+                            session.send(new builder.Message().text('Error Occurred with createServiceRequest: ' + err.message));
+                        }
+                    });
+                    break;
+                case 'Service Status':
+                    session.endDialog();
+                    session.beginDialog('srStatus', function (err) {
+                        if (err) {
+                            session.send(new builder.Message().text('Error Occurred with srStatus: ' + err.message));
+                        }
+                    });
+                    break;
             }
         }
     ];
@@ -73,11 +107,8 @@
                 builder.CardImage.create(session, process.env.LogoURL)
             ])
             .buttons([
-                /*   builder.CardAction.imBack(session, 'Book a Flight', 'Flight Booking Agent'),*/
-                builder.CardAction.imBack(session, 'INCIDENT MANAGEMENT', 'INCIDENT MANAGEMENT'),
-                builder.CardAction.imBack(session, 'SERVICE MANAGEMENT', 'SERVICE MANAGEMENT')
-                // builder.CardAction.imBack(session, 'INCIDENT REQUEST', 'INCIDENT REQUEST'),
-                // builder.CardAction.imBack(session, 'INCIDENT STATUS', 'INCIDENT STATUS')
+                builder.CardAction.imBack(session, 'Incident Management', 'Incident Management'),
+                builder.CardAction.imBack(session, 'Service Management', 'Service Management')
             ]);
     }
 
@@ -88,8 +119,8 @@
                 builder.CardImage.create(session, process.env.LogoURL)
             ])
             .buttons([
-                builder.CardAction.imBack(session, 'CREATE INCIDENT', 'CREATE INCIDENT'),
-                builder.CardAction.imBack(session, 'INCIDENT STATUS', 'INCIDENT STATUS')
+                builder.CardAction.imBack(session, 'Create Incident', 'Create Incident'),
+                builder.CardAction.imBack(session, 'Incident Status', 'Incident Status')
             ]);
     }
 
@@ -101,8 +132,8 @@
                 builder.CardImage.create(session, process.env.LogoURL)
             ])
             .buttons([
-                builder.CardAction.imBack(session, 'CREATE SERVICE REQUEST', 'CREATE SERVICE REQUEST'),
-                builder.CardAction.imBack(session, 'SERVICE STATUS', 'SERVICE STATUS')
+                builder.CardAction.imBack(session, 'Create Service Request', 'Create Service Request'),
+                builder.CardAction.imBack(session, 'Service Status', 'Service Status')
             ]);
     }
 }());
