@@ -11,7 +11,7 @@
         function (session, args, next) {
             log.consoleDefault(session.message.source);
             log.consoleDefault(session.message.text);
-            log.consoleDefault(session.conversationData.GreetingType.toUpperCase());
+            log.consoleDefault(session.message.text.toUpperCase());
             log.consoleDefault(session.message.text.toUpperCase() == 'INCIDENT MANAGEMENT');
             if (session.message.text.toUpperCase() == 'INCIDENT MANAGEMENT' || session.message.text.toUpperCase() == 'SERVICE MANAGEMENT') {
                 session.conversationData.GreetingType = session.message.text.toUpperCase();
