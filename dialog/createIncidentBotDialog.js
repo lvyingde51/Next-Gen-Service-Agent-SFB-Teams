@@ -122,7 +122,8 @@
                 session.conversationData.shortDescription = '';
                 session.conversationData.severity = '';
                 session.send(msg);
-                builder.Prompts.choice(session, "What would you like to do next?", "Start Over|End Conversation");
+                session.endDialog();
+                //builder.Prompts.choice(session, "What would you like to do next?", "Start Over|End Conversation");
             });
         },
         function (session,results) 
