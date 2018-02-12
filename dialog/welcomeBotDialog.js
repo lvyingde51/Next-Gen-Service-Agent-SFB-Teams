@@ -126,7 +126,7 @@
         return new builder.HeroCard(session)
             .title(process.env.AgentName)
             .images([
-                builder.CardImage.create(session, process.env.LogoURL)
+                builder.CardImage.create(session, process.env.IncidentLogo)
             ])
             .buttons([
                 builder.CardAction.imBack(session, 'Create Incident', 'Create Incident'),
@@ -139,7 +139,7 @@
             .title(process.env.AgentName)
             .text(`Greetings from ${process.env.AgentName}`)
             .images([
-                builder.CardImage.create(session, process.env.LogoURL)
+                builder.CardImage.create(session, process.env.ServiceReqLogo)
             ])
             .buttons([
                 builder.CardAction.imBack(session, 'Create Service Request', 'Create Service Request'),
