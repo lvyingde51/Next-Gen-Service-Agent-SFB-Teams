@@ -27,7 +27,7 @@
                         break;
                     case 'skypeforbusiness':
                         builder.Prompts.choice(session, 'Choose a service', ['INCIDENT MANAGEMENT', 'SERVICE MANAGEMENT']);
-                        session.endDialog(msg);
+                        session.endDialog();
                         break;
                 }
             }
@@ -56,11 +56,11 @@
             }
             else if (session.conversationData.GreetingType === 'INCIDENT MANAGEMENT' && session.message.source === 'skypeforbusiness') {
                 builder.Prompts.choice(session, 'Choose a service', ['CREATE INCIDENT', 'INCIDENT STATUS']);
-                session.endDialog(msg);
+                session.endDialog();
             }
             else if (session.conversationData.GreetingType === 'SERVICE MANAGEMENT' && session.message.source === 'skypeforbusiness') {
                 builder.Prompts.choice(session, 'Choose a service', ['CREATE SERVICE REQUEST', 'SERVICE STATUS']);
-                session.endDialog(msg);
+                session.endDialog();
             }
         }
     ];
