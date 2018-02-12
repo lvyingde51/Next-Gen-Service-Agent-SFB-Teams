@@ -37,8 +37,12 @@
         },
         function (session, results) {
             log.consoleDefault(results);
-            let resp = results.response.entity;
-            session.conversationData.GreetingType = resp.toUpperCase();
+
+            if(results.response.entity) {
+                let resp = results.response.entity;
+                session.conversationData.GreetingType = resp.toUpperCase();
+            }
+            
             session.endDialog();
             session.beginDialog('chooseManagement', function (err) {
                 if (err) {
