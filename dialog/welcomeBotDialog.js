@@ -32,9 +32,11 @@
             }
         },
         function (session, results) {
+            console.log('Inside Post greeting');
             log.consoleDefault(results);
             session.conversationData.GreetingType = results.response.entity;
             session.endDialog();
+            console.log('chooseManagement');
             session.beginDialog('chooseManagement', function (err) {
                 if (err) {
                     session.send(new builder.Message().text('Error Occurred with chooseManagement: ' + err.message));
