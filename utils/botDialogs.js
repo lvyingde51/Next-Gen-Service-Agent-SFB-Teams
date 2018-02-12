@@ -78,4 +78,58 @@
         }
     }
 
+    var greetingMessage = {
+        'beginGreeting': (session, platform) => {
+            switch (platform) {
+                case 'slack':
+                    let msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session));
+                    session.endDialog(msg);
+                    break;
+                case 'skypeforbusiness':
+                    builder.Prompts.choice(session, 'Choose a service', ['Incident Management', 'Service Management']);
+                    break;
+            }
+        }
+    }
+
+    function createWelcomeHeroCard(session) {
+        return new builder.HeroCard(session)
+            .title(process.env.AgentName)
+            .text(`Greetings from ${process.env.AgentName}`)
+            .images([
+                builder.CardImage.create(session, process.env.LogoURL)
+            ])
+            .buttons([
+                builder.CardAction.imBack(session, 'Incident Management', 'Incident Management'),
+                builder.CardAction.imBack(session, 'Service Management', 'Service Management')
+            ]);
+    }
+
+    function createIncidentHeroCard(session) {
+        return new builder.HeroCard(session)
+            .title(process.env.AgentName)
+            .images([
+                builder.CardImage.create(session, process.env.LogoURL)
+            ])
+            .buttons([
+                builder.CardAction.imBack(session, 'Create Incident', 'Create Incident'),
+                builder.CardAction.imBack(session, 'Incident Status', 'Incident Status')
+            ]);
+    }
+
+    function createServiceHeroCard(session) {
+        return new builder.HeroCard(session)
+            .title(process.env.AgentName)
+            .text(`Greetings from ${process.env.AgentName}`)
+            .images([
+                builder.CardImage.create(session, process.env.LogoURL)
+            ])
+            .buttons([
+                builder.CardAction.imBack(session, 'Create Service Request', 'Create Service Request'),
+                builder.CardAction.imBack(session, 'Service Status', 'Service Status')
+            ]);
+    }
+
+    module.exports.greetingMessage = greetingMessage;
+
 }());

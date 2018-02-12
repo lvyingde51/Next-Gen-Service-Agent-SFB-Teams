@@ -4,6 +4,7 @@
     var builder = require('botbuilder');
     var log = require('../utils/logs');
     var commonTemplate = require('../utils/commonTemplate');
+    var botMessages = require('../utils/botDialogs');
     const lang = 'ENGLISH';
 
     // Incident Request Status List
@@ -20,15 +21,17 @@
                     .text(txt);
                 session.send(reply);
 
-                switch (session.message.source) {
-                    case 'slack':
-                        let msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session));
-                        session.endDialog(msg);
-                        break;
-                    case 'skypeforbusiness':
-                        builder.Prompts.choice(session, 'Choose a service', ['INCIDENT MANAGEMENT', 'SERVICE MANAGEMENT']);
-                        break;
-                }
+                botMessages.greetingMessage['beginGreeting'](session, session.message.source);
+
+                // switch (session.message.source) {
+                //     case 'slack':
+                //         let msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session));
+                //         session.endDialog(msg);
+                //         break;
+                //     case 'skypeforbusiness':
+                //         builder.Prompts.choice(session, 'Choose a service', ['Incident Management', 'Service Management']);
+                //         break;
+                // }
             }
         },
         function (session, results) {
