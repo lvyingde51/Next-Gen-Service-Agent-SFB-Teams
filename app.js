@@ -80,17 +80,6 @@ const LuisModelUrl = 'https://' + luisAPIHostName + '/luis/v1/application?id=' +
 // Main dialog with LUIS
 var recognizer = new builder.LuisRecognizer(LuisModelUrl);
 var intents = new builder.IntentDialog({ recognizers: [recognizer] })
-// .matches('Greeting', (session) => {
-//    // session.send('You reached Bot Welcome intent, you said \'%s\'.', session.message.text);
-//   // var isGroup = session.message.address.conversation.isGroup;
-//    var txt = `Hi ${session.message.user.name? session.message.user.name : ' '}, I am ${process.env.AgentName}.<br/>I am here to help you out <br/>You can ask me questions like:<br/>- Create high severity incident <br/>- Incident status for 'Incident Number eg:INC0010505' <br/>- Show latest incidents <br/>- Say 'help' for any queries <br/>- Say 'goodbye' to leave conversation`;
-//    var reply = new builder.Message()
-//            .address(session.message.address)
-//            .text(txt);
-//    bot.send(reply);
-//    let msg = new builder.Message(session).addAttachment(createHeroCard(session));
-//    session.send(msg);
-// })
 .matches('SmallTalk', (session) => {
     
     qnaClient.post({ question: session.message.text }, function (err, res) {
@@ -113,10 +102,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
     session.send(`I am here to help you out <br/>You can ask me questions like:<br/>- Create high severity incident <br/>- Incident status for 'Incident Number eg:INC0010505' <br/>- Show latest incidents <br/>- Say 'help' for any queries <br/>- Say 'goodbye' to leave conversation`);
 })
 .matches('Cancel', (session) => {
-    //session.send('You reached Cancel intent, you said \'%s\'.', session.message.text);
-    //builder.CardAction.dialogAction(session,'goodbyeAction');
-    //session.send('goodbye');
-    
+     
     session.endConversation("Ok... See you later.");
     
 })
@@ -209,32 +195,7 @@ bot.on('conversationUpdate', function (message) {
     }
 });
 
-/*bot.dialog('firstRun', function (session) {  
-    console.log("first run dialog");  
-    session.userData.firstRun = true;
-    var isGroup = session.message.address.conversation.isGroup;
-    var txt = isGroup ? "Hello everyone!" : `Hi ${session.message.user.name ? session.message.user.name : ' '}, I am BI Service Agent.<br/>I am here to help you out <br/>You can ask me questions like:<br/>- Create high severity incident <br/>- Incident status for "incident number without INC eg:0010505" <br/>- Show latest incidents <br/>- Say help for any queries <br/>- Say 'goodbye' to leave conversation`;
-    var reply = new builder.Message()
-                .text(txt);
-    session.send(reply);
-    session.beginDialog('welcomeCard', function (err) {
-        if (err) {
-            session.send(new builder.Message()
-                .text('Error while opening welcome card: ' + err.message));
-        }
-    });
-}).triggerAction({
-    onFindAction: function (context, callback) {
-        console.log("first run dialog in find action");
-        // Only trigger if we've never seen user before
-        if (!context.userData.firstRun) {
-            // Return a score of 1.1 to ensure the first run dialog wins
-            callback(null, 1.1);
-        } else {
-            callback(null, 0.0);
-        }
-    }
-});*/
+
 bot.on('error', function (e) {
     console.log('And error ocurred', e);
    /* var reply = new builder.Message()
@@ -242,17 +203,6 @@ bot.on('error', function (e) {
     bot.send(reply);*/
     
 });
-// function createHeroCard(session) {
-//     return new builder.HeroCard(session)
-//         .title(process.env.AgentName)
-//         .text(`Greetings from ${process.env.AgentName}`)
-//         .images([
-//             builder.CardImage.create(session,process.env.LogoURL)
-//         ])
-//         .buttons([
-//          /*   builder.CardAction.imBack(session, 'Book a Flight', 'Flight Booking Agent'),*/
-//             builder.CardAction.imBack(session, 'INCIDENT REQUEST', 'INCIDENT REQUEST'),
-//             builder.CardAction.imBack(session, 'INCIDENT STATUS', 'INCIDENT STATUS')
-//         ]);
-// }
-
+bot.dialog('helpDialog', function (session) {
+ session.endDialog(`I am here to help you out <br/>You can ask me questions like:<br/>- Create high severity incident <br/>- Incident status for 'Incident Number eg:INC0010505' <br/>- Show latest incidents <br/>- Say 'help' for any queries <br/>- Say 'goodbye' to leave conversation`);
+}).triggerAction({ matches: 'Help' });
