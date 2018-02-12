@@ -19,12 +19,20 @@
                     .address(session.message.address)
                     .text(txt);
                 session.send(reply);
-                let msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session));
-                session.endDialog(msg);
+
+                switch (session.message.source) {
+                    case 'slack':
+                        let msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session));
+                        session.endDialog(msg);
+                        break;
+                    case 'skypeforbusiness':
+                        builder.Prompts.choice(session, 'Choose a service', ['INCIDENT MANAGEMENT', 'SERVICE MANAGEMENT']);
+                        session.endDialog(msg);
+                        break;
+                }
             }
         },
         function (session, results) {
-            log.consoleDefault('Inside next fun');
             log.consoleDefault(results);
             session.endDialog();
             session.beginDialog('chooseManagement', function (err) {
@@ -38,12 +46,20 @@
     module.exports.chooseManagement = [
         function (session, args) {
             log.consoleDefault(session.message.text);
-            if (session.conversationData.GreetingType === 'INCIDENT MANAGEMENT') {
+            if (session.conversationData.GreetingType === 'INCIDENT MANAGEMENT' && session.message.source != 'skypeforbusiness') {
                 let msg = new builder.Message(session).addAttachment(createIncidentHeroCard(session));
                 session.endDialog(msg);
             }
-            if (session.conversationData.GreetingType === 'SERVICE MANAGEMENT') {
+            else if (session.conversationData.GreetingType === 'SERVICE MANAGEMENT' && session.message.source != 'skypeforbusiness') {
                 let msg = new builder.Message(session).addAttachment(createServiceHeroCard(session));
+                session.endDialog(msg);
+            }
+            else if (session.conversationData.GreetingType === 'INCIDENT MANAGEMENT' && session.message.source === 'skypeforbusiness') {
+                builder.Prompts.choice(session, 'Choose a service', ['CREATE INCIDENT', 'INCIDENT STATUS']);
+                session.endDialog(msg);
+            }
+            else if (session.conversationData.GreetingType === 'SERVICE MANAGEMENT' && session.message.source === 'skypeforbusiness') {
+                builder.Prompts.choice(session, 'Choose a service', ['CREATE SERVICE REQUEST', 'SERVICE STATUS']);
                 session.endDialog(msg);
             }
         }
