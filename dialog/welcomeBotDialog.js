@@ -11,6 +11,7 @@
     module.exports.beginGreeting = [
         function (session, args, next) {
             log.consoleDefault(session.message.source);
+            log.consoleDefault(session.message.text);
             if (session.message.text.toUpperCase() == 'INCIDENT MANAGEMENT' || session.message.text.toUpperCase() == 'SERVICE MANAGEMENT') {
                 session.conversationData.GreetingType = session.message.text.toUpperCase();
                 next({ response: session.conversationData.GreetingType });
