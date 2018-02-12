@@ -32,11 +32,9 @@
             }
         },
         function (session, results) {
-            console.log('Inside Post greeting');
             log.consoleDefault(results);
             session.conversationData.GreetingType = results.response.entity;
             session.endDialog();
-            console.log('chooseManagement');
             session.beginDialog('chooseManagement', function (err) {
                 if (err) {
                     session.send(new builder.Message().text('Error Occurred with chooseManagement: ' + err.message));
@@ -48,18 +46,18 @@
     module.exports.chooseManagement = [
         function (session, args) {
             log.consoleDefault(session.message.text);
-            if (session.conversationData.GreetingType.toUpperCase() === 'INCIDENT MANAGEMENT' && session.message.source != 'skypeforbusiness') {
+            if (session.conversationData.GreetingType === 'Incident Management' && session.message.source != 'skypeforbusiness') {
                 let msg = new builder.Message(session).addAttachment(createIncidentHeroCard(session));
                 session.endDialog(msg);
             }
-            else if (session.conversationData.GreetingType.toUpperCase() === 'SERVICE MANAGEMENT' && session.message.source != 'skypeforbusiness') {
+            else if (session.conversationData.GreetingType === 'Service Management' && session.message.source != 'skypeforbusiness') {
                 let msg = new builder.Message(session).addAttachment(createServiceHeroCard(session));
                 session.endDialog(msg);
             }
-            else if (session.conversationData.GreetingType.toUpperCase() === 'INCIDENT MANAGEMENT' && session.message.source === 'skypeforbusiness') {
+            else if (session.conversationData.GreetingType === 'Incident Management' && session.message.source === 'skypeforbusiness') {
                 builder.Prompts.choice(session, 'Choose a service', ['Create Incident', 'Incident Status']);
             }
-            else if (session.conversationData.GreetingType.toUpperCase() === 'SERVICE MANAGEMENT' && session.message.source === 'skypeforbusiness') {
+            else if (session.conversationData.GreetingType === 'Service Management' && session.message.source === 'skypeforbusiness') {
                 builder.Prompts.choice(session, 'Choose a service', ['Create Service Request', 'Service Status']);
             }
         },
