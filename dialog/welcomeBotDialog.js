@@ -13,6 +13,7 @@
             log.consoleDefault(session.message.source);
             log.consoleDefault(session.message.text);
             if (session.message.text.toUpperCase() == 'INCIDENT MANAGEMENT' || session.message.text.toUpperCase() == 'SERVICE MANAGEMENT') {
+                console.log('Post Greeting Event fired');
                 session.conversationData.GreetingType = session.message.text.toUpperCase();
                 next({ response: session.conversationData.GreetingType });
             } else {
