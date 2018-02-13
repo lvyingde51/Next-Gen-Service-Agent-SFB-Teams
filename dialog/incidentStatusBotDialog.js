@@ -6,6 +6,7 @@
     var apiService = require('../server/apiServices');
     var incidentstatusArr = [];
     var commonTemplate = require('../utils/commonTemplate');
+    var pleaseWait = require('../utils/botDialogs').pleaseWait;
     const lang = 'ENGLISH';
     const reqType = 'INCIDENTSTATUS';
 
@@ -46,6 +47,7 @@
         function (session, results) {
             session.conversationData.ISIncidentId = results.response;
             // Make API call to Service Now with Incident Id and get Response...
+            session.send(pleaseWait["DEFAULT"][lang]);
             apiService.getStatusByNumber(session.conversationData.ISIncidentId, reqType, function (data) {
                 log.consoleDefault(JSON.stringify(data));
                 if (!data) {

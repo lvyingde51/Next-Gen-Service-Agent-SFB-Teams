@@ -129,7 +129,14 @@
                 builder.CardAction.imBack(session, 'Service Status', 'Service Status')
             ]);
     }
+    
+    var PLEASE_WAIT_MESSAGE = {
+        "DEFAULT" : {
+            "ENGLISH" : "Please Wait..."
+        }
+    };
 
     module.exports.greetingMessage = greetingMessage;
+    module.exports.pleaseWait = PLEASE_WAIT_MESSAGE;
 
 }());
