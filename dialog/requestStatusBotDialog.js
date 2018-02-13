@@ -96,7 +96,7 @@
         },
         function (session, results) {
             let serviceNumber = results.response.entity.split('-')[0];
-            session.conversationData.SRNumber = serviceNumber;
+            session.conversationData.SRNumber = serviceNumber.trim();
 
             //Filter out JSON from previous API call and display the status of Incident from **servicestatusArr**
             log.consoleDefault(servicestatusArr);
