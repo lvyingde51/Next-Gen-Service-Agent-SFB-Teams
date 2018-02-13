@@ -9,6 +9,8 @@
     var incidentRegex = /^(inc)\w+\d{6}$/gim;
     var serviceRequestRegex = /^(ritm)\w+\d{6}$/gim;
     var reqType = 'INCIDENTSTATUS';
+    const lang = 'ENGLISH';
+    var pleaseWait = require('../utils/botDialogs').pleaseWait;
 
     module.exports.beginDialog = [
         function (session) {
@@ -37,6 +39,7 @@
 
             if (textsess.match(incidentRegex) != null || textsess.match(serviceRequestRegex) != null) {
                 session.conversationData.capturedStr = session.message.text;
+                session.send(pleaseWait["DEFAULT"][lang]);
                 apiService.getStatusByNumber(session.conversationData.capturedStr, reqType, function (data) {
                     log.consoleDefault(JSON.stringify(data));
                     if (!data) {

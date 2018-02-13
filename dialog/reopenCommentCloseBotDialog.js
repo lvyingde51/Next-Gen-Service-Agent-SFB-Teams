@@ -8,6 +8,7 @@
     var mailer = require('../utils/commonMailer').sendMail;
     const lang = 'ENGLISH';
     const reqType = 'INCIDENTSTATUS';
+    var pleaseWait = require('../utils/botDialogs').pleaseWait;
 
     module.exports.reopenIncident= [
         function (session) {
@@ -20,6 +21,7 @@
             if(session.conversationData.IncidentNumber == '' || session.conversationData.IncidentNumber == undefined) {
                 builder.Prompts.text(session, 'Please provide your Incident Id');
             } else {
+                session.send(pleaseWait["DEFAULT"][lang]);
                 apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
                     log.consoleDefault(JSON.stringify(data));
                     if (!data) {
@@ -56,6 +58,7 @@
         function(session, results) {
             if(session.conversationData.IncidentNumber == '' || session.conversationData.IncidentNumber == undefined) {
                 session.conversationData.IncidentNumber = results.response;
+                session.send(pleaseWait["DEFAULT"][lang]);
                 apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
                     log.consoleDefault(JSON.stringify(data));
                     if (!data) {
@@ -92,6 +95,7 @@
                 objData.caller_id = 'rubin.crotts@example.com';
                 objData.comments = session.conversationData.commentReopenIncident;
                 objData.incident_state = 'In Progress';
+                session.send(pleaseWait["DEFAULT"][lang]);
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType,session.conversationData.sys_id, function (data) {
                     let msg = 'Successfully reopened your incident:- <br/>Incident Id : '+session.conversationData.IncidentNumber+'<br/>Category : '+session.conversationData.category+'<br/>Short Description : '+session.conversationData.short_description+' <br/>Status: '+objData.incident_state+' <br/> Comments : '+session.conversationData.commentReopenIncident;
                     session.conversationData.commentReopenIncident = '';
@@ -112,6 +116,7 @@
                 objData.caller_id = 'rubin.crotts@example.com';
                 objData.comments = session.conversationData.commentReopenIncident;
                 objData.incident_state = 'In Progress';
+                session.send(pleaseWait["DEFAULT"][lang]);
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType,session.conversationData.sys_id, function (data) {
                     let msg = 'Successfully reopened your incident:- <br/>Incident Id : '+session.conversationData.IncidentNumber+'<br/>Category : '+session.conversationData.category+'<br/>Short Description : '+session.conversationData.short_description+' <br/>Status: '+objData.incident_state+' <br/> Comments : '+session.conversationData.commentReopenIncident;
                     session.conversationData.commentReopenIncident = '';
@@ -136,6 +141,7 @@
             if(session.conversationData.IncidentNumber == '' || session.conversationData.IncidentNumber == undefined) {
                 builder.Prompts.text(session, 'Please provide your Incident Id');
             } else {
+                session.send(pleaseWait["DEFAULT"][lang]);
                 apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
                     log.consoleDefault(JSON.stringify(data));
                     if (!data) {
@@ -165,6 +171,7 @@
         function(session, results) {
             if(session.conversationData.IncidentNumber == '' || session.conversationData.IncidentNumber == undefined) {
                 session.conversationData.IncidentNumber = results.response;
+                session.send(pleaseWait["DEFAULT"][lang]);
                 apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
                     log.consoleDefault(JSON.stringify(data));
                     if (!data) {
@@ -195,6 +202,7 @@
                 objData.caller_id = 'rubin.crotts@example.com';
                 objData.comments = session.conversationData.commentReopenIncident;
                 objData.incident_state = 'Closed';
+                session.send(pleaseWait["DEFAULT"][lang]);
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType,session.conversationData.sys_id, function (data) {
                     let msg = 'Successfully closed your incident:- <br/>Incident Id : '+session.conversationData.IncidentNumber+'<br/>Category : '+session.conversationData.category+'<br/>Short Description : '+session.conversationData.short_description+' <br/>Status: '+objData.incident_state+' <br/> Comments : '+session.conversationData.commentReopenIncident;
                     session.conversationData.commentReopenIncident = '';
@@ -215,6 +223,7 @@
                 objData.caller_id = 'rubin.crotts@example.com';
                 objData.comments = session.conversationData.commentReopenIncident;
                 objData.incident_state = 'Closed';
+                session.send(pleaseWait["DEFAULT"][lang]);
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType,session.conversationData.sys_id, function (data) {
                     let msg = 'Successfully closed your incident:- <br/>Incident Id : '+session.conversationData.IncidentNumber+'<br/>Category : '+session.conversationData.category+'<br/>Short Description : '+session.conversationData.short_description+' <br/>Status: '+objData.incident_state+' <br/> Comments : '+session.conversationData.commentReopenIncident;
                     session.conversationData.commentReopenIncident = '';
@@ -240,6 +249,7 @@
             if(session.conversationData.IncidentNumber == '' || session.conversationData.IncidentNumber == undefined) {
                 builder.Prompts.text(session, 'Please provide your Incident Id');
             } else {
+                session.send(pleaseWait["DEFAULT"][lang]);
                 apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
                     log.consoleDefault(JSON.stringify(data));
                     if (!data) {
@@ -269,6 +279,7 @@
         function(session, results) {
             if(session.conversationData.IncidentNumber == '' || session.conversationData.IncidentNumber == undefined) {
                 session.conversationData.IncidentNumber = results.response;
+                session.send(pleaseWait["DEFAULT"][lang]);
                 apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
                     log.consoleDefault(JSON.stringify(data));
                     if (!data) {
@@ -298,6 +309,7 @@
                 var objData = new jsonData.statusUpdate();
                 objData.caller_id = 'rubin.crotts@example.com';
                 objData.comments = session.conversationData.commentReopenIncident;
+                session.send(pleaseWait["DEFAULT"][lang]);
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType,session.conversationData.sys_id, function (data) {
                     let msg = 'Successfully added additional comment for your incident:- <br/>Incident Id : '+session.conversationData.IncidentNumber+'<br/>Category : '+session.conversationData.category+'<br/>Short Description : '+session.conversationData.short_description+' <br/>Status: '+objData.incident_state+' <br/> Comments : '+session.conversationData.commentReopenIncident;
                     session.conversationData.commentReopenIncident = '';
@@ -317,6 +329,7 @@
                 var objData = new jsonData.statusUpdate();
                 objData.caller_id = 'rubin.crotts@example.com';
                 objData.comments = session.conversationData.commentReopenIncident;
+                session.send(pleaseWait["DEFAULT"][lang]);
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType,session.conversationData.sys_id, function (data) {
                     let msg = 'Successfully added additional comment for your incident:- <br/>Incident Id : '+session.conversationData.IncidentNumber+'<br/>Category : '+session.conversationData.category+'<br/>Short Description : '+session.conversationData.short_description+' <br/>Status: '+objData.incident_state+' <br/> Comments : '+session.conversationData.commentReopenIncident;
                     session.conversationData.commentReopenIncident = '';

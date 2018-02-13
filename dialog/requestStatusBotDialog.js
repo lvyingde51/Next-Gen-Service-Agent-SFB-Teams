@@ -6,6 +6,7 @@
     var apiService = require('../server/apiServices');
     var servicestatusArr = [];
     var commonTemplate = require('../utils/commonTemplate');
+    var pleaseWait = require('../utils/botDialogs').pleaseWait;
     const lang = 'ENGLISH';
     const reqType = 'SERVICEREQUEST';
 
@@ -46,6 +47,7 @@
         function (session, results) {
             session.conversationData.SRNumber = results.response;
             // Make API call to Service Now with Service Id and get Response...
+            session.send(pleaseWait["DEFAULT"][lang]);
             apiService.getStatusByNumber(session.conversationData.SRNumber, reqType, function (data) {
                 log.consoleDefault(JSON.stringify(data));
                 if (!data) {
@@ -79,6 +81,7 @@
             // Make API call to Service Now and get Response for Last 10 service requests...
             servicestatusArr = [];
             let serviceArr = [];
+            session.send(pleaseWait["DEFAULT"][lang]);
             apiService.getStatusByList(reqType, function (data) {
                 if (!data) {
                     let msg = 'An error has occurred while retrieving the data... Please try again later...';

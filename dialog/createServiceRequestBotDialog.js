@@ -6,6 +6,7 @@
     var log = require('../utils/logs');
     var createSR = require('../utils/commonTemplate').createSR;
     var mailer = require('../utils/commonMailer').sendMail;
+    var pleaseWait = require('../utils/botDialogs').pleaseWait;
     const lang = 'ENGLISH';
     const reqType = 'CREATESERVICEREQUEST';
 
@@ -54,6 +55,7 @@
         function (session) {
             var objSRData = new createSR();
             objSRData.short_description = session.conversationData.SoftwareName;
+            session.send(pleaseWait["DEFAULT"][lang]);
             apiService.createIncidentService(JSON.parse(JSON.stringify(objSRData)), reqType, function (data) {
                 objSRData.sr_ID = data.result.number;
                 mailer('Create Service Request', 'ArunP3@hexaware.com', objSRData);

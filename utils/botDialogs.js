@@ -132,7 +132,7 @@
     
     var PLEASE_WAIT_MESSAGE = {
         "DEFAULT" : {
-            "ENGLISH" : "Please Wait..."
+            "ENGLISH" : "Hold on for a moment..."
         }
     };
 
