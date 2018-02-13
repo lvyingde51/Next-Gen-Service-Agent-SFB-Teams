@@ -120,6 +120,8 @@
 
             //Filter out JSON from previous API call and display the status of Incident from **incidentstatusArr**
             let arrIndex = incidentstatusArr.findIndex(x => x.number == session.conversationData.ISIncidentId);
+            log.consoleDefault(arrIndex);
+            log.consoleDefault(session.conversationData.ISIncidentId);
             let assignedTo = incidentstatusArr[arrIndex].assigned_to == '' ? '-' : incidentstatusArr[arrIndex].assigned_to.link;
             log.consoleDefault(assignedTo);
             if(assignedTo == '-') {
