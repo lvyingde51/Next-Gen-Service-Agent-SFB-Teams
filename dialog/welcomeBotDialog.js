@@ -120,10 +120,10 @@
             //     builder.CardImage.create(session, process.env.LogoURL)
             // ])
             .buttons([
-                builder.CardAction.imBack(session, 'Create Incident', 'Create Incident'),
+               /* builder.CardAction.imBack(session, 'Create Incident', 'Create Incident'),
                 builder.CardAction.imBack(session, 'Get Incidents','Get Incidents'),
                 builder.CardAction.imBack(session, 'Create Service Request', 'Create Service Request'),
-                builder.CardAction.imBack(session, 'Get Service Status','Get Service Status')
+                builder.CardAction.imBack(session, 'Get Service Status','Get Service Status')*/
             ]);
     }
 
