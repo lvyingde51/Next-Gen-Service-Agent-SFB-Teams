@@ -178,7 +178,7 @@
                                 }
                             ]
                         };
-                        console.log(card);
+                        console.log(JSON.stringify(card));
                         var cardMsg = new builder.Message(session)
                             .addAttachment(card);
                         session.conversationData.category = '';
