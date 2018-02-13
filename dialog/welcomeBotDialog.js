@@ -20,8 +20,8 @@
             } else {
                 // var txt = `Hi ${session.message.user.name ? session.message.user.name : ' '}, I am your ${process.env.AgentName}.I can help you create incidents and requests.You can also ask me the status of your incidents/requests.<br/>If you are stuck at any point, you can type ‘help’. Or if you’d like to stop what you are currently doing you can type ‘goodbye’.<br/>How may I help you today?`;
                 // builder.Prompts.choice(session, txt, ['Incident Management', 'Service Management']);
-
-                var txt = `Hi ${session.message.user.name ? session.message.user.name : ' '}, I am your ${process.env.AgentName}. I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/>If you are stuck at any point, you can type ‘help’. Or if you’d like to stop what you are currently doing you can type ‘goodbye’.<br/>How may I help you today?`;
+                
+                var txt = `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I am your ${process.env.AgentName}. I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/>If you are stuck at any point, you can type ‘help’. Or if you’d like to stop what you are currently doing you can type ‘goodbye’.<br/>How may I help you today?`;
                 // var reply = new builder.Message()
                 //     .address(session.message.address)
                 //     .text(txt);
@@ -121,9 +121,9 @@
             // ])
             .buttons([
                 builder.CardAction.imBack(session, 'Create Incident', 'Create Incident'),
-                builder.CardAction.imBack(session, 'Get Incidents', 'Incident Status'),
+                builder.CardAction.imBack(session, 'Incident Status','Get Incidents'),
                 builder.CardAction.imBack(session, 'Create Service Request', 'Create Service Request'),
-                builder.CardAction.imBack(session, 'Get Service Status', 'Service Status')
+                builder.CardAction.imBack(session,  'Service Status','Get Service Status')
             ]);
     }
 
