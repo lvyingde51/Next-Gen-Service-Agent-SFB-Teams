@@ -188,7 +188,6 @@
                         session.conversationData.severity = '';
                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
         .title('Successfully Created Incident')
-        .subtitle(`The details updated with the incident are listed below,`)
         .text(`Incident Id : ${data.result.number}<br/>Category : ${objData.category}<br/>Short Description : ${objData.short_description}<br/>you can check status of your incident by typing your incident number eg: <b>incident status INC1234567</b>`)
         .subtitle('Your incident will be assigned to a live agent shortly and your incident will be followed from there')
         ));
