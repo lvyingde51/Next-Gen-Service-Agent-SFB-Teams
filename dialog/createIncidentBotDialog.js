@@ -189,13 +189,13 @@
                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
         .title('Successfully Created Incident')
         .subtitle(`The details updated with the incident are listed below,`)
-        .text(`Incident Id : ${data.result.number}<br/>- Urgency : ${objData.urgency}<br/>- Category : ${objData.category}<br/>- Short Description : ${objData.short_description} <br/>- Status: New`)
-        .subtitle('Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: <b>incident status INC1234567</b>')
+        .text(`Incident Id : ${data.result.number}<br/>Category : ${objData.category}<br/>Short Description : ${objData.short_description}<br/>you can check status of your incident by typing your incident number eg: <b>incident status INC1234567</b>`)
+        .subtitle('Your incident will be assigned to a live agent shortly and your incident will be followed from there')
         ));
                         session.endDialog();
                         break;
                     default:
-                        let msg = `Successfully created incident:- <br/>- Incident Id : ${data.result.number}<br/>- Urgency : ${objData.urgency}<br/>- Category : ${objData.category}<br/>- Short Description : ${objData.short_description} <br/>- Status: New <br/>- Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: 'incident status ${data.result.number}'`;                
+                        let msg = `Successfully created incident:- <br/>- Incident Id : ${data.result.number}<br/>- Category : ${objData.category}<br/>- Short Description : ${objData.short_description} <br/>- Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: 'incident status ${data.result.number}'`;                
                         session.conversationData.category = '';
                         session.conversationData.shortDescription = '';
                         session.conversationData.severity = '';
