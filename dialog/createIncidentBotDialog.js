@@ -182,30 +182,16 @@
                         session.endDialog();
                         break;
                     case 'msteams':
-                        var cardTMsg = new builder.ReceiptCard(session)
-        .title('John Doe')
-        .facts([
-            builder.Fact.create(session, '1234', 'Order Number'),
-            builder.Fact.create(session, 'VISA 5555-****', 'Payment Method'),
-        ])
-        .items([
-            builder.ReceiptItem.create(session, '$ 38.45', 'Data Transfer')
-                .quantity(368)
-                .image(builder.CardImage.create(session, 'https://github.com/amido/azure-vector-icons/raw/master/renders/traffic-manager.png')),
-            builder.ReceiptItem.create(session, '$ 45.00', 'App Service')
-                .quantity(720)
-                .image(builder.CardImage.create(session, 'https://github.com/amido/azure-vector-icons/raw/master/renders/cloud-service.png'))
-        ])
-        .tax('$ 7.5')
-        .total('$ 90.95')
-        .buttons([
-            builder.CardAction.openUrl(session, 'https://azure.microsoft.com/en-us/pricing/', 'More Information')
-                .image('https://raw.githubusercontent.com/amido/azure-vector-icons/master/renders/microsoft-azure.png')
-        ]);
+                        
                         session.conversationData.category = '';
                         session.conversationData.shortDescription = '';
                         session.conversationData.severity = '';
-                        session.send(cardTMsg);
+                        session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+        .title('Successfully Created Incident')
+        .subtitle(`The details updated with the incident are listed below,`)
+        .text(`Incident Id : ${data.result.number}<br/>- Urgency : ${objData.urgency}<br/>- Category : ${objData.category}<br/>- Short Description : ${objData.short_description} <br/>- Status: New`)
+        .subtitle('Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: <b>incident status INC1234567</b>')
+        ));
                         session.endDialog();
                         break;
                     default:
