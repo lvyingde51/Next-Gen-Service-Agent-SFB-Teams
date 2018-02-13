@@ -50,11 +50,11 @@
                         session.endDialog(msg);
                     } else {
                         if(reqType === 'SERVICEREQUEST') {
-                            let msg = 'These are the details of the requested Service Request:- <br/>Requested Item Number : ' + session.conversationData.SRNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Installation Status: ' + jsonData.incidentStatus[data.result[0].state][lang] + ' <br/>Approval: ' + data.result[0].approval.toUpperCase() + ' <br/>Stage: ' + data.result[0].stage.toUpperCase().split('_').join(' ') + ' <br/>Due Date: ' + data.result[0].due_date;
+                            let msg = 'These are the details of the requested Service Request:- <br/>Requested Item Number : ' + session.conversationData.capturedStr + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Installation Status: ' + jsonData.incidentStatus[data.result[0].state][lang] + ' <br/>Approval: ' + data.result[0].approval.toUpperCase() + ' <br/>Stage: ' + data.result[0].stage.toUpperCase().split('_').join(' ') + ' <br/>Due Date: ' + data.result[0].due_date;
                             session.endDialog(msg);
                         }
 
-                        if(reqType === 'SERVICEREQUEST') {
+                        if(reqType === 'INCIDENTSTATUS') {
                             session.conversationData.sys_id = data.result[0].sys_id;
                             console.log('-- sys_id --', session.conversationData.sys_id);
                             session.conversationData.incident_state = data.result[0].incident_state;
