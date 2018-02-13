@@ -113,9 +113,9 @@
         return new builder.HeroCard(session)
             .title(process.env.AgentName)
             .text(`Greetings from ${process.env.AgentName}`)
-            .images([
-                builder.CardImage.create(session, process.env.LogoURL)
-            ])
+            // .images([
+            //     builder.CardImage.create(session, process.env.LogoURL)
+            // ])
             .buttons([
                 builder.CardAction.imBack(session, 'Incident Management', 'Incident Management'),
                 builder.CardAction.imBack(session, 'Service Management', 'Service Management')
@@ -125,9 +125,9 @@
     function createIncidentHeroCard(session) {
         return new builder.HeroCard(session)
             .title(process.env.AgentName)
-            .images([
-                builder.CardImage.create(session, process.env.IncidentLogo)
-            ])
+            // .images([
+            //     builder.CardImage.create(session, process.env.IncidentLogo)
+            // ])
             .buttons([
                 builder.CardAction.imBack(session, 'Create Incident', 'Create Incident'),
                 builder.CardAction.imBack(session, 'Incident Status', 'Incident Status')
@@ -138,9 +138,9 @@
         return new builder.HeroCard(session)
             .title(process.env.AgentName)
             .text(`Greetings from ${process.env.AgentName}`)
-            .images([
-                builder.CardImage.create(session, process.env.ServiceReqLogo)
-            ])
+            // .images([
+            //     builder.CardImage.create(session, process.env.ServiceReqLogo)
+            // ])
             .buttons([
                 builder.CardAction.imBack(session, 'Create Service Request', 'Create Service Request'),
                 builder.CardAction.imBack(session, 'Service Status', 'Service Status')
