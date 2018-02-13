@@ -15,7 +15,6 @@ var requestStatusDialog = require('./dialog/requestStatusDialog');
 var requestStatusBotDialog = require('./dialog/requestStatusBotDialog');
 var createServiceRequestDialog = require('./dialog/createServiceRequestDialog');
 var createServiceRequestBotDialog = require('./dialog/createServiceRequestBotDialog');
-// --- Arun ---
 var reopenIncidentDialog = require('./dialog/reopenIncidentDialog');
 var commentIncidentDialog = require('./dialog/commentIncidentDialog');
 var closeIncidentDialog = require('./dialog/closeIncidentDialog');
@@ -131,7 +130,6 @@ createIncidentDialog.load(intents);
 incidentStatusDialog.load(intents);
 requestStatusDialog.load(intents);
 createServiceRequestDialog.load(intents);
-// --- Arun ---
 reopenIncidentDialog.load(intents);
 commentIncidentDialog.load(intents);
 closeIncidentDialog.load(intents);
