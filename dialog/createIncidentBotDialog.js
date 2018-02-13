@@ -10,28 +10,30 @@
     const reqType = 'CREATEINCIDENT';
 
     module.exports.beginDialog= [
+        // function (session) {
+        //     if(session.conversationData.severity == '' || session.conversationData.severity == undefined) {
+        //         builder.Prompts.choice(session, 'What is the severity?', ['High', 'Medium', 'Low']);
+        //     } else {
+        //         session.endDialog();
+        //         session.beginDialog('shortDescription', function(err) {
+        //             if(err) {
+        //                 session.send(new builder.Message().text('Error Occurred with shortDescription' + err.message));
+        //             }
+        //         });
+        //     }
+        // },
+        // function(session, results) {
         function (session) {
-            if(session.conversationData.severity == '' || session.conversationData.severity == undefined) {
-                builder.Prompts.choice(session, 'What is the severity?', ['High', 'Medium', 'Low']);
-            } else {
+            //if(session.conversationData.severity == '' || session.conversationData.severity == undefined) {
+                //session.conversationData.severity = results.response.entity;
+                session.conversationData.severity = 'High';
                 session.endDialog();
                 session.beginDialog('shortDescription', function(err) {
                     if(err) {
                         session.send(new builder.Message().text('Error Occurred with shortDescription' + err.message));
                     }
                 });
-            }
-        },
-        function(session, results) {
-            if(session.conversationData.severity == '' || session.conversationData.severity == undefined) {
-                session.conversationData.severity = results.response.entity;
-                session.endDialog();
-                session.beginDialog('shortDescription', function(err) {
-                    if(err) {
-                        session.send(new builder.Message().text('Error Occurred with shortDescription' + err.message));
-                    }
-                });
-            }
+            //}
         }
     ];
     module.exports.shortDescription= [
@@ -71,22 +73,25 @@
         }
     ];
     module.exports.category= [
+        // function (session) {
+        //     if(session.conversationData.category == '' || session.conversationData.category == undefined) {
+        //         builder.Prompts.choice(session, 'Choose any one category of the incident from the below list', ['Inquiry/Help','Software','Hardware','Network','Database']);
+        //     } else {
+        //         session.endDialog();
+        //         console.log('Inside the Entity viewResult');
+        //         session.beginDialog('viewResult', function(err) {
+        //             if(err) {
+        //                 session.send(new builder.Message().text('Error Occurred with viewResult' + err.message));
+        //             }
+        //         });
+        //     }
+        // },
+        // function(session, results) {
         function (session) {
             if(session.conversationData.category == '' || session.conversationData.category == undefined) {
-                builder.Prompts.choice(session, 'Choose any one category of the incident from the below list', ['Inquiry/Help','Software','Hardware','Network','Database']);
-            } else {
-                session.endDialog();
-                console.log('Inside the Entity viewResult');
-                session.beginDialog('viewResult', function(err) {
-                    if(err) {
-                        session.send(new builder.Message().text('Error Occurred with viewResult' + err.message));
-                    }
-                });
-            }
-        },
-        function(session, results) {
-            if(session.conversationData.category == '' || session.conversationData.category == undefined) {
-                session.conversationData.category = results.response.entity;
+                //session.conversationData.category = results.response.entity;
+                session.conversationData.category = 'Inquiry/Help';
+            } 
                 console.log('Inside the Non Entity viewResult');
                 session.endDialog();
                 session.beginDialog('viewResult', function(err) {
@@ -94,7 +99,7 @@
                         session.send(new builder.Message().text('Error Occurred with viewResult' + err.message));
                     }
                 });
-            }
+            //}
         }
     ];
     module.exports.viewResult= [
@@ -181,8 +186,20 @@
                         session.send(cardMsg);
                         session.endDialog();
                         break;
+                    case 'msteams':
+                        
+                        session.conversationData.category = '';
+                        session.conversationData.shortDescription = '';
+                        session.conversationData.severity = '';
+                        session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+        .title('Successfully Created Incident')
+        .text(`Incident Id : ${data.result.number}<br/>Category : ${objData.category}<br/>Short Description : ${objData.short_description}<br/>you can check status of your incident by typing your incident number eg: <b>incident status INC1234567</b>`)
+        .subtitle('Your incident will be assigned to a live agent shortly and your incident will be followed from there')
+        ));
+                        session.endDialog();
+                        break;
                     default:
-                        let msg = `Successfully created incident:- <br/>- Incident Id : ${data.result.number}<br/>- Urgency : ${objData.urgency}<br/>- Category : ${objData.category}<br/>- Short Description : ${objData.short_description} <br/>- Status: New <br/>- Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: 'incident status ${data.result.number}'`;                
+                        let msg = `Successfully created incident:- <br/>- Incident Id : ${data.result.number}<br/>- Category : ${objData.category}<br/>- Short Description : ${objData.short_description} <br/>- Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: 'incident status ${data.result.number}'`;                
                         session.conversationData.category = '';
                         session.conversationData.shortDescription = '';
                         session.conversationData.severity = '';

@@ -6,6 +6,7 @@
     var apiService = require('../server/apiServices');
     var incidentstatusArr = [];
     var commonTemplate = require('../utils/commonTemplate');
+    var pleaseWait = require('../utils/botDialogs').pleaseWait;
     const lang = 'ENGLISH';
     const reqType = 'INCIDENTSTATUS';
 
@@ -46,6 +47,7 @@
         function (session, results) {
             session.conversationData.ISIncidentId = results.response;
             // Make API call to Service Now with Incident Id and get Response...
+            session.send(pleaseWait["DEFAULT"][lang]);
             apiService.getStatusByNumber(session.conversationData.ISIncidentId, reqType, function (data) {
                 log.consoleDefault(JSON.stringify(data));
                 if (!data) {
@@ -72,6 +74,7 @@
                         let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: Unassigned';
                         session.endDialog(msg);
                     } else {
+                        session.send(pleaseWait["DEFAULT"][lang]);
                         apiService.getAssignedToDetails(assignedTo, function (resp) {
                             if (!resp) {
                                 let msg = 'An error has occurred while fetching the details... Please try again later...';
@@ -95,6 +98,7 @@
             // Make API call to Service Now and get Response for Last 10 requests...
             incidentstatusArr = [];
             let incidentArr = [];
+            session.send(pleaseWait["DEFAULT"][lang]);
             apiService.getStatusByList(reqType, function (data) {
                 if (!data) {
                     let msg = 'An error has occurred while retrieving the data... Please try again later...';
@@ -113,14 +117,11 @@
             });
         },
         function (session, results) {
-            log.consoleDefault(results.response.entity);
             let incidentId = results.response.entity.split('-')[0];
-            log.consoleDefault(incidentId);
             session.conversationData.ISIncidentId = incidentId.trim();
 
             //Filter out JSON from previous API call and display the status of Incident from **incidentstatusArr**
             let arrIndex = incidentstatusArr.findIndex(x => x.number == session.conversationData.ISIncidentId);
-            log.consoleDefault(arrIndex);
             log.consoleDefault(session.conversationData.ISIncidentId);
             let assignedTo = incidentstatusArr[arrIndex].assigned_to == '' ? '-' : incidentstatusArr[arrIndex].assigned_to.link;
             log.consoleDefault(assignedTo);
@@ -129,6 +130,7 @@
                 session.endDialog(msg);
                 return false;
             } else {
+                session.send(pleaseWait["DEFAULT"][lang]);
                 apiService.getAssignedToDetails(assignedTo, function (resp) {
                     if (!resp) {
                         let msg = 'An error has occurred while fetching the details... Please try again later...';
@@ -153,6 +155,7 @@
     //             session.conversationData.ISIncidentId = args[0].resolution.value;
 
     //             // Make API call to Service Now with Incident Id and get Response...
+    //             session.send(pleaseWait["DEFAULT"][lang]);
     //             apiService.getIncidentStatusByNumber(session.conversationData.ISIncidentId, function (data) {
     //                 log.consoleDefault(JSON.stringify(data));
     //                 if (!data) {
