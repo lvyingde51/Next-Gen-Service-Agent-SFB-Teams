@@ -106,7 +106,7 @@
                     // incidentstatusArr.slice(Math.max(incidentstatusArr.length - 10, 1));
                     log.consoleDefault(incidentstatusArr);
                     for (let count = 0; count < incidentstatusArr.length && count < 10; count++) {
-                        incidentArr.push(incidentstatusArr[count].number);
+                        incidentArr.push(incidentstatusArr[count].number + ' - ' + incidentstatusArr[count].category + ' - ' + incidentstatusArr[count].sys_updated_on);
                     }
                     builder.Prompts.choice(session, 'List of Incidents', incidentArr);
                 }
