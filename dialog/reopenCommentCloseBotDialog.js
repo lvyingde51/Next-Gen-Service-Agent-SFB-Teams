@@ -58,12 +58,6 @@
                 objData.incident_state = 'In Progress';
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType,session.conversationData.sys_id, function (data) {
                     let msg = 'Successfully reopened your incident:- <br/>Incident Id : '+session.conversationData.IncidentNumber+'<br/>Urgency : '+session.conversationData.urgency+'<br/>Category : '+session.conversationData.category+'<br/>Short Description : '+session.conversationData.short_description+' <br/>Status: '+objData.incident_state+' <br/> Comments : '+session.conversationData.commentReopenIncident;
-                    session.conversationData.commentReopenIncident = '';
-                    session.conversationData.incident_state = '';
-                    session.conversationData.urgency = '';
-                    session.conversationData.category = '';
-                    session.conversationData.short_description = '';
-                    session.conversationData.IncidentNumber = '';
                     session.endDialog(msg);
                     return;
                 });
@@ -78,12 +72,6 @@
                 objData.incident_state = 'In Progress';
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType,session.conversationData.sys_id, function (data) {
                     let msg = 'Successfully reopened your incident:- <br/>Incident Id : '+session.conversationData.IncidentNumber+'<br/>Urgency : '+session.conversationData.urgency+'<br/>Category : '+session.conversationData.category+'<br/>Short Description : '+session.conversationData.short_description+' <br/>Status: '+objData.incident_state+' <br/> Comments : '+session.conversationData.commentReopenIncident;
-                    session.conversationData.commentReopenIncident = '';
-                    session.conversationData.incident_state = '';
-                    session.conversationData.urgency = '';
-                    session.conversationData.category = '';
-                    session.conversationData.short_description = '';
-                    session.conversationData.IncidentNumber = '';
                     session.endDialog(msg);
                 });
              }
