@@ -9,7 +9,6 @@
     var incidentRegex = /^(inc)\w+\d{6}$/gim;
     var serviceRequestRegex = /^(ritm)\w+\d{6}$/gim;
     var reqType = 'INCIDENTSTATUS';
-    const lang = 'ENGLISH';
     var pleaseWait = require('../utils/botDialogs').pleaseWait;
 
     module.exports.beginDialog = [
