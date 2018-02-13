@@ -311,7 +311,7 @@
                 objData.comments = session.conversationData.commentReopenIncident;
                 session.send(pleaseWait["DEFAULT"][lang]);
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType,session.conversationData.sys_id, function (data) {
-                    let msg = 'Successfully added additional comment for your incident:- <br/>Incident Id : '+session.conversationData.IncidentNumber+'<br/>Category : '+session.conversationData.category+'<br/>Short Description : '+session.conversationData.short_description+' <br/>Status: '+objData.incident_state+' <br/> Comments : '+session.conversationData.commentReopenIncident;
+                    let msg = 'Successfully added additional comment for your incident:- <br/>Incident Id : '+session.conversationData.IncidentNumber+'<br/>Category : '+session.conversationData.category+'<br/>Short Description : '+session.conversationData.short_description+' <br/>Status: '+session.conversationData.incident_state+' <br/> Comments : '+session.conversationData.commentReopenIncident;
                     session.conversationData.commentReopenIncident = '';
                     session.conversationData.incident_state = '';
                     session.conversationData.urgency = '';
@@ -331,7 +331,7 @@
                 objData.comments = session.conversationData.commentReopenIncident;
                 session.send(pleaseWait["DEFAULT"][lang]);
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType,session.conversationData.sys_id, function (data) {
-                    let msg = 'Successfully added additional comment for your incident:- <br/>Incident Id : '+session.conversationData.IncidentNumber+'<br/>Category : '+session.conversationData.category+'<br/>Short Description : '+session.conversationData.short_description+' <br/>Status: '+objData.incident_state+' <br/> Comments : '+session.conversationData.commentReopenIncident;
+                    let msg = 'Successfully added additional comment for your incident:- <br/>Incident Id : '+session.conversationData.IncidentNumber+'<br/>Category : '+session.conversationData.category+'<br/>Short Description : '+session.conversationData.short_description+' <br/>Status: '+session.conversationData.incident_state+' <br/> Comments : '+session.conversationData.commentReopenIncident;
                     session.conversationData.commentReopenIncident = '';
                     session.conversationData.incident_state = '';
                     session.conversationData.urgency = '';
