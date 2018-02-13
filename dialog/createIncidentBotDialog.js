@@ -116,14 +116,76 @@
                 objFinalData.status = 'New';
 
                 mailer('Create Incident', 'ArunP3@hexaware.com', objFinalData);
-
-                let msg = `Successfully created incident:- <br/>- Incident Id : ${data.result.number}<br/>- Urgency : ${objData.urgency}<br/>- Category : ${objData.category}<br/>- Short Description : ${objData.short_description} <br/>- Status: New <br/>- Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: 'incident status ${data.result.number}'`;                
-                session.conversationData.category = '';
-                session.conversationData.shortDescription = '';
-                session.conversationData.severity = '';
-                session.send(msg);
-                session.endDialog();
-                //builder.Prompts.choice(session, "What would you like to do next?", "Start Over|End Conversation");
+                switch (session.message.source) {
+                    case 'skypeforbusiness':
+                        let msg = `Successfully created incident:- <br/>- Incident Id : ${data.result.number}<br/>- Urgency : ${objData.urgency}<br/>- Category : ${objData.category}<br/>- Short Description : ${objData.short_description} <br/>- Status: New <br/>- Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: 'incident status ${data.result.number}'`;                
+                        session.conversationData.category = '';
+                        session.conversationData.shortDescription = '';
+                        session.conversationData.severity = '';
+                        session.send(msg);
+                        session.endDialog();
+                        break;
+                    default:
+                        let card = {
+                            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                            "type": "AdaptiveCard",
+                            "version": "1.0",
+                            "body": [
+                                {
+                                    "type": "Container",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "text": "Successfully Created Incident",
+                                            "weight": "bolder",
+                                            "size": "medium"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "Container",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "text": "The details updated with the incident are listed below,  ",
+                                            "wrap": true
+                                        },
+                                        {
+                                            "type": "FactSet",
+                                            "facts": [
+                                                {
+                                                    "title": "Incident ID:",
+                                                    "value": "**"+objFinalData.incidentid+"**",
+                                                    "color": "attention"
+                                                },
+                                                {
+                                                    "title": "Category:",
+                                                    "value": ""+objFinalData.category+""
+                                                },
+                                                {
+                                                    "title": "Short Description:",
+                                                    "value": ""+objFinalData.shortDescription+""
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "text": "Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: **incident status "+objFinalData.incidentid+"**",
+                                            "wrap": true
+                                        }
+                                    ]
+                                }
+                            ]
+                        };
+                        var msg = new builder.Message(session)
+                            .addAttachment(card);
+                        session.conversationData.category = '';
+                        session.conversationData.shortDescription = '';
+                        session.conversationData.severity = '';
+                        session.send(msg);
+                        session.endDialog();
+                        break;
+                }
             });
         },
         function (session,results) 
