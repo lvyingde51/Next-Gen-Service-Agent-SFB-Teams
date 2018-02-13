@@ -18,7 +18,7 @@
                 log.consoleDefault(session.conversationData.GreetingType);
                 next({ response: session.conversationData.GreetingType });
             } else {
-                var txt = `Hi ${session.message.user.name ? session.message.user.name : ' '}, I am ${process.env.AgentName}.<br/>I am here to help you out <br/>You can ask me questions like:<br/>- Create high severity incident <br/>- Incident status for 'Incident Number eg:INC0010505' <br/>- Show latest incidents <br/>- Say 'help' for any queries <br/>- Say 'goodbye' to leave conversation`;
+                var txt = `Hi ${session.message.user.name ? session.message.user.name : ' '}, I am your ${process.env.AgentName}.<br/>I can help you create incidents and requests.<br/>You can also ask me the status of your incidents/requests.<br/>If you are stuck at any point, you can type ‘help’. Or if you’d like to stop what you are currently doing you can type ‘goodbye’.<br/>How may I help you today?`;
                 var reply = new builder.Message()
                     .address(session.message.address)
                     .text(txt);
