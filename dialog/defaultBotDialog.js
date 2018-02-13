@@ -8,7 +8,7 @@
     const lang = 'ENGLISH';
     var incidentRegex = /^(inc)\w+\d{6}$/gim;
     var serviceRequestRegex = /^(ritm)\w+\d{6}$/gim;
-    const reqType = 'INCIDENTSTATUS';
+    var reqType = 'INCIDENTSTATUS';
 
     module.exports.beginDialog = [
         function (session) {
@@ -24,6 +24,17 @@
             var textsess = session.message.text;
             console.log(textsess.match(incidentRegex));
             console.log(textsess.match(serviceRequestRegex));
+
+            if(textsess.match(incidentRegex)) {
+                log.consoleDefault('Inside Incident');
+                reqType = 'INCIDENTSTATUS';
+            }
+            else if(textsess.match(serviceRequestRegex)) {
+                log.consoleDefault('Inside Service Request');
+                reqType = 'SERVICEREQUEST';
+            }
+            log.consoleDefault(reqType);
+
             if (textsess.match(incidentRegex) != null || textsess.match(serviceRequestRegex) != null) {
                 session.conversationData.capturedStr = session.message.text;
                 console.log('-- incident ID --', session.conversationData.capturedStr);
