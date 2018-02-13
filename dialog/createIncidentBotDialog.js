@@ -25,9 +25,10 @@
         // },
         // function(session, results) {
         function (session) {
-            //if(session.conversationData.severity == '' || session.conversationData.severity == undefined) {
+            if(session.conversationData.severity == '' || session.conversationData.severity == undefined) {
                 //session.conversationData.severity = results.response.entity;
-                session.conversationData.severity = 'High';
+                session.conversationData.severity = 'Medium';
+            }
                 session.endDialog();
                 session.beginDialog('shortDescription', function(err) {
                     if(err) {
