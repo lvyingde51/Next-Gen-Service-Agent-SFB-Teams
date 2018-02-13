@@ -88,7 +88,7 @@
                     servicestatusArr = data.result.reverse();
                     log.consoleDefault(servicestatusArr);
                     for (let count = 0; count < servicestatusArr.length && count < 10; count++) {
-                        serviceArr.push(servicestatusArr[count].number + ' - '  + ' - ' + servicestatusArr[count].opened_at);
+                        serviceArr.push(servicestatusArr[count].number + ' - ' + servicestatusArr[count].opened_at);
                     }
                     builder.Prompts.choice(session, 'List of Service Requests', serviceArr);
                 }
