@@ -26,7 +26,7 @@
         function (session) {
             //if(session.conversationData.severity == '' || session.conversationData.severity == undefined) {
                 //session.conversationData.severity = results.response.entity;
-                session.conversationData.severity = High;
+                session.conversationData.severity = 'High';
                 session.endDialog();
                 session.beginDialog('shortDescription', function(err) {
                     if(err) {
