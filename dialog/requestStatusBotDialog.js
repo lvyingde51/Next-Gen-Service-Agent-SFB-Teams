@@ -3,6 +3,7 @@
 
     var builder = require('botbuilder');
     var log = require('../utils/logs');
+    var moment = require('moment');
     var apiService = require('../server/apiServices');
     var servicestatusArr = [];
     var commonTemplate = require('../utils/commonTemplate');
@@ -90,8 +91,10 @@
                 } else {
                     servicestatusArr = data.result.reverse();
                     log.consoleDefault(servicestatusArr);
+                    var requestDate = ''; 
                     for (let count = 0; count < servicestatusArr.length && count < 10; count++) {
-                        serviceArr.push(servicestatusArr[count].number + ' - ' + servicestatusArr[count].opened_at);
+                        requestDate = moment(servicestatusArr[count].opened_at).format('LLL');
+                        serviceArr.push(servicestatusArr[count].number + ' - ' + requestDate);
                     }
                     builder.Prompts.choice(session, 'List of Service Requests', serviceArr);
                 }
