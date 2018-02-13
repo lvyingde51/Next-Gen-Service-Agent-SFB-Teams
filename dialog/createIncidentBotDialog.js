@@ -88,9 +88,10 @@
         // },
         // function(session, results) {
         function (session) {
-            //if(session.conversationData.category == '' || session.conversationData.category == undefined) {
+            if(session.conversationData.category == '' || session.conversationData.category == undefined) {
                 //session.conversationData.category = results.response.entity;
                 session.conversationData.category = 'Inquiry/Help';
+            } 
                 console.log('Inside the Non Entity viewResult');
                 session.endDialog();
                 session.beginDialog('viewResult', function(err) {
