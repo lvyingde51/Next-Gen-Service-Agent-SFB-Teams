@@ -5,6 +5,7 @@
     var apiService = require('../server/apiServices');
     var log = require('../utils/logs');
     var jsonData = require('../utils/commonTemplate');
+    var pleaseWait = require('../utils/botDialogs').pleaseWait;
     var mailer = require('../utils/commonMailer').sendMail;
     const lang = 'ENGLISH';
     const reqType = 'CREATEINCIDENT';
@@ -110,6 +111,7 @@
             objData.category = session.conversationData.category;
             objData.short_description = session.conversationData.shortDescription;
             objData.urgency = session.conversationData.severity;
+            session.send(pleaseWait["DEFAULT"][lang]);
             apiService.createIncidentService(JSON.parse(JSON.stringify(objData)), reqType, function (data) {
                 console.log('Incident No : ',data.result.number);
                 console.log('Total Response : ',JSON.stringify(data));
