@@ -177,12 +177,12 @@
                                 }
                             ]
                         };
-                        var msg = new builder.Message(session)
+                        var cardMsg = new builder.Message(session)
                             .addAttachment(card);
                         session.conversationData.category = '';
                         session.conversationData.shortDescription = '';
                         session.conversationData.severity = '';
-                        session.send(msg);
+                        session.send(cardMsg);
                         session.endDialog();
                         break;
                 }
