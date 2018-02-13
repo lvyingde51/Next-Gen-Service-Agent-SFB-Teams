@@ -5,10 +5,10 @@
     var log = require('../utils/logs');
 
     exports.load = function(intentDialog) {
-        intentDialog.matches('Close.Incident', createIncident)
+        intentDialog.matches('Close.Incident', closeIncident)
     }
     
-    var createIncident = [(session,args) => {
+    var closeIncident = [(session,args) => {
 
         log.consoleDefault('*** Close Incident ***'); // Console Start
 

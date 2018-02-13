@@ -5,10 +5,10 @@
     var log = require('../utils/logs');
 
     exports.load = function(intentDialog) {
-        intentDialog.matches('Reopen.Incident', createIncident)
+        intentDialog.matches('Reopen.Incident', reopenIncident)
     }
     
-    var createIncident = [(session,args) => {
+    var reopenIncident = [(session,args) => {
 
         log.consoleDefault('*** Reopen Incident ***'); // Console Start
 

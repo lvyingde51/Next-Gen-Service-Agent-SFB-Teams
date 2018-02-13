@@ -5,10 +5,10 @@
     var log = require('../utils/logs');
 
     exports.load = function(intentDialog) {
-        intentDialog.matches('Comment.Incident', createIncident)
+        intentDialog.matches('Comment.Incident', commentIncident)
     }
     
-    var createIncident = [(session,args) => {
+    var commentIncident = [(session,args) => {
 
         log.consoleDefault('*** Comment Incident ***'); // Console Start
 
