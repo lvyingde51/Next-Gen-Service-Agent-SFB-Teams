@@ -113,7 +113,8 @@
             });
         },
         function (session, results) {
-            session.conversationData.ISIncidentId = results.response.entity;
+            let incidentId = results.response.entity.split('-')[0];
+            session.conversationData.ISIncidentId = incidentId;
 
             //Filter out JSON from previous API call and display the status of Incident from **incidentstatusArr**
             log.consoleDefault(incidentstatusArr);

@@ -95,7 +95,8 @@
             });
         },
         function (session, results) {
-            session.conversationData.SRNumber = results.response.entity;
+            let serviceNumber = results.response.entity.split('-')[0];
+            session.conversationData.SRNumber = serviceNumber;
 
             //Filter out JSON from previous API call and display the status of Incident from **servicestatusArr**
             log.consoleDefault(servicestatusArr);
