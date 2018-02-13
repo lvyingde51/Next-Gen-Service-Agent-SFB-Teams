@@ -156,7 +156,7 @@ bot.dialog('createServiceRequest', createServiceRequestBotDialog.beginDialog);
 bot.dialog('showSoftwareList', createServiceRequestBotDialog.softwareList);
 bot.dialog('createSR', createServiceRequestBotDialog.createSR);
 bot.dialog('default', defaultBotDialog.beginDialog);
-bot.dialog('reopenIncident', reopenCommentCloseBotDialog.ReopenIncident);
+bot.dialog('reopenIncident', reopenCommentCloseBotDialog.reopenIncident);
 bot.dialog('closeIncident', reopenCommentCloseBotDialog.closeIncident);
 bot.dialog('commentIncident', reopenCommentCloseBotDialog.commentIncident);
 bot.recognizer({
