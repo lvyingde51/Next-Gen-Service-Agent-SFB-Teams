@@ -29,7 +29,7 @@
     module.exports.softwareList = [
         function (session) {
             if(session.conversationData.SoftwareName == '' || session.conversationData.SoftwareName == undefined) {
-                builder.Prompts.choice(session, 'Pick a software you want to install', ['Nanoheal','Notepad++','VS Code','Spyder','GTA V']);
+                builder.Prompts.choice(session, 'Pick a software you want to install', ['Nanoheal','Notepad++','VS Code','Spyder','Office 365']);
             } else {
                 session.endDialog();
                 session.beginDialog('createSR', function(err) {
