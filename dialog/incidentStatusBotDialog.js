@@ -113,11 +113,12 @@
             });
         },
         function (session, results) {
+            log.consoleDefault(results.response.entity);
             let incidentId = results.response.entity.split('-')[0];
+            log.consoleDefault(incidentId);
             session.conversationData.ISIncidentId = incidentId;
 
             //Filter out JSON from previous API call and display the status of Incident from **incidentstatusArr**
-            log.consoleDefault(incidentstatusArr);
             let arrIndex = incidentstatusArr.findIndex(x => x.number == session.conversationData.ISIncidentId);
             let assignedTo = incidentstatusArr[arrIndex].assigned_to == '' ? '-' : incidentstatusArr[arrIndex].assigned_to.link;
             log.consoleDefault(assignedTo);
