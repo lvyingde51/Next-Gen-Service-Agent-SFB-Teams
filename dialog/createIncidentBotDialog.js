@@ -116,6 +116,7 @@
                 objFinalData.status = 'New';
 
                 mailer('Create Incident', 'ArunP3@hexaware.com', objFinalData);
+                console.log('$$$$$$$ ',session.message.source);
                 switch (session.message.source) {
                     case 'skypeforbusiness':
                         let msg = `Successfully created incident:- <br/>- Incident Id : ${data.result.number}<br/>- Urgency : ${objData.urgency}<br/>- Category : ${objData.category}<br/>- Short Description : ${objData.short_description} <br/>- Status: New <br/>- Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: 'incident status ${data.result.number}'`;                
