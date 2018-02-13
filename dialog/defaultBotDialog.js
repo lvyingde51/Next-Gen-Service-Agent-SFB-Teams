@@ -49,7 +49,7 @@
                         if(session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
                             builder.Prompts.choice(session, 'What do you want to do with the entered incident number?', ['Reopen']);
                         } else {
-                            builder.Prompts.choice(session, 'What do you want to do with the entered incident number?', ['add comment', 'Close']);
+                            builder.Prompts.choice(session, 'What do you want to do with the entered incident number?', ['Add Comment', 'Close']);
                         }
                     }
                 });
@@ -62,7 +62,7 @@
         function(session, results) {
             
             session.conversationData.capturedOption = results.response.entity;
-            if(results.response.entity == 'add comment') {
+            if(results.response.entity == 'Add Comment') {
                 builder.Prompts.text(session, 'Okay, Please enter the (additional) comments for your incident');
             } else if(results.response.entity == 'Reopen') {
                 builder.Prompts.text(session, 'Okay, Please enter the (additional) comments for your reopening incident');
@@ -73,7 +73,7 @@
         function(session, results) {
             var objData = new jsonData.statusUpdate();
             objData.caller_id = 'rubin.crotts@example.com';
-            if(session.conversationData.capturedOption == 'add comment') {
+            if(session.conversationData.capturedOption == 'Add Comment') {
                 session.conversationData.comment = results.response;
                 objData.comments = session.conversationData.comment;
                 objData.incident_state = session.conversationData.incident_state;
