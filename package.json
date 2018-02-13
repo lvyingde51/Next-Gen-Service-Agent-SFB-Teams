@@ -6,9 +6,10 @@
   "dependencies": {
     "botbuilder": "^3.13.1",
     "botbuilder-azure": "^3.0.4",
+    "moment": "^2.20.1",
     "nodemailer": "^4.4.2",
-    "restify": "^5.0.0",
-    "request-promise": "^4.2.2"
+    "request-promise": "^4.2.2",
+    "restify": "^5.0.0"
   },
   "devDependencies": {
     "request": "^2.83.0",

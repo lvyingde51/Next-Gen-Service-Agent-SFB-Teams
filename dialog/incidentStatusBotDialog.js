@@ -3,6 +3,7 @@
 
     var builder = require('botbuilder');
     var log = require('../utils/logs');
+    var moment = require('moment');
     var apiService = require('../server/apiServices');
     var incidentstatusArr = [];
     var commonTemplate = require('../utils/commonTemplate');
@@ -109,8 +110,10 @@
                     // incidentstatusArr.slice((incidentstatusArr.length - 10), incidentstatusArr.length);
                     // incidentstatusArr.slice(Math.max(incidentstatusArr.length - 10, 1));
                     log.consoleDefault(incidentstatusArr);
+                    var incidentDate = ''; 
                     for (let count = 0; count < incidentstatusArr.length && count < 10; count++) {
-                        incidentArr.push(incidentstatusArr[count].number + ' - ' + incidentstatusArr[count].category + ' - ' + incidentstatusArr[count].sys_updated_on);
+                        incidentDate = moment(incidentstatusArr[count].sys_updated_on).format('LLL');
+                        incidentArr.push(incidentstatusArr[count].number + ' - ' + incidentstatusArr[count].category + ' - ' + incidentDate);
                     }
                     builder.Prompts.choice(session, 'List of Incidents', incidentArr);
                 }
