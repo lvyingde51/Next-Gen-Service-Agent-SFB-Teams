@@ -124,7 +124,7 @@
 
     function createIncidentHeroCard(session) {
         return new builder.HeroCard(session)
-            .title(process.env.AgentName)
+            .title('Incident Management')
             // .images([
             //     builder.CardImage.create(session, process.env.IncidentLogo)
             // ])
@@ -136,8 +136,7 @@
 
     function createServiceHeroCard(session) {
         return new builder.HeroCard(session)
-            .title(process.env.AgentName)
-            .text(`Greetings from ${process.env.AgentName}`)
+            .title('Service Management')
             // .images([
             //     builder.CardImage.create(session, process.env.ServiceReqLogo)
             // ])
