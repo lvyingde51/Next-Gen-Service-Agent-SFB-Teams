@@ -15,6 +15,12 @@ var requestStatusDialog = require('./dialog/requestStatusDialog');
 var requestStatusBotDialog = require('./dialog/requestStatusBotDialog');
 var createServiceRequestDialog = require('./dialog/createServiceRequestDialog');
 var createServiceRequestBotDialog = require('./dialog/createServiceRequestBotDialog');
+// --- Arun ---
+var reopenIncidentDialog = require('./dialog/reopenIncidentDialog');
+var commentIncidentDialog = require('./dialog/commentIncidentDialog');
+var closeIncidentDialog = require('./dialog/closeIncidentDialog');
+var reopenCommentCloseBotDialog = require('./dialog/reopenCommentCloseBotDialog');
+
 var QnAClient = require('./lib/client');
 var defaultBotDialog = require('./dialog/defaultBotDialog');
 
@@ -125,6 +131,10 @@ createIncidentDialog.load(intents);
 incidentStatusDialog.load(intents);
 requestStatusDialog.load(intents);
 createServiceRequestDialog.load(intents);
+// --- Arun ---
+reopenIncidentDialog.load(intents);
+commentIncidentDialog.load(intents);
+closeIncidentDialog.load(intents);
 
 
 bot.dialog('/', intents);
@@ -137,7 +147,6 @@ bot.dialog('shortDescription', createIncidentBotDialog.shortDescription);
 bot.dialog('category', createIncidentBotDialog.category);
 bot.dialog('viewResult', createIncidentBotDialog.viewResult);
 bot.dialog('incidentStatus', incidentStatusBotDialog.beginDialog);
-// bot.dialog('getincidentStatus', incidentStatusBotDialog.getincidentStatus);
 bot.dialog('isSearchById', incidentStatusBotDialog.incidentID);
 bot.dialog('isSearchByList', incidentStatusBotDialog.prevIncidents);
 bot.dialog('srStatus', requestStatusBotDialog.beginDialog);
@@ -147,6 +156,9 @@ bot.dialog('createServiceRequest', createServiceRequestBotDialog.beginDialog);
 bot.dialog('showSoftwareList', createServiceRequestBotDialog.softwareList);
 bot.dialog('createSR', createServiceRequestBotDialog.createSR);
 bot.dialog('default', defaultBotDialog.beginDialog);
+bot.dialog('reopenIncident', reopenCommentCloseBotDialog.ReopenIncident);
+bot.dialog('closeIncident', reopenCommentCloseBotDialog.closeIncident);
+bot.dialog('commentIncident', reopenCommentCloseBotDialog.commentIncident);
 bot.recognizer({
     recognize: function (context, done) {
     var intent = { score: 0.0 };
