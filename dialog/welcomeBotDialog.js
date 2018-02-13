@@ -18,24 +18,24 @@
                 log.consoleDefault(session.conversationData.GreetingType);
                 next({ response: session.conversationData.GreetingType });
             } else {
-                var txt = `Hi ${session.message.user.name ? session.message.user.name : ' '}, I am your ${process.env.AgentName}.I can help you create incidents and requests.You can also ask me the status of your incidents/requests.<br/>If you are stuck at any point, you can type ‘help’. Or if you’d like to stop what you are currently doing you can type ‘goodbye’.<br/>How may I help you today?`;
-                builder.Prompts.choice(session, txt, ['Incident Management', 'Service Management']);
-
                 // var txt = `Hi ${session.message.user.name ? session.message.user.name : ' '}, I am your ${process.env.AgentName}.I can help you create incidents and requests.You can also ask me the status of your incidents/requests.<br/>If you are stuck at any point, you can type ‘help’. Or if you’d like to stop what you are currently doing you can type ‘goodbye’.<br/>How may I help you today?`;
+                // builder.Prompts.choice(session, txt, ['Incident Management', 'Service Management']);
+
+                var txt = `Hi ${session.message.user.name ? session.message.user.name : ' '}, I am your ${process.env.AgentName}. I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/>If you are stuck at any point, you can type ‘help’. Or if you’d like to stop what you are currently doing you can type ‘goodbye’.<br/>How may I help you today?`;
                 // var reply = new builder.Message()
                 //     .address(session.message.address)
                 //     .text(txt);
                 // session.send(reply);
 
-                // switch (session.message.source) {
-                //     case 'skypeforbusiness':
-                //         builder.Prompts.choice(session, 'Choose a service', ['Incident Management', 'Service Management']);
-                //         break;
-                //     default:
-                //         let msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session));
-                //         session.endDialog(msg);
-                //         break;
-                // }
+                switch (session.message.source) {
+                    case 'skypeforbusiness':
+                        builder.Prompts.choice(session, txt, ['Incident Management', 'Service Management']);
+                        break;
+                    default:
+                        let msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session, txt));
+                        session.endDialog(msg);
+                        break;
+                }
             }
         },
         function (session, results) {
@@ -112,16 +112,18 @@
         }
     ];
 
-    function createWelcomeHeroCard(session) {
+    function createWelcomeHeroCard(session, resp) {
         return new builder.HeroCard(session)
             .title(process.env.AgentName)
-            .text(`Greetings from ${process.env.AgentName}`)
+            .text(resp)
             // .images([
             //     builder.CardImage.create(session, process.env.LogoURL)
             // ])
             .buttons([
-                builder.CardAction.imBack(session, 'Incident Management', 'Incident Management'),
-                builder.CardAction.imBack(session, 'Service Management', 'Service Management')
+                builder.CardAction.imBack(session, 'Create Incident', 'Create Incident'),
+                builder.CardAction.imBack(session, 'Get Incidents', 'Incident Status'),
+                builder.CardAction.imBack(session, 'Create Service Request', 'Create Service Request'),
+                builder.CardAction.imBack(session, 'Get Service Status', 'Service Status')
             ]);
     }
 
