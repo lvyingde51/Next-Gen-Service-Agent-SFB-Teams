@@ -178,6 +178,7 @@
                                 }
                             ]
                         };
+                        console.log(card);
                         var cardMsg = new builder.Message(session)
                             .addAttachment(card);
                         session.conversationData.category = '';
