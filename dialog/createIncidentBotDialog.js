@@ -10,28 +10,30 @@
     const reqType = 'CREATEINCIDENT';
 
     module.exports.beginDialog= [
+        // function (session) {
+        //     if(session.conversationData.severity == '' || session.conversationData.severity == undefined) {
+        //         builder.Prompts.choice(session, 'What is the severity?', ['High', 'Medium', 'Low']);
+        //     } else {
+        //         session.endDialog();
+        //         session.beginDialog('shortDescription', function(err) {
+        //             if(err) {
+        //                 session.send(new builder.Message().text('Error Occurred with shortDescription' + err.message));
+        //             }
+        //         });
+        //     }
+        // },
+        // function(session, results) {
         function (session) {
-            if(session.conversationData.severity == '' || session.conversationData.severity == undefined) {
-                builder.Prompts.choice(session, 'What is the severity?', ['High', 'Medium', 'Low']);
-            } else {
+            //if(session.conversationData.severity == '' || session.conversationData.severity == undefined) {
+                //session.conversationData.severity = results.response.entity;
+                session.conversationData.severity = High;
                 session.endDialog();
                 session.beginDialog('shortDescription', function(err) {
                     if(err) {
                         session.send(new builder.Message().text('Error Occurred with shortDescription' + err.message));
                     }
                 });
-            }
-        },
-        function(session, results) {
-            if(session.conversationData.severity == '' || session.conversationData.severity == undefined) {
-                session.conversationData.severity = results.response.entity;
-                session.endDialog();
-                session.beginDialog('shortDescription', function(err) {
-                    if(err) {
-                        session.send(new builder.Message().text('Error Occurred with shortDescription' + err.message));
-                    }
-                });
-            }
+            //}
         }
     ];
     module.exports.shortDescription= [
@@ -71,22 +73,24 @@
         }
     ];
     module.exports.category= [
+        // function (session) {
+        //     if(session.conversationData.category == '' || session.conversationData.category == undefined) {
+        //         builder.Prompts.choice(session, 'Choose any one category of the incident from the below list', ['Inquiry/Help','Software','Hardware','Network','Database']);
+        //     } else {
+        //         session.endDialog();
+        //         console.log('Inside the Entity viewResult');
+        //         session.beginDialog('viewResult', function(err) {
+        //             if(err) {
+        //                 session.send(new builder.Message().text('Error Occurred with viewResult' + err.message));
+        //             }
+        //         });
+        //     }
+        // },
+        // function(session, results) {
         function (session) {
-            if(session.conversationData.category == '' || session.conversationData.category == undefined) {
-                builder.Prompts.choice(session, 'Choose any one category of the incident from the below list', ['Inquiry/Help','Software','Hardware','Network','Database']);
-            } else {
-                session.endDialog();
-                console.log('Inside the Entity viewResult');
-                session.beginDialog('viewResult', function(err) {
-                    if(err) {
-                        session.send(new builder.Message().text('Error Occurred with viewResult' + err.message));
-                    }
-                });
-            }
-        },
-        function(session, results) {
-            if(session.conversationData.category == '' || session.conversationData.category == undefined) {
-                session.conversationData.category = results.response.entity;
+            //if(session.conversationData.category == '' || session.conversationData.category == undefined) {
+                //session.conversationData.category = results.response.entity;
+                session.conversationData.category = 'Inquiry/Help';
                 console.log('Inside the Non Entity viewResult');
                 session.endDialog();
                 session.beginDialog('viewResult', function(err) {
@@ -94,7 +98,7 @@
                         session.send(new builder.Message().text('Error Occurred with viewResult' + err.message));
                     }
                 });
-            }
+            //}
         }
     ];
     module.exports.viewResult= [
