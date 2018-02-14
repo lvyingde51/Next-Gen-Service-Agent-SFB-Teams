@@ -130,7 +130,7 @@
 
         };
 
-       progress(session, options, function (callback) {
+        progress(session, options, function (callback) {
 
             // Make our async call here. If the call completes quickly then no progress
 
@@ -143,7 +143,7 @@
                 var inprogressData = new jsonData.statusUpdate();
                 inprogressData.caller_id = 'rubin.crotts@example.com';
                 inprogressData.incident_state = 'In Progress';
-                sleep(2000);
+               
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(inprogressData)), 'INCIDENTSTATUS',inprogressSysId, function (succ) {
                     console.log('inprogress data input +++++ ',JSON.stringify(inprogressData));
                     console.log('success ---- ',JSON.stringify(succ));
@@ -238,6 +238,7 @@
                         session.send(`You can check status of your incident by typing your incident number eg: *incident status ${data.result.number}*`);
                         session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                         session.endDialog();
+                        callback('You said: ' + session.message.text);
                         break;
                     case 'msteams':                        
                         session.conversationData.category = '';
@@ -252,6 +253,7 @@
                         session.send(`You can check status of your incident by typing your incident number eg: <b>incident status ${data.result.number}</b>`);
                         session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                         session.endDialog();
+                        callback('You said: ' + session.message.text);
                         break;
                     default:
                         let msg = `Successfully created incident:- <br/>- Incident Id : ${data.result.number}<br/>- Category : ${objData.category}<br/>- Short Description : ${objData.short_description} <br/>- Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: 'incident status ${data.result.number}'`;                
@@ -260,13 +262,14 @@
                         session.conversationData.severity = '';
                         session.send(msg);
                         session.endDialog();
+                        callback('You said: ' + session.message.text);
                         break;
                     
                 }
                  
             });
 
-            callback('You said: ' + session.message.text);
+           
       });
           
         },
