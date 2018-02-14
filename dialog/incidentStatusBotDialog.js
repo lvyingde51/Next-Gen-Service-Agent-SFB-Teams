@@ -85,7 +85,7 @@
                             case 'msteams':
                                 session.send('Below are the details for the requested incident');
                                 session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                    .title(`*${session.conversationData.ISIncidentId}*`)
+                                    .title(`${session.conversationData.ISIncidentId}`)
                                     .text(`Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
                                     .subtitle(`${data.result[0].short_description}`)
                                 ));
@@ -119,7 +119,7 @@
                                     case 'msteams':
                                         session.send('Below are the details for the requested incident');
                                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                            .title(`*${session.conversationData.ISIncidentId}*`)
+                                            .title(`${session.conversationData.ISIncidentId}`)
                                             .text(`Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : ${resp.result.name}`)
                                             .subtitle(`${data.result[0].short_description}`)
                                         ));
@@ -189,7 +189,7 @@
                     case 'msteams':
                         session.send('Below are the details for the requested incident');
                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                            .title(`*${session.conversationData.ISIncidentId}*`)
+                            .title(`${session.conversationData.ISIncidentId}`)
                             .text(`Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : Unassigned`)
                             .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
                         ));
@@ -222,7 +222,7 @@
                             case 'msteams':
                                 session.send('Below are the details for the requested incident');
                                 session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                    .title(`*${session.conversationData.ISIncidentId}*`)
+                                    .title(`${session.conversationData.ISIncidentId}`)
                                     .text(`Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : ${resp.result.name}`)
                                     .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
                                 ));
