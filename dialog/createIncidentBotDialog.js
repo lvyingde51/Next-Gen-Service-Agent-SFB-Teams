@@ -117,18 +117,32 @@
             objData.short_description = session.conversationData.shortDescription;
             objData.urgency = session.conversationData.severity;
             objData.incident_state = 'In Progress';
-            //session.send(pleaseWait["CREATEINCIDENT"][lang]);
+          
+           // session.send(pleaseWait["CREATEINCIDENT"][lang]);
+                                    
             var options = {
-                
-                            initialText: 'Please wait... This may take a few moments.',
-                
-                            text: 'Please wait... This is taking a little longer then expected.',
-                
-                            speak: '<speak>Please wait.<break time="2s"/></speak>'
-                
-                        };
-                
-           
+
+            initialText: 'Please wait... This may take a few moments.',
+
+            text: 'Please wait... This is taking a little longer than expected.',
+
+            speak: '<speak>Please wait.<break time="2s"/></speak>'
+
+        };
+
+        progress(session, options, function (callback) {
+
+            // Make our async call here. If the call completes quickly then no progress
+
+            // message will be sent.
+
+            setTimeout(function () {
+
+                callback('You said: ' + session.message.text);
+
+            }, 20000);
+
+        });
             apiService.createIncidentService(JSON.parse(JSON.stringify(objData)), reqType, function (data) {
                 //console.log('Incident No : ',data.result.number);
                 var inprogressSysId = data.result.sys_id;
