@@ -151,6 +151,15 @@
         },
         "SRLIST" : {
             "ENGLISH" : "Hold on... Loading list of service requests..."
+        },
+        "INCIDENTREOPEN" : {
+            "ENGLISH" : "Hold on... We are reopening your incident..."
+        },
+        "INCIDENTCLOSE" : {
+            "ENGLISH" : "Hold on... We are closing your incident..."
+        },
+        "INCIDENTADDCOMMENT" : {
+            "ENGLISH" : "Hold on... We are adding your comment..."
         }
     };
 
