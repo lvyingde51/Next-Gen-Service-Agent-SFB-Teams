@@ -238,7 +238,7 @@
                         session.send(`You can check status of your incident by typing your incident number eg: *incident status ${data.result.number}*`);
                         session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                         session.endDialog();
-                        callback('You said: ' + session.message.text);
+                        callback('Start Over');
                         break;
                     case 'msteams':                        
                         session.conversationData.category = '';
@@ -253,7 +253,7 @@
                         session.send(`You can check status of your incident by typing your incident number eg: <b>incident status ${data.result.number}</b>`);
                         session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                         session.endDialog();
-                        callback('You said: ' + session.message.text);
+                        callback('Start Over');
                         break;
                     default:
                         let msg = `Successfully created incident:- <br/>- Incident Id : ${data.result.number}<br/>- Category : ${objData.category}<br/>- Short Description : ${objData.short_description} <br/>- Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: 'incident status ${data.result.number}'`;                
@@ -262,7 +262,7 @@
                         session.conversationData.severity = '';
                         session.send(msg);
                         session.endDialog();
-                        callback('You said: ' + session.message.text);
+                        callback('Start Over');
                         break;
                     
                 }
@@ -272,7 +272,7 @@
            
       });
           
-        },
+        }/*,
         function (session,results) 
         {
             if(results.response.entity==='Start Over')
@@ -289,6 +289,6 @@
             session.endConversation("Ok... See you later.");
             }
 
-        }
+        }*/
     ];
 }());
