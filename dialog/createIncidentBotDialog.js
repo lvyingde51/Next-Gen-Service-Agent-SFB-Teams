@@ -131,7 +131,7 @@
             // message will be sent.
           
              
-            apiService.createIncidentService(JSON.parse(JSON.stringify(objData)), reqType, function (data) {
+        setTimeout(apiService.createIncidentService(JSON.parse(JSON.stringify(objData)), reqType, function (data) {
                 //console.log('Incident No : ',data.result.number);
                 var inprogressSysId = data.result.sys_id;
                 var inprogressData = new jsonData.statusUpdate();
@@ -261,7 +261,7 @@
                     
                 }
                 callback('Start Over'); 
-            });
+            }),2000);
 
            
       });
