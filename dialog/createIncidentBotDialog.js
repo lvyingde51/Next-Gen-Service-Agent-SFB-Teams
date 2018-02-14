@@ -192,27 +192,26 @@
                         session.conversationData.category = '';
                         session.conversationData.shortDescription = '';
                         session.conversationData.severity = '';
-                        session.send('Successfully Created Incident');
-                        session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
+                        session.send('*_Successfully Created Incident_*');
                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                            .title(`${data.result.number}`)
-                            .text(`Category : ${objData.category}<br/>you can check status of your incident by typing your incident number eg: <b>incident status ${data.result.number}</b>`)
+                            .title(`**${data.result.number}**`)
+                            .text(`Category : ${objData.category}\nyou can check status of your incident by typing your incident number eg: **incident status ${data.result.number}**`)
                             .subtitle(`${objData.short_description}`)
                         ));
+                        session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                         session.endDialog();
                         break;
-                    case 'msteams':
-                        
+                    case 'msteams':                        
                         session.conversationData.category = '';
                         session.conversationData.shortDescription = '';
                         session.conversationData.severity = '';
                         session.send('Successfully Created Incident');
-                        session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                             .title(`${data.result.number}`)
                             .text(`Category : ${objData.category}<br/>you can check status of your incident by typing your incident number eg: <b>incident status ${data.result.number}</b>`)
                             .subtitle(`${objData.short_description}`)
                         ));
+                        session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                         session.endDialog();
                         break;
                     default:
