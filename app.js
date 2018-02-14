@@ -104,7 +104,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
     });
 })
 .matches('Help', (session) => {
-    session.send(`I am here to help you out <br/>You can ask me questions like:<br/>- Create high severity incident <br/>- Incident status for 'Incident Number eg:INC0010505' <br/>- Show latest incidents <br/>- Say 'help' for any queries <br/>- Say 'goodbye' to leave conversation`);
+    session.send(`I am here to help you out <br/>You can ask me queries like:<br/>- Create high severity incident <br/>- Incident status for 'Incident Number INC0010505' <br/>- Show latest incidents <br/>- Say 'goodbye' to leave conversation`);
 })
 .matches('Cancel', (session) => {
      
@@ -183,7 +183,7 @@ bot.on('conversationUpdate', function (message) {
      if (message.membersAdded && message.membersAdded.length > 0) {
         // Say hello
         //var isGroup = message.address.conversation.isGroup;
-        var txt =`Hi ${session.message.user.name ? session.message.user.name : ' '}, I am your ${process.env.AgentName}.<br/>I can help you create incidents and requests.<br/>You can also ask me the status of your incidents/requests.<br/>If you’d like to stop what you are currently doing you can type ‘goodbye’.<br/>How may I help you today?`;
+        var txt =`Hi ${session.message.user.name ? session.message.user.name : ' '}, I am your ${process.env.AgentName}.<br/>I can help you create incidents and requests.<br/>You can also ask me the status of your incidents/requests.<br/>If you are stuck at any point, you can type ‘help’. Or if you’d like to stop what you are currently doing you can type ‘goodbye’.<br/>How may I help you today?`;
         var reply = new builder.Message()
                 .address(message.address)
                 .text(txt);
@@ -214,5 +214,5 @@ bot.on('error', function (e) {
     
 });
 bot.dialog('helpDialog', function (session) {
- session.endDialog(`I am here to help you out <br/>You can ask me questions like:<br/>- Create high severity incident <br/>- Incident status for 'Incident Number eg:INC0010505' <br/>- Show latest incidents <br/>- Say 'help' for any queries <br/>- Say 'goodbye' to leave conversation`);
+ session.endDialog(`I am here to help you out <br/>You can ask me queries like:<br/>- Create high severity incident <br/>- Incident status for 'Incident Number INC0010505' <br/>- Show latest incidents <br/>- Say 'goodbye' to leave conversation`);
 }).triggerAction({ matches: 'Help' });
