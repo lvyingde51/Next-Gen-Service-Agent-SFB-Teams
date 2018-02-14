@@ -194,11 +194,13 @@
                         session.conversationData.category = '';
                         session.conversationData.shortDescription = '';
                         session.conversationData.severity = '';
+                        session.send('Successfully Created Incident');
+                        session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-        .title('Successfully Created Incident')
-        .text(`Incident Id : ${data.result.number}<br/>Category : ${objData.category}<br/>Short Description : ${objData.short_description}<br/>you can check status of your incident by typing your incident number eg: <b>incident status ${data.result.number}</b>`)
-        .subtitle('Your incident will be assigned to a live agent shortly and your incident will be followed from there')
-        ));
+                            .title(`${data.result.number}`)
+                            .text(`Category : ${objData.category}<br/>Short Description : <br/>you can check status of your incident by typing your incident number eg: <b>incident status ${data.result.number}</b>`)
+                            .subtitle(`${objData.short_description}`)
+                        ));
                         session.endDialog();
                         break;
                     default:
