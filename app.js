@@ -183,7 +183,7 @@ bot.on('conversationUpdate', function (message) {
      if (message.membersAdded && message.membersAdded.length > 0) {
         // Say hello
         //var isGroup = message.address.conversation.isGroup;
-        var txt =`Hi ${session.message.user.name ? session.message.user.name : ' '}, I am your ${process.env.AgentName}.<br/>I can help you create incidents and requests.<br/>You can also ask me the status of your incidents/requests.<br/>If you are stuck at any point, you can type ‘help’. Or if you’d like to stop what you are currently doing you can type ‘goodbye’.<br/>How may I help you today?`;
+        var txt =`Hi ${session.message.user.name ? session.message.user.name : ' '}, I am your ${process.env.AgentName}.<br/>I can help you create incidents and requests.<br/>You can also ask me the status of your incidents/requests.<br/>If you’d like to stop what you are currently doing you can type ‘goodbye’.<br/>How may I help you today?`;
         var reply = new builder.Message()
                 .address(message.address)
                 .text(txt);
