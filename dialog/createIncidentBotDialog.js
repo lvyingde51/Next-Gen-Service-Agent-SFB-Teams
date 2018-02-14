@@ -128,7 +128,7 @@
                 
                         };
                 
-            progress(session, options, function (callback) {
+           
             apiService.createIncidentService(JSON.parse(JSON.stringify(objData)), reqType, function (data) {
                 //console.log('Incident No : ',data.result.number);
                 var inprogressSysId = data.result.sys_id;
@@ -151,7 +151,7 @@
                 objFinalData.status = 'In Progress';
 
                 mailer('Create Incident', 'ArunP3@hexaware.com', objFinalData);
-                    });
+                 
                 console.log('$$$$$$$ ',session.message.source);
                 switch (session.message.source) {
                     case 'slack':
