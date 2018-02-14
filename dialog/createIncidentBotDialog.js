@@ -196,7 +196,7 @@
                         session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                             .title(`${data.result.number}`)
-                            .text(`Category : ${objData.category}<br/>Short Description : <br/>you can check status of your incident by typing your incident number eg: <b>incident status ${data.result.number}</b>`)
+                            .text(`Category : ${objData.category}<br/>you can check status of your incident by typing your incident number eg: <b>incident status ${data.result.number}</b>`)
                             .subtitle(`${objData.short_description}`)
                         ));
                         session.endDialog();
@@ -210,7 +210,7 @@
                         session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                             .title(`${data.result.number}`)
-                            .text(`Category : ${objData.category}<br/>Short Description : <br/>you can check status of your incident by typing your incident number eg: <b>incident status ${data.result.number}</b>`)
+                            .text(`Category : ${objData.category}<br/>you can check status of your incident by typing your incident number eg: <b>incident status ${data.result.number}</b>`)
                             .subtitle(`${objData.short_description}`)
                         ));
                         session.endDialog();
