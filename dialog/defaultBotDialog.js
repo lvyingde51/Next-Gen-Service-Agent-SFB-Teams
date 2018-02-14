@@ -101,7 +101,7 @@
                 objData.incident_state = session.conversationData.incident_state;
                 session.send(pleaseWait["INCIDENTADDCOMMENT"][lang]);
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType, session.conversationData.sys_id, function (data) {
-                    let msg = 'Successfully added comment for your incident:- <br/>Incident Id : ' + session.conversationData.capturedStr + '<br/>Urgency : ' + session.conversationData.urgency + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + session.conversationData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
+                    let msg = 'Successfully added comment for your incident:- <br/>Incident Id : ' + session.conversationData.capturedStr + '<br/>Urgency : ' + jsonData.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + jsonData.incidentStatus[session.conversationData.incident_state][lang] + ' <br/> Comments : ' + session.conversationData.comment;
                     session.conversationData.capturedOption = '';
                     session.conversationData.capturedStr = '';
                     session.conversationData.comment = '';
@@ -118,7 +118,7 @@
                 objData.incident_state = 'In Progress';
                 session.send(pleaseWait["INCIDENTREOPEN"][lang]);
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType, session.conversationData.sys_id, function (data) {
-                    let msg = 'Successfully reopened your incident:- <br/>Incident Id : ' + session.conversationData.capturedStr + '<br/>Urgency : ' + session.conversationData.urgency + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + objData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
+                    let msg = 'Successfully reopened your incident:- <br/>Incident Id : ' + session.conversationData.capturedStr + '<br/>Urgency : ' + jsonData.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + jsonData.incidentStatus[objData.incident_state][lang] + ' <br/> Comments : ' + session.conversationData.comment;
                     session.conversationData.capturedOption = '';
                     session.conversationData.capturedStr = '';
                     session.conversationData.comment = '';
@@ -134,7 +134,7 @@
                 objData.incident_state = 'Closed';
                 session.send(pleaseWait["INCIDENTCLOSE"][lang]);
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType, session.conversationData.sys_id, function (data) {
-                    let msg = 'Successfully closed your incident:- <br/>Incident Id : ' + session.conversationData.capturedStr + '<br/>Urgency : ' + session.conversationData.urgency + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + objData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
+                    let msg = 'Successfully closed your incident:- <br/>Incident Id : ' + session.conversationData.capturedStr + '<br/>Urgency : ' + jsonData.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + jsonData.incidentStatus[objData.incident_state][lang] + ' <br/> Comments : ' + session.conversationData.comment;
                     session.conversationData.capturedOption = '';
                     session.conversationData.capturedStr = '';
                     session.conversationData.comment = '';
