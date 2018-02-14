@@ -142,7 +142,7 @@
                 var inprogressData = new jsonData.statusUpdate();
                 inprogressData.caller_id = 'rubin.crotts@example.com';
                 inprogressData.incident_state = 'In Progress';
-                sleep(2000);
+               
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(inprogressData)), 'INCIDENTSTATUS',inprogressSysId, function (succ) {
                     console.log('inprogress data input +++++ ',JSON.stringify(inprogressData));
                     console.log('success ---- ',JSON.stringify(succ));
