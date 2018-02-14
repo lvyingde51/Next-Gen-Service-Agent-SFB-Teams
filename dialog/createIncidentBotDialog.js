@@ -195,7 +195,7 @@
                         session.send('_Successfully Created Incident_');
                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                             .title(`*${data.result.number}*`)
-                            .text(`Category : ${objData.category}\nyou can check status of your incident by typing your incident number eg: **incident status ${data.result.number}**`)
+                            .text(`Category : ${objData.category}\nyou can check status of your incident by typing your incident number eg: *incident status ${data.result.number}*`)
                             .subtitle(`${objData.short_description}`)
                         ));
                         session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
