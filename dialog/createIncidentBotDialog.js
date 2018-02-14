@@ -135,7 +135,7 @@
             // Make our async call here. If the call completes quickly then no progress
 
             // message will be sent.
-
+             sleep(2000);
             apiService.createIncidentService(JSON.parse(JSON.stringify(objData)), reqType, function (data) {
                 //console.log('Incident No : ',data.result.number);
                 var inprogressSysId = data.result.sys_id;
@@ -159,7 +159,7 @@
 
                 mailer('Create Incident', 'ArunP3@hexaware.com', objFinalData);
                
-                callback('You said: ' + session.message.text);
+                
                 console.log('$$$$$$$ ',session.message.source);
                 switch (session.message.source) {
                     case 'slack':
@@ -265,7 +265,7 @@
                  
             });
 
-          
+            callback('You said: ' + session.message.text);
       });
           
         },
