@@ -80,10 +80,23 @@
                                     .text(`Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : Unassigned`)
                                     .subtitle(`${data.result[0].short_description}`)
                                 ));
+                                session.endDialog();
+                                break;
+                            case 'msteams':
+                                session.send('Below are the details for the requested incident');
+                                session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                    .title(`*${session.conversationData.ISIncidentId}*`)
+                                    .text(`Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
+                                    .subtitle(`${data.result[0].short_description}`)
+                                ));
+                                session.endDialog();
+                                break;
+                            default:
+                                let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: Unassigned';
+                                session.endDialog(msg);
                                 break;
                         }
-                        // let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: Unassigned';
-                        // session.endDialog(msg);
+
                     } else {
                         // session.send(pleaseWait["DEFAULT"][lang]);
                         apiService.getAssignedToDetails(assignedTo, function (resp) {
@@ -101,10 +114,22 @@
                                             .text(`Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : ${resp.result.name}`)
                                             .subtitle(`${data.result[0].short_description}`)
                                         ));
+                                        session.endDialog();
+                                        break;
+                                    case 'msteams':
+                                        session.send('Below are the details for the requested incident');
+                                        session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                            .title(`*${session.conversationData.ISIncidentId}*`)
+                                            .text(`Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : ${resp.result.name}`)
+                                            .subtitle(`${data.result[0].short_description}`)
+                                        ));
+                                        session.endDialog();
+                                        break;
+                                    default:
+                                        let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
+                                        session.endDialog(msg);
                                         break;
                                 }
-                                // let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
-                                // session.endDialog(msg);
                             }
                         });
                     }
@@ -159,10 +184,22 @@
                             .text(`Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : Unassigned`)
                             .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
                         ));
+                        session.endDialog();
+                        break;
+                    case 'msteams':
+                        session.send('Below are the details for the requested incident');
+                        session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                            .title(`*${session.conversationData.ISIncidentId}*`)
+                            .text(`Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : Unassigned`)
+                            .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
+                        ));
+                        session.endDialog();
+                        break;
+                    default:
+                        let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: Unassigned';
+                        session.endDialog(msg);
                         break;
                 }
-                // let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: Unassigned';
-                // session.endDialog(msg);
                 return false;
             } else {
                 session.send(pleaseWait["INCIDENTSTATUS"][lang]);
@@ -180,11 +217,24 @@
                                     .text(`Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : ${resp.result.name}`)
                                     .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
                                 ));
+                                session.endDialog();
+                                break;
+                            case 'msteams':
+                                session.send('Below are the details for the requested incident');
+                                session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                    .title(`*${session.conversationData.ISIncidentId}*`)
+                                    .text(`Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : ${resp.result.name}`)
+                                    .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
+                                ));
+                                session.endDialog();
+                                break;
+                            default:
+                                let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
+                                session.endDialog(msg);
                                 break;
                         }
                         // log.consoleDefault(JSON.stringify(resp));
-                        // let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
-                        // session.endDialog(msg);
+
                     }
                 });
             }
