@@ -116,6 +116,13 @@
             session.send(pleaseWait["CREATEINCIDENT"][lang]);
             apiService.createIncidentService(JSON.parse(JSON.stringify(objData)), reqType, function (data) {
                 //console.log('Incident No : ',data.result.number);
+                var inprogressSysId = data.result.sys_id;
+                var inprogressData = new jsonData.statusUpdate();
+                inprogressData.caller_id = 'rubin.crotts@example.com';
+                inprogressData.incident_state = 'In Progress';
+                apiService.updateStatusCommentService(JSON.parse(JSON.stringify(inprogressData)), 'INCIDENTSTATUS',inprogressSysId, function (succ) {
+                console.log('changed the incident to -In Progress-');
+                });
                 console.log('Total Response : ',JSON.stringify(data));
                 var objFinalData = new jsonData.incidentCreatedData();
                 objFinalData.incidentid = data.result.number;
