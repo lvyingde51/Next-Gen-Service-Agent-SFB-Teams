@@ -12,7 +12,7 @@
 
     function statusUpdate() {
         this.caller_id = null;
-        this.comments = null;
+        this.comments = '';
         this.incident_state = null;
         this.json = true;
     }
