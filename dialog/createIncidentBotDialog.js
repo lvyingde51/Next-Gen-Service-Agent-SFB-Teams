@@ -136,13 +136,6 @@
 
             // message will be sent.
 
-            setTimeout(function () {
-
-                callback('You said: ' + session.message.text);
-
-            }, 20000);
-
-        });
             apiService.createIncidentService(JSON.parse(JSON.stringify(objData)), reqType, function (data) {
                 //console.log('Incident No : ',data.result.number);
                 var inprogressSysId = data.result.sys_id;
@@ -269,6 +262,9 @@
                     
                 }
             });
+
+        });
+          
         },
         function (session,results) 
         {
