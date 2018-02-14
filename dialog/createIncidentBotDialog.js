@@ -118,7 +118,7 @@
             objData.urgency = session.conversationData.severity;
             objData.incident_state = 'In Progress';
           
-           // session.send(pleaseWait["CREATEINCIDENT"][lang]);
+            session.send(pleaseWait["CREATEINCIDENT"][lang]);
                                     
             var options = {
 
@@ -130,7 +130,7 @@
 
         };
 
-        progress(session, options, function (callback) {
+      //  progress(session, options, function (callback) {
 
             // Make our async call here. If the call completes quickly then no progress
 
@@ -263,7 +263,7 @@
                 }
             });
 
-        });
+      //  });
           
         },
         function (session,results) 
