@@ -118,7 +118,7 @@
             objData.urgency = session.conversationData.severity;
             objData.incident_state = 'In Progress';
           
-            session.send(pleaseWait["CREATEINCIDENT"][lang]);
+           // session.send(pleaseWait["CREATEINCIDENT"][lang]);
                                     
             var options = {
 
@@ -158,7 +158,8 @@
                 objFinalData.status = 'In Progress';
 
                 mailer('Create Incident', 'ArunP3@hexaware.com', objFinalData);
-                 
+                sleep(20000);
+                callback('You said: ' + session.message.text);
                 console.log('$$$$$$$ ',session.message.source);
                 switch (session.message.source) {
                     case 'slack':
@@ -264,7 +265,7 @@
                  
             });
 
-          callback('You said: ' + session.message.text);
+          
       });
           
         },
