@@ -68,9 +68,30 @@
                         }
                     });
                 } else {
-                    log.consoleDefault(commonTemplate.incidentStatus[data.result[0].state][lang]);
-                    let msg = 'These are the details of the requested Service Request:- <br/>Requested Item Number : ' + session.conversationData.SRNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Installation Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Approval: ' + data.result[0].approval.toUpperCase() + ' <br/>Stage: ' + data.result[0].stage.toUpperCase().split('_').join(' ') + ' <br/>Due Date: ' + data.result[0].due_date;
-                    session.endDialog(msg);
+                    switch (session.message.source) {
+                        case 'slack':
+                            session.send('_These are the details of the requested Service Request_');
+                            session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                .title(`*${session.conversationData.SRNumber}*`)
+                                .text(`Installation Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nApproval : ${data.result[0].approval.toUpperCase()} \nStage : ${data.result[0].stage.toUpperCase().split('_').join(' ')} \nDue Date : ${data.result[0].due_date}`)
+                                .subtitle(`${data.result[0].short_description}`)
+                            ));
+                            session.endDialog();
+                            break;
+                        case 'msteams':
+                            session.send('These are the details of the requested Service Request');
+                            session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                .title(`${session.conversationData.SRNumber}`)
+                                .text(`Installation Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Approval : ${data.result[0].approval.toUpperCase()} <br/>Stage : ${data.result[0].stage.toUpperCase().split('_').join(' ')} <br/>Due Date : ${data.result[0].due_date}`)
+                                .subtitle(`${data.result[0].short_description}`)
+                            ));
+                            session.endDialog();
+                            break;
+                        default:
+                            let msg = 'These are the details of the requested Service Request:- <br/>Requested Item Number : ' + session.conversationData.SRNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Installation Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Approval: ' + data.result[0].approval.toUpperCase() + ' <br/>Stage: ' + data.result[0].stage.toUpperCase().split('_').join(' ') + ' <br/>Due Date: ' + data.result[0].due_date;
+                            session.endDialog(msg);
+                            break;
+                    }
                 }
             });
         }
@@ -91,7 +112,7 @@
                 } else {
                     servicestatusArr = data.result.reverse();
                     log.consoleDefault(servicestatusArr);
-                    var requestDate = ''; 
+                    var requestDate = '';
                     for (let count = 0; count < servicestatusArr.length && count < 10; count++) {
                         requestDate = moment(servicestatusArr[count].opened_at).format('LLL');
                         serviceArr.push(servicestatusArr[count].number + ' - ' + requestDate);
@@ -107,8 +128,30 @@
             //Filter out JSON from previous API call and display the status of Incident from **servicestatusArr**
             log.consoleDefault(servicestatusArr);
             let arrIndex = servicestatusArr.findIndex(x => x.number == session.conversationData.SRNumber);
-            let msg = 'These are the details of the requested Service Request:- <br/>Requested Item Number : ' + session.conversationData.SRNumber + ' <br/>Short Description : ' + servicestatusArr[arrIndex].short_description + ' <br/>Installation Status: ' + commonTemplate.incidentStatus[servicestatusArr[arrIndex].state][lang] + ' <br/>Approval: ' + servicestatusArr[arrIndex].approval + ' <br/>Stage: ' + servicestatusArr[arrIndex].stage.split('_').join(' ') + ' <br/>Due Date: ' + servicestatusArr[arrIndex].due_date;
-            session.endDialog(msg);
+            switch (session.message.source) {
+                case 'slack':
+                    session.send('_These are the details of the requested Service Request_');
+                    session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                        .title(`*${session.conversationData.SRNumber}*`)
+                        .text(`Installation Status : ${commonTemplate.incidentStatus[servicestatusArr[arrIndex].state][lang]} \nApproval : ${servicestatusArr[arrIndex].approval} \nStage : ${servicestatusArr[arrIndex].stage.split('_').join(' ')} \nDue Date : ${servicestatusArr[arrIndex].due_date}`)
+                        .subtitle(`${servicestatusArr[arrIndex].short_description}`)
+                    ));
+                    session.endDialog();
+                    break;
+                case 'msteams':
+                    session.send('These are the details of the requested Service Request');
+                    session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                        .title(`${session.conversationData.SRNumber}`)
+                        .text(`Installation Status : ${commonTemplate.incidentStatus[servicestatusArr[arrIndex].state][lang]} <br/>Approval : ${servicestatusArr[arrIndex].approval} <br/>Stage : ${servicestatusArr[arrIndex].stage.split('_').join(' ')} <br/>Due Date : ${servicestatusArr[arrIndex].due_date}`)
+                        .subtitle(`${servicestatusArr[arrIndex].short_description}`)
+                    ));
+                    session.endDialog();
+                    break;
+                default:
+                    let msg = 'These are the details of the requested Service Request:- <br/>Requested Item Number : ' + session.conversationData.SRNumber + ' <br/>Short Description : ' + servicestatusArr[arrIndex].short_description + ' <br/>Installation Status: ' + commonTemplate.incidentStatus[servicestatusArr[arrIndex].state][lang] + ' <br/>Approval: ' + servicestatusArr[arrIndex].approval + ' <br/>Stage: ' + servicestatusArr[arrIndex].stage.split('_').join(' ') + ' <br/>Due Date: ' + servicestatusArr[arrIndex].due_date;
+                    session.endDialog(msg);
+                    break;
+            }
         }
     ];
 }());
