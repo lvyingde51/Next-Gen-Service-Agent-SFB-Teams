@@ -122,7 +122,7 @@
                                     
             var options = {
 
-            initialText: 'Please wait... This may take a few moments.',
+            initialText: pleaseWait["CREATEINCIDENT"][lang],
 
             text: 'Please wait... This is taking a little longer than expected.',
 
