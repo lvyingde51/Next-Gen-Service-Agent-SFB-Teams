@@ -273,7 +273,7 @@ bot.dialog("progressDialog", function(session, args) {
 
   // Start progress timer
 
-  var hTimer = setTimeout(sendProgress, options.initialDelay || 3000);
+  var hTimer = setTimeout(sendProgress, options.initialDelay || 1000);
 
   // Call async function
 
