@@ -130,7 +130,7 @@
 
         };
 
-      //  progress(session, options, function (callback) {
+       progress(session, options, function (callback) {
 
             // Make our async call here. If the call completes quickly then no progress
 
@@ -261,9 +261,11 @@
                         break;
                     
                 }
+                 
             });
 
-      //  });
+          callback('You said: ' + session.message.text);
+      });
           
         },
         function (session,results) 
