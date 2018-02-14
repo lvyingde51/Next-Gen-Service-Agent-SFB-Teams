@@ -192,9 +192,9 @@
                         session.conversationData.category = '';
                         session.conversationData.shortDescription = '';
                         session.conversationData.severity = '';
-                        session.send('*_Successfully Created Incident_*');
+                        session.send('_Successfully Created Incident_');
                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                            .title(`**${data.result.number}**`)
+                            .title(`*${data.result.number}*`)
                             .text(`Category : ${objData.category}\nyou can check status of your incident by typing your incident number eg: **incident status ${data.result.number}**`)
                             .subtitle(`${objData.short_description}`)
                         ));
