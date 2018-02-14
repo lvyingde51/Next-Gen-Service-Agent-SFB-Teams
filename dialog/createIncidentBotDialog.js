@@ -121,7 +121,7 @@
                 objFinalData.urgency = objData.urgency;
                 objFinalData.category = objData.category;
                 objFinalData.short_description = objData.short_description;
-                objFinalData.status = 'New';
+                objFinalData.status = 'In Progress';
 
                 mailer('Create Incident', 'ArunP3@hexaware.com', objFinalData);
                 console.log('$$$$$$$ ',session.message.source);
@@ -195,9 +195,10 @@
                         session.send('_Successfully Created Incident_');
                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                             .title(`*${data.result.number}*`)
-                            .text(`Category : ${objData.category}\nyou can check status of your incident by typing your incident number eg: *incident status ${data.result.number}*`)
+                            .text(`Category : ${objData.category}`)
                             .subtitle(`${objData.short_description}`)
                         ));
+                        session.send(`You can check status of your incident by typing your incident number eg: *incident status ${data.result.number}*`);
                         session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                         session.endDialog();
                         break;
@@ -208,9 +209,10 @@
                         session.send('Successfully Created Incident');
                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                             .title(`${data.result.number}`)
-                            .text(`Category : ${objData.category}<br/>you can check status of your incident by typing your incident number eg: <b>incident status ${data.result.number}</b>`)
+                            .text(`Category : ${objData.category}`)
                             .subtitle(`${objData.short_description}`)
                         ));
+                        session.send(`You can check status of your incident by typing your incident number eg: <b>incident status ${data.result.number}</b>`);
                         session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                         session.endDialog();
                         break;
