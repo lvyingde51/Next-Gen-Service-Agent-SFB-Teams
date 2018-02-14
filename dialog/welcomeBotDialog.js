@@ -20,7 +20,7 @@
             } else {
                 // var txt = `Hi ${session.message.user.name ? session.message.user.name : ' '}, I am your ${process.env.AgentName}.I can help you create incidents and requests.You can also ask me the status of your incidents/requests.<br/>If you are stuck at any point, you can type ‘help’. Or if you’d like to stop what you are currently doing you can type ‘goodbye’.<br/>How may I help you today?`;
                 // builder.Prompts.choice(session, txt, ['Incident Management', 'Service Management']);
-                
+
                 var txt = `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I am your ${process.env.AgentName}. I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/><br/>If you are stuck at any point, you can type ‘help’. Or if you’d like to stop what you are currently doing you can type ‘goodbye’.<br/><br/>How may I help you today?`;
                 // var reply = new builder.Message()
                 //     .address(session.message.address)
@@ -30,6 +30,11 @@
                 switch (session.message.source) {
                     case 'skypeforbusiness':
                         builder.Prompts.choice(session, txt, ['Incident Management', 'Service Management']);
+                        break;
+                    case 'slack':
+                        txt = `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I am your ${process.env.AgentName}. I can help you create incidents and requests. You can also ask me the status of your incidents/requests.\n\nIf you are stuck at any point, you can type ‘help’. Or if you’d like to stop what you are currently doing you can type ‘goodbye’.\n\nHow may I help you today?`;
+                        let msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session, txt));
+                        session.endDialog(msg);
                         break;
                     default:
                         let msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session, txt));
@@ -120,10 +125,10 @@
             //     builder.CardImage.create(session, process.env.LogoURL)
             // ])
             .buttons([
-               /* builder.CardAction.imBack(session, 'Create Incident', 'Create Incident'),
-                builder.CardAction.imBack(session, 'Get Incidents','Get Incidents'),
-                builder.CardAction.imBack(session, 'Create Service Request', 'Create Service Request'),
-                builder.CardAction.imBack(session, 'Get Service Status','Get Service Status')*/
+                /* builder.CardAction.imBack(session, 'Create Incident', 'Create Incident'),
+                 builder.CardAction.imBack(session, 'Get Incidents','Get Incidents'),
+                 builder.CardAction.imBack(session, 'Create Service Request', 'Create Service Request'),
+                 builder.CardAction.imBack(session, 'Get Service Status','Get Service Status')*/
             ]);
     }
 
