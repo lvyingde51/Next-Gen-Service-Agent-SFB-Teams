@@ -133,6 +133,24 @@
     var PLEASE_WAIT_MESSAGE = {
         "DEFAULT" : {
             "ENGLISH" : "Hold on for a moment..."
+        },
+        "CREATEINCIDENT" : {
+            "ENGLISH" : "Hold on... Adding your incident..."
+        },
+        "INCIDENTSTATUS" : {
+            "ENGLISH" : "Hold on... Checking your incident status..."
+        },
+        "INCIDENTLIST" : {
+            "ENGLISH" : "Hold on... Loading list of incidents..."
+        },
+        "CREATESR" : {
+            "ENGLISH" : "Hold on... Creating your Service request..."
+        },
+        "SRSTATUS" : {
+            "ENGLISH" : "Hold on... Checking your service request status..."
+        },
+        "SRLIST" : {
+            "ENGLISH" : "Hold on... Loading list of service requests..."
         }
     };
 

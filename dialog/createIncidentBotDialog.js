@@ -112,7 +112,7 @@
             objData.category = session.conversationData.category;
             objData.short_description = session.conversationData.shortDescription;
             objData.urgency = session.conversationData.severity;
-            session.send(pleaseWait["DEFAULT"][lang]);
+            session.send(pleaseWait["CREATEINCIDENT"][lang]);
             apiService.createIncidentService(JSON.parse(JSON.stringify(objData)), reqType, function (data) {
                 console.log('Incident No : ',data.result.number);
                 console.log('Total Response : ',JSON.stringify(data));
