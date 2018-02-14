@@ -87,6 +87,10 @@
         'CREATESERVICEREQUEST' : 'https://dev18442.service-now.com/api/now/v1/table/sc_req_item'
     };
 
+    var capitaliseString = function(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+
     module.exports.jsonRequest = jsonRequest;
     module.exports.incidentStatus = incidentStatus;
     module.exports.categoryStatic = categoryStatic;
@@ -95,4 +99,5 @@
     module.exports.incidentCreatedData = incidentCreatedData;
     module.exports.createSR = createSR;
     module.exports.statusUpdate = statusUpdate;
+    module.exports.camelCase = capitaliseString;
 }());

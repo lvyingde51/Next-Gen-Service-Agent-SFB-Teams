@@ -110,10 +110,12 @@
                     // incidentstatusArr.slice((incidentstatusArr.length - 10), incidentstatusArr.length);
                     // incidentstatusArr.slice(Math.max(incidentstatusArr.length - 10, 1));
                     log.consoleDefault(incidentstatusArr);
-                    var incidentDate = ''; 
+                    var incidentDate = '';
+                    var incidentCategory = '';
                     for (let count = 0; count < incidentstatusArr.length && count < 10; count++) {
                         incidentDate = moment(incidentstatusArr[count].sys_updated_on).format('LLL');
-                        incidentArr.push(incidentstatusArr[count].number + ' - ' + incidentstatusArr[count].category + ' - ' + incidentDate);
+                        incidentCategory = commonTemplate.camelCase(incidentstatusArr[count].category);
+                        incidentArr.push(incidentstatusArr[count].number + ' - ' + incidentCategory + ' - ' + incidentDate);
                     }
                     builder.Prompts.choice(session, 'List of Incidents', incidentArr);
                 }
