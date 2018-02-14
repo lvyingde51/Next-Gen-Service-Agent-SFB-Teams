@@ -120,15 +120,9 @@
           
            // session.send(pleaseWait["CREATEINCIDENT"][lang]);
                                     
-            var options = {
-
-            initialText: 'Please wait... This may take a few moments.',
-
-            text: 'Please wait... This is taking a little longer than expected.',
-
-            speak: '<speak>Please wait.<break time="2s"/></speak>'
-
-        };
+            var options = { initialText: pleaseWait["CREATEINCIDENT"][lang],
+              text: "Please wait... This is taking a little longer than expected.",
+              speak: '<speak>Please wait.<break time="2s"/></speak>' };
 
         progress(session, options, function (callback) {
 
@@ -238,7 +232,7 @@
                         session.send(`You can check status of your incident by typing your incident number eg: *incident status ${data.result.number}*`);
                         session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                         session.endDialog();
-                        callback('Start Over');
+                       
                         break;
                     case 'msteams':                        
                         session.conversationData.category = '';
@@ -253,7 +247,7 @@
                         session.send(`You can check status of your incident by typing your incident number eg: <b>incident status ${data.result.number}</b>`);
                         session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                         session.endDialog();
-                        callback('Start Over');
+                       
                         break;
                     default:
                         let msg = `Successfully created incident:- <br/>- Incident Id : ${data.result.number}<br/>- Category : ${objData.category}<br/>- Short Description : ${objData.short_description} <br/>- Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: 'incident status ${data.result.number}'`;                
@@ -262,11 +256,11 @@
                         session.conversationData.severity = '';
                         session.send(msg);
                         session.endDialog();
-                        callback('Start Over');
+                      
                         break;
                     
                 }
-                 
+                callback('Start Over'); 
             });
 
            
