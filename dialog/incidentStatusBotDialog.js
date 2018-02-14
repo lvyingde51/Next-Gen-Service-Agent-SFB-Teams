@@ -14,7 +14,7 @@
     // Incident Request Status List
     module.exports.beginDialog = [
         function (session, args) {
-            builder.Prompts.choice(session, 'How do you want me to search it?', ['By Incident Id', 'Last 10 Incidents']);            
+            builder.Prompts.choice(session, 'How do you want me to search it?', ['By Incident Id', 'Last 10 Incidents']);
         },
         function (session, results) {
             session.conversationData.ISSearchType = results.response.entity;
@@ -38,7 +38,7 @@
 
     // Search Incident Status by ID
     module.exports.incidentID = [
-        function (session, args, next) {            
+        function (session, args, next) {
             if (!session.conversationData.ISIncidentId) {
                 builder.Prompts.text(session, 'Please provide your Incident Id');
             } else {
@@ -71,9 +71,19 @@
                     let assignedTo = data.result[0].assigned_to == '' ? '-' : data.result[0].assigned_to.link;
                     log.consoleDefault(assignedTo);
                     log.consoleDefault(commonTemplate.incidentStatus[data.result[0].state][lang]);
-                    if(assignedTo == '-') {
-                        let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: Unassigned';
-                        session.endDialog(msg);
+                    if (assignedTo == '-') {
+                        switch (session.message.source) {
+                            case 'slack':
+                                session.send('_Below are the details for the requested incident_');
+                                session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                    .title(`*${session.conversationData.ISIncidentId}*`)
+                                    .text(`Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : Unassigned`)
+                                    .subtitle(`${data.result[0].short_description}`)
+                                ));
+                                break;
+                        }
+                        // let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: Unassigned';
+                        // session.endDialog(msg);
                     } else {
                         // session.send(pleaseWait["DEFAULT"][lang]);
                         apiService.getAssignedToDetails(assignedTo, function (resp) {
@@ -83,11 +93,21 @@
                                 return false;
                             } else {
                                 log.consoleDefault(JSON.stringify(resp));
-                                let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
-                                session.endDialog(msg);
+                                switch (session.message.source) {
+                                    case 'slack':
+                                        session.send('_Below are the details for the requested incident_');
+                                        session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                            .title(`*${session.conversationData.ISIncidentId}*`)
+                                            .text(`Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : ${resp.result.name}`)
+                                            .subtitle(`${data.result[0].short_description}`)
+                                        ));
+                                        break;
+                                }
+                                // let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
+                                // session.endDialog(msg);
                             }
                         });
-                    }                                        
+                    }
                 }
             });
         }
@@ -130,7 +150,7 @@
             log.consoleDefault(session.conversationData.ISIncidentId);
             let assignedTo = incidentstatusArr[arrIndex].assigned_to == '' ? '-' : incidentstatusArr[arrIndex].assigned_to.link;
             log.consoleDefault(assignedTo);
-            if(assignedTo == '-') {
+            if (assignedTo == '-') {
                 let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: Unassigned';
                 session.endDialog(msg);
                 return false;
