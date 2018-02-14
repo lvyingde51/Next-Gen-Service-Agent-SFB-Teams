@@ -115,7 +115,7 @@
             objData.status = 'In Progress';
             session.send(pleaseWait["CREATEINCIDENT"][lang]);
             apiService.createIncidentService(JSON.parse(JSON.stringify(objData)), reqType, function (data) {
-                console.log('Incident No : ',data.result.number);
+                //console.log('Incident No : ',data.result.number);
                 console.log('Total Response : ',JSON.stringify(data));
                 var objFinalData = new jsonData.incidentCreatedData();
                 objFinalData.incidentid = data.result.number;
