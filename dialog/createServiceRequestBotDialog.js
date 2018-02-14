@@ -55,7 +55,7 @@
         function (session) {
             var objSRData = new createSR();
             objSRData.short_description = session.conversationData.SoftwareName;
-            session.send(pleaseWait["DEFAULT"][lang]);
+            session.send(pleaseWait["CREATESR"][lang]);
             apiService.createIncidentService(JSON.parse(JSON.stringify(objSRData)), reqType, function (data) {
                 objSRData.sr_ID = data.result.number;
                 mailer('Create Service Request', 'ArunP3@hexaware.com', objSRData);
