@@ -127,66 +127,78 @@
                 console.log('$$$$$$$ ',session.message.source);
                 switch (session.message.source) {
                     case 'slack':
-                        let card = {"contentType": "application/vnd.microsoft.card.adaptive",
-                        "content": {
-                            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-                            "type": "AdaptiveCard",
-                            "version": "1.0",
-                            "body": [
-                                {
-                                    "type": "Container",
-                                    "items": [
-                                        {
-                                            "type": "TextBlock",
-                                            "text": "Successfully Created Incident",
-                                            "weight": "bolder",
-                                            "size": "medium"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "Container",
-                                    "items": [
-                                        {
-                                            "type": "TextBlock",
-                                            "text": "The details updated with the incident are listed below,  ",
-                                            "wrap": true
-                                        },
-                                        {
-                                            "type": "FactSet",
-                                            "facts": [
-                                                {
-                                                    "title": "Incident ID:",
-                                                    "value": "**"+objFinalData.incidentid+"**",
-                                                    "color": "attention"
-                                                },
-                                                {
-                                                    "title": "Category:",
-                                                    "value": ""+objFinalData.category+""
-                                                },
-                                                {
-                                                    "title": "Short Description:",
-                                                    "value": ""+objFinalData.shortDescription+""
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "type": "TextBlock",
-                                            "text": "Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: **incident status "+objFinalData.incidentid+"**",
-                                            "wrap": true
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                        };
-                        console.log(JSON.stringify(card));
-                        var cardMsg = new builder.Message(session)
-                            .addAttachment(card);
+                        // let card = {"contentType": "application/vnd.microsoft.card.adaptive",
+                        // "content": {
+                        //     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                        //     "type": "AdaptiveCard",
+                        //     "version": "1.0",
+                        //     "body": [
+                        //         {
+                        //             "type": "Container",
+                        //             "items": [
+                        //                 {
+                        //                     "type": "TextBlock",
+                        //                     "text": "Successfully Created Incident",
+                        //                     "weight": "bolder",
+                        //                     "size": "medium"
+                        //                 }
+                        //             ]
+                        //         },
+                        //         {
+                        //             "type": "Container",
+                        //             "items": [
+                        //                 {
+                        //                     "type": "TextBlock",
+                        //                     "text": "The details updated with the incident are listed below,  ",
+                        //                     "wrap": true
+                        //                 },
+                        //                 {
+                        //                     "type": "FactSet",
+                        //                     "facts": [
+                        //                         {
+                        //                             "title": "Incident ID:",
+                        //                             "value": "**"+objFinalData.incidentid+"**",
+                        //                             "color": "attention"
+                        //                         },
+                        //                         {
+                        //                             "title": "Category:",
+                        //                             "value": ""+objFinalData.category+""
+                        //                         },
+                        //                         {
+                        //                             "title": "Short Description:",
+                        //                             "value": ""+objFinalData.shortDescription+""
+                        //                         }
+                        //                     ]
+                        //                 },
+                        //                 {
+                        //                     "type": "TextBlock",
+                        //                     "text": "Your incident will be assigned to a live agent shortly and your incident will be followed from there (or) you can check status of your incident by typing your incident number eg: **incident status "+objFinalData.incidentid+"**",
+                        //                     "wrap": true
+                        //                 }
+                        //             ]
+                        //         }
+                        //     ]
+                        // }
+                        // };
+                        // console.log(JSON.stringify(card));
+                        // var cardMsg = new builder.Message(session)
+                        //     .addAttachment(card);
+                        // session.conversationData.category = '';
+                        // session.conversationData.shortDescription = '';
+                        // session.conversationData.severity = '';
+                        // session.send(cardMsg);
+                        // session.endDialog();
+                        // break;
                         session.conversationData.category = '';
                         session.conversationData.shortDescription = '';
                         session.conversationData.severity = '';
-                        session.send(cardMsg);
+                        session.send('Successfully Created Incident');
+                        session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
+                        session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                            .title(`${data.result.number}`)
+                            .text(`Category : ${objData.category}<br/>Short Description : <br/>you can check status of your incident by typing your incident number eg: <b>incident status ${data.result.number}</b>`)
+                            .subtitle(`${objData.short_description}`)
+                        ));
                         session.endDialog();
                         break;
                     case 'msteams':
