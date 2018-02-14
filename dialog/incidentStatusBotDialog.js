@@ -151,8 +151,18 @@
             let assignedTo = incidentstatusArr[arrIndex].assigned_to == '' ? '-' : incidentstatusArr[arrIndex].assigned_to.link;
             log.consoleDefault(assignedTo);
             if (assignedTo == '-') {
-                let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: Unassigned';
-                session.endDialog(msg);
+                switch (session.message.source) {
+                    case 'slack':
+                        session.send('_Below are the details for the requested incident_');
+                        session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                            .title(`*${session.conversationData.ISIncidentId}*`)
+                            .text(`Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : Unassigned`)
+                            .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
+                        ));
+                        break;
+                }
+                // let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: Unassigned';
+                // session.endDialog(msg);
                 return false;
             } else {
                 session.send(pleaseWait["INCIDENTSTATUS"][lang]);
@@ -162,9 +172,19 @@
                         session.endDialog(msg);
                         return false;
                     } else {
-                        log.consoleDefault(JSON.stringify(resp));
-                        let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
-                        session.endDialog(msg);
+                        switch (session.message.source) {
+                            case 'slack':
+                                session.send('_Below are the details for the requested incident_');
+                                session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                    .title(`*${session.conversationData.ISIncidentId}*`)
+                                    .text(`Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : ${resp.result.name}`)
+                                    .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
+                                ));
+                                break;
+                        }
+                        // log.consoleDefault(JSON.stringify(resp));
+                        // let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
+                        // session.endDialog(msg);
                     }
                 });
             }
