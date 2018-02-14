@@ -6,7 +6,7 @@
         this.caller_id = null;
         this.category = null;
         this.urgency = null;
-        this.status = null;
+        this.incident_state = null;
         this.json = true;
     }
 
