@@ -9,6 +9,10 @@
     var mailer = require('../utils/commonMailer').sendMail;
     const lang = 'ENGLISH';
     const reqType = 'CREATEINCIDENT';
+    function progress(session, options, asyncFn) {
+      session.beginDialog("progressDialog", { asyncFn: asyncFn,
+        options: options });
+    }
 
     module.exports.beginDialog= [
         // function (session) {
@@ -113,13 +117,25 @@
             objData.short_description = session.conversationData.shortDescription;
             objData.urgency = session.conversationData.severity;
             objData.incident_state = 'In Progress';
-            session.send(pleaseWait["CREATEINCIDENT"][lang]);
+            //session.send(pleaseWait["CREATEINCIDENT"][lang]);
+            var options = {
+                
+                            initialText: 'Please wait... This may take a few moments.',
+                
+                            text: 'Please wait... This is taking a little longer then expected.',
+                
+                            speak: '<speak>Please wait.<break time="2s"/></speak>'
+                
+                        };
+                
+            progress(session, options, function (callback) {
             apiService.createIncidentService(JSON.parse(JSON.stringify(objData)), reqType, function (data) {
                 //console.log('Incident No : ',data.result.number);
                 var inprogressSysId = data.result.sys_id;
                 var inprogressData = new jsonData.statusUpdate();
                 inprogressData.caller_id = 'rubin.crotts@example.com';
                 inprogressData.incident_state = 'In Progress';
+               
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(inprogressData)), 'INCIDENTSTATUS',inprogressSysId, function (succ) {
                     console.log('inprogress data input +++++ ',JSON.stringify(inprogressData));
                     console.log('success ---- ',JSON.stringify(succ));
@@ -135,6 +151,7 @@
                 objFinalData.status = 'In Progress';
 
                 mailer('Create Incident', 'ArunP3@hexaware.com', objFinalData);
+                    });
                 console.log('$$$$$$$ ',session.message.source);
                 switch (session.message.source) {
                     case 'slack':
