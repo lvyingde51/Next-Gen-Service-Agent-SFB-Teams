@@ -112,6 +112,7 @@
             objData.category = session.conversationData.category;
             objData.short_description = session.conversationData.shortDescription;
             objData.urgency = session.conversationData.severity;
+            objData.status = 'In Progress';
             session.send(pleaseWait["CREATEINCIDENT"][lang]);
             apiService.createIncidentService(JSON.parse(JSON.stringify(objData)), reqType, function (data) {
                 console.log('Incident No : ',data.result.number);
