@@ -121,7 +121,10 @@
                 inprogressData.caller_id = 'rubin.crotts@example.com';
                 inprogressData.incident_state = 'In Progress';
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(inprogressData)), 'INCIDENTSTATUS',inprogressSysId, function (succ) {
-                console.log('changed the incident to -In Progress-');
+                    console.log('inprogress data input +++++ ',JSON.stringify(inprogressData));
+                    console.log('success ---- ',JSON.stringify(succ));
+                    console.log(inprogressSysId);
+                    console.log('changed the incident to -In Progress-');
                 });
                 console.log('Total Response : ',JSON.stringify(data));
                 var objFinalData = new jsonData.incidentCreatedData();
