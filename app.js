@@ -282,8 +282,8 @@ bot.dialog("progressDialog", function(session, args) {
       // Stop timer and return response
 
       clearTimeout(hTimer);
-
-      session.endDialogWithResult({ response: response });
+      session.endDialog();
+    //  session.endDialogWithResult({ response: response });
     });
   } catch (err) {
     session.error(err);
