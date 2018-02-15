@@ -101,7 +101,7 @@
 
         transporter.sendMail({
             from: '39416.hexaware@gmail.com',
-            to: 'NivethaK@hexaware.com',//mailAddress,
+            to: 'RameshN2@hexaware.com',//mailAddress,
             subject: mailSubject,
             html: messageContent
         });
