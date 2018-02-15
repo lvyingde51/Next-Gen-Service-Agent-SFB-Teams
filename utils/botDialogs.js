@@ -2,81 +2,64 @@
     'use strict';
     var builder = require('botbuilder');
 
-    // exports.getMessage = function (session, propertyName, language) {
-    //     if (!language) {
-    //         language = "ENGLISH";
-    //     }
+    exports.getMessage = function (session, propertyName, language) {
+        if (!language) {
+            language = "ENGLISH";
+        }
 
-    //     if (session.message.user.aadObjectId) {
+        let botResp = null;
 
-    //         let botResp = BOT_MESSAGES_TEAMS[propertyName];
+        switch (session.message.source) {
+            case 'slack':
+                botResp = BOT_MESSAGES_TEAMS[propertyName];
+                if (botResp) {
+                    let botMsg = botResp[language];
+                    if (botMsg) {
+                        if (!botMsg.title) {
+                            botMsg.title = "";
+                        }
+                        if (!botMsg.subtitle) {
+                            botMsg.subtitle = "";
+                        }
+                        if (!botMsg.text) {
+                            botMsg.text = "";
+                        }
+                        if (!botMsg.buttons) {
+                            botMsg.buttons = [];
+                        }
 
-    //         if (botResp) {
-    //             let botMsg = botResp[language];
+                        return new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                            .title(botMsg.title)
+                            .subtitle(botMsg.subtitle)
+                            .text(botMsg.text)
+                            .images()
+                            .buttons(botMsg.buttons));
+                    } else {
+                        return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
+                    }
+                } else {
+                    return 'Error :: Bot Message configuration is not available for Property ' + propertyName;
+                }
+                break;
+            case 'msteams':
+                break;
+            default:
+                botResp = BOT_MESSAGES[propertyName];
+                if (botResp) {
+                    let botMsg = botResp[language];
+                    if (botMsg) {
+                        return botMsg;
+                    } else {
+                        return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
+                    }
+                } else {
+                    return 'Error :: Bot Message configuration is not available for Property ' + propertyName;
+                }
 
-    //             if (botMsg) {
-
-    //                 if (!botMsg.title) {
-    //                     botMsg.title = "";
-    //                 }
-    //                 if (!botMsg.subtitle) {
-    //                     botMsg.subtitle = "";
-    //                 }
-    //                 if (!botMsg.text) {
-    //                     botMsg.text = "";
-    //                 }
-    //                 if (!botMsg.buttons) {
-    //                     botMsg.buttons = [];
-    //                 }
-
-    //                 return new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-    //                     .title(botMsg.title)
-    //                     .subtitle(botMsg.subtitle)
-    //                     .text(botMsg.text)
-    //                     .images()
-    //                     .buttons(botMsg.buttons));
-    //             } else {
-    //                 return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
-    //             }
-
-    //         } else {
-    //             return 'Error :: Bot Message configuration is not available for Property ' + propertyName;
-    //         }
-
-    //     } else {
-    //         let botResp = BOT_MESSAGES[propertyName];
-    //         if (botResp) {
-    //             let botMsg = botResp[language];
-    //             if (botMsg) {
-    //                 return botMsg;
-    //             } else {
-    //                 return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
-    //             }
-
-    //         } else {
-    //             return 'Error :: Bot Message configuration is not available for Property ' + propertyName;
-    //         }
-
-    //         return BOT_MESSAGES[propertyName][language];
-    //     }
-    // }
-
-    // BOT_MESSAGES_TEAMS = {
-    //     "INCIDENTSTATUSBYLIST": {
-    //         "ENGLISH": {
-    //             "title": "",
-    //             "subtitle": "",
-    //             "text": "Last 10 Incidents",
-    //             "buttons": [
-    //                 {
-    //                     "type": "imBack",
-    //                     "title": "Select",
-    //                     "value": "INC0010808"
-    //                 }
-    //             ]
-    //         }
-    //     }
-    // }
+                return BOT_MESSAGES[propertyName][language];
+                break;
+        }
+    }
 
     var greetingMessage = {
         'beginGreeting': (session, platform) => {
@@ -171,7 +154,89 @@
         }
     };
 
+    var BOT_MESSAGES = {
+        "CREATEINCIDENT_1": {
+            "ENGLISH": "Successfully Created Incident"
+        },
+        "CREATEINCIDENT_2": {
+            "ENGLISH": "Incident Id :"
+        },
+        "INCIDENTSTATUS": {
+            "ENGLISH": {
+
+            }
+        },
+        "CREATESR": {
+            "ENGLISH": {
+
+            }
+        },
+        "SRSTATUS": {
+            "ENGLISH": {
+
+            }
+        }
+    };
+
+    var BOT_MESSAGES_TEAMS = {
+        "CREATEINCIDENT_1": {
+            "ENGLISH": "Successfully Created Incident"
+        },
+        "CREATEINCIDENT_2": {
+            "ENGLISH": {
+                "title": "",
+                "subtitle": "",
+                "text": "",
+                "buttons": []
+            }
+        },
+        "INCIDENTSTATUS": {
+            "ENGLISH": {
+
+            }
+        },
+        "CREATESR": {
+            "ENGLISH": {
+
+            }
+        },
+        "SRSTATUS": {
+            "ENGLISH": {
+
+            }
+        }
+    };
+
+    var BOT_MESSAGES_SLACK = {
+        "CREATEINCIDENT_1": {
+            "ENGLISH": "_Successfully Created Incident_"
+        },
+        "CREATEINCIDENT_2": {
+            "ENGLISH": {
+                "title": "",
+                "subtitle": "",
+                "text": "",
+                "buttons": []
+            }
+        },
+        "INCIDENTSTATUS": {
+            "ENGLISH": {
+
+            }
+        },
+        "CREATESR": {
+            "ENGLISH": {
+
+            }
+        },
+        "SRSTATUS": {
+            "ENGLISH": {
+
+            }
+        }
+    };
+
     module.exports.greetingMessage = greetingMessage;
     module.exports.pleaseWait = PLEASE_WAIT_MESSAGE;
-    
+
 }());

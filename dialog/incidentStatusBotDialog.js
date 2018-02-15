@@ -77,7 +77,7 @@
                                 session.send('_Below are the details for the requested incident_');
                                 session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                     .title(`*${session.conversationData.ISIncidentId}*`)
-                                    .text(`Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : Unassigned`)
+                                    .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : Unassigned`)
                                     .subtitle(`${data.result[0].short_description}`)
                                 ));
                                 session.endDialog();
@@ -86,13 +86,13 @@
                                 session.send('Below are the details for the requested incident');
                                 session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                     .title(`${session.conversationData.ISIncidentId}`)
-                                    .text(`Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
+                                    .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
                                     .subtitle(`${data.result[0].short_description}`)
                                 ));
                                 session.endDialog();
                                 break;
                             default:
-                                let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: Unassigned';
+                                let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: Unassigned';
                                 session.endDialog(msg);
                                 break;
                         }
@@ -111,7 +111,7 @@
                                         session.send('_Below are the details for the requested incident_');
                                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                             .title(`*${session.conversationData.ISIncidentId}*`)
-                                            .text(`Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : ${resp.result.name}`)
+                                            .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : ${resp.result.name}`)
                                             .subtitle(`${data.result[0].short_description}`)
                                         ));
                                         session.endDialog();
@@ -120,13 +120,13 @@
                                         session.send('Below are the details for the requested incident');
                                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                             .title(`${session.conversationData.ISIncidentId}`)
-                                            .text(`Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : ${resp.result.name}`)
+                                            .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : ${resp.result.name}`)
                                             .subtitle(`${data.result[0].short_description}`)
                                         ));
                                         session.endDialog();
                                         break;
                                     default:
-                                        let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
+                                        let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
                                         session.endDialog(msg);
                                         break;
                                 }
@@ -181,7 +181,7 @@
                         session.send('_Below are the details for the requested incident_');
                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                             .title(`*${session.conversationData.ISIncidentId}*`)
-                            .text(`Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : Unassigned`)
+                            .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : Unassigned`)
                             .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
                         ));
                         session.endDialog();
@@ -190,13 +190,13 @@
                         session.send('Below are the details for the requested incident');
                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                             .title(`${session.conversationData.ISIncidentId}`)
-                            .text(`Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : Unassigned`)
+                            .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : Unassigned`)
                             .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
                         ));
                         session.endDialog();
                         break;
                     default:
-                        let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: Unassigned';
+                        let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: Unassigned';
                         session.endDialog(msg);
                         break;
                 }
@@ -214,7 +214,7 @@
                                 session.send('_Below are the details for the requested incident_');
                                 session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                     .title(`*${session.conversationData.ISIncidentId}*`)
-                                    .text(`Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : ${resp.result.name}`)
+                                    .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : ${resp.result.name}`)
                                     .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
                                 ));
                                 session.endDialog();
@@ -223,13 +223,13 @@
                                 session.send('Below are the details for the requested incident');
                                 session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                     .title(`${session.conversationData.ISIncidentId}`)
-                                    .text(`Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : ${resp.result.name}`)
+                                    .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : ${resp.result.name}`)
                                     .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
                                 ));
                                 session.endDialog();
                                 break;
                             default:
-                                let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
+                                let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.ISIncidentId + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
                                 session.endDialog(msg);
                                 break;
                         }
