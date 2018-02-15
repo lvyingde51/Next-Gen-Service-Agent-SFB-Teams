@@ -2,62 +2,62 @@
     'use strict';
     var builder = require('botbuilder');
 
-    exports.getMessage = function (session, propertyName, language) {
-        if (!language) {
-            language = "ENGLISH";
-        }
+    // exports.getMessage = function (session, propertyName, language) {
+    //     if (!language) {
+    //         language = "ENGLISH";
+    //     }
 
-        switch (session.message.source) {
-            case 'slack':
-                let botResp = BOT_MESSAGES_TEAMS[propertyName];
-                if (botResp) {
-                    let botMsg = botResp[language];
-                    if (botMsg) {
-                        if (!botMsg.title) {
-                            botMsg.title = "";
-                        }
-                        if (!botMsg.subtitle) {
-                            botMsg.subtitle = "";
-                        }
-                        if (!botMsg.text) {
-                            botMsg.text = "";
-                        }
-                        if (!botMsg.buttons) {
-                            botMsg.buttons = [];
-                        }
+    //     switch (session.message.source) {
+    //         case 'slack':
+    //             let botResp = BOT_MESSAGES_TEAMS[propertyName];
+    //             if (botResp) {
+    //                 let botMsg = botResp[language];
+    //                 if (botMsg) {
+    //                     if (!botMsg.title) {
+    //                         botMsg.title = "";
+    //                     }
+    //                     if (!botMsg.subtitle) {
+    //                         botMsg.subtitle = "";
+    //                     }
+    //                     if (!botMsg.text) {
+    //                         botMsg.text = "";
+    //                     }
+    //                     if (!botMsg.buttons) {
+    //                         botMsg.buttons = [];
+    //                     }
 
-                        return new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                            .title(botMsg.title)
-                            .subtitle(botMsg.subtitle)
-                            .text(botMsg.text)
-                            .images()
-                            .buttons(botMsg.buttons));
-                    } else {
-                        return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
-                    }
-                } else {
-                    return 'Error :: Bot Message configuration is not available for Property ' + propertyName;
-                }
-                break;
-            case 'msteams':
-                break;
-            default:
-                let botResp = BOT_MESSAGES[propertyName];
-                if (botResp) {
-                    let botMsg = botResp[language];
-                    if (botMsg) {
-                        return botMsg;
-                    } else {
-                        return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
-                    }
-                } else {
-                    return 'Error :: Bot Message configuration is not available for Property ' + propertyName;
-                }
+    //                     return new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+    //                         .title(botMsg.title)
+    //                         .subtitle(botMsg.subtitle)
+    //                         .text(botMsg.text)
+    //                         .images()
+    //                         .buttons(botMsg.buttons));
+    //                 } else {
+    //                     return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
+    //                 }
+    //             } else {
+    //                 return 'Error :: Bot Message configuration is not available for Property ' + propertyName;
+    //             }
+    //             break;
+    //         case 'msteams':
+    //             break;
+    //         default:
+    //             let botResp = BOT_MESSAGES[propertyName];
+    //             if (botResp) {
+    //                 let botMsg = botResp[language];
+    //                 if (botMsg) {
+    //                     return botMsg;
+    //                 } else {
+    //                     return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
+    //                 }
+    //             } else {
+    //                 return 'Error :: Bot Message configuration is not available for Property ' + propertyName;
+    //             }
 
-                return BOT_MESSAGES[propertyName][language];
-                break;
-        }    
-    }
+    //             return BOT_MESSAGES[propertyName][language];
+    //             break;
+    //     }    
+    // }
 
     var greetingMessage = {
         'beginGreeting': (session, platform) => {
