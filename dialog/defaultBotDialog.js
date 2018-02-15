@@ -64,8 +64,73 @@
                             session.conversationData.category = data.result[0].category;
                             session.conversationData.short_description = data.result[0].short_description;
                             console.log('--status of incident-- ', session.conversationData.incident_state);
-                            let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.capturedStr + ' <br/>Urgency : ' + jsonData.urgencyStatic[session.conversationData.urgency][lang] +' <br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + jsonData.incidentStatus[session.conversationData.incident_state][lang];
-                            session.send(msg);
+                            //let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.capturedStr + ' <br/>Urgency : ' + jsonData.urgencyStatic[session.conversationData.urgency][lang] +' <br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + jsonData.incidentStatus[session.conversationData.incident_state][lang];
+                            //session.send(msg);
+                            let assignedTo = data.result[0].assigned_to == '' ? '-' : data.result[0].assigned_to.link;
+                            log.consoleDefault(assignedTo);
+                            log.consoleDefault(jsonData.incidentStatus[data.result[0].state][lang]);
+                            if (assignedTo == '-') {
+                                switch (session.message.source) {
+                                    case 'slack':
+                                        session.send('_Below are the details for the requested incident_');
+                                        session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                            .title(`*${session.conversationData.capturedStr}*`)
+                                            .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${jsonData.incidentStatus[data.result[0].state][lang]} \nAssigned To : Unassigned`)
+                                            .subtitle(`${data.result[0].short_description}`)
+                                        ));
+                                        //session.endDialog();
+                                        break;
+                                    case 'msteams':
+                                        session.send('<i>Below are the details for the requested incident</i>');
+                                        session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                            .title(`${session.conversationData.capturedStr}`)
+                                            .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${jsonData.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
+                                            .subtitle(`${data.result[0].short_description}`)
+                                        ));
+                                        //session.endDialog();
+                                        break;
+                                    default:
+                                        let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.capturedStr + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + jsonData.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + jsonData.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: Unassigned';
+                                        session.send(msg);
+                                        break;
+                                }
+
+                            } else {
+                                // session.send(pleaseWait["DEFAULT"][lang]);
+                                apiService.getAssignedToDetails(assignedTo, function (resp) {
+                                    if (!resp) {
+                                        let msg = 'An error has occurred while fetching the details... Please try again later...';
+                                        session.endDialog(msg);
+                                        return false;
+                                    } else {
+                                        log.consoleDefault(JSON.stringify(resp));
+                                        switch (session.message.source) {
+                                            case 'slack':
+                                                session.send('_Below are the details for the requested incident_');
+                                                session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                                    .title(`*${session.conversationData.capturedStr}*`)
+                                                    .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${jsonData.incidentStatus[data.result[0].state][lang]} \nAssigned To : ${resp.result.name}`)
+                                                    .subtitle(`${data.result[0].short_description}`)
+                                                ));
+                                                //session.endDialog();
+                                                break;
+                                            case 'msteams':
+                                                session.send('<i>Below are the details for the requested incident</i>');
+                                                session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                                    .title(`${session.conversationData.capturedStr}`)
+                                                    .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${jsonData.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : ${resp.result.name}`)
+                                                    .subtitle(`${data.result[0].short_description}`)
+                                                ));
+                                                //session.endDialog();
+                                                break;
+                                            default:
+                                                let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.capturedStr + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + jsonData.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + jsonData.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
+                                                session.send(msg);
+                                                break;
+                                        }
+                                    }
+                                });
+                            }
                             // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Canceled
                             if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
                                 builder.Prompts.choice(session, 'What do you want to do with the entered incident number?', ['Reopen']);
