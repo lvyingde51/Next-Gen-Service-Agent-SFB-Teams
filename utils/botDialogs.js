@@ -7,9 +7,11 @@
             language = "ENGLISH";
         }
 
+        let botResp = null;
+
         switch (session.message.source) {
             case 'slack':
-                let botResp = BOT_MESSAGES_TEAMS[propertyName];
+                botResp = BOT_MESSAGES_TEAMS[propertyName];
                 if (botResp) {
                     let botMsg = botResp[language];
                     if (botMsg) {
@@ -42,7 +44,7 @@
             case 'msteams':
                 break;
             default:
-                let botResp = BOT_MESSAGES[propertyName];
+                botResp = BOT_MESSAGES[propertyName];
                 if (botResp) {
                     let botMsg = botResp[language];
                     if (botMsg) {
