@@ -3,7 +3,7 @@
 
     function jsonRequest() {
         this.short_description = null;
-        this.caller_id = null;
+        this.caller_id = 'rubin.crotts@example.com';
         this.category = null;
         this.urgency = null;
         this.incident_state = null;
@@ -11,7 +11,7 @@
     }
 
     function statusUpdate() {
-        this.caller_id = null;
+        this.caller_id = 'rubin.crotts@example.com';
         this.comments = '';
         this.incident_state = null;
         this.json = true;
