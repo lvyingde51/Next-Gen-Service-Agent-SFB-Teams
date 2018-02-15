@@ -198,7 +198,7 @@ bot.endConversationAction("goodbyeAction", "Ok... See you later.", {
   matches: "Goodbye"
 });
 bot.on("conversationUpdate", function(message) {
-  if (message.membersAdded && message.membersAdded.length > 0) {
+/*if (message.membersAdded && message.membersAdded.length > 0) {
     // Say hello
     //var isGroup = message.address.conversation.isGroup;
     var txt = `Hi ${
@@ -221,7 +221,7 @@ bot.on("conversationUpdate", function(message) {
         break;
       }
     }
-  }
+  }*/
 });
 
 bot.on("error", function(e) {
