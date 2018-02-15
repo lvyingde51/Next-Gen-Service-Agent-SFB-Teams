@@ -260,6 +260,13 @@ bot.dialog("progressDialog", function(session, args) {
       session.say(options.text, options.speak, {
         inputHint: builder.InputHint.ignoringInput
       });
+      if(count=3)
+      {
+      clearTimeout(hTimer);
+      session.send('Something gone wrong please try again later');
+      session.endDialogWithResult({ response: response });
+      return;    
+      }
     } else {
       var text = options.initialText || options.text;
 
@@ -273,7 +280,7 @@ bot.dialog("progressDialog", function(session, args) {
 
   // Start progress timer
 
-  var hTimer = setTimeout(sendProgress, options.initialDelay || 1000);
+  var hTimer = setTimeout(sendProgress, options.initialDelay || 2000);
 
   // Call async function
 
