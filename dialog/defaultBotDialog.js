@@ -107,7 +107,7 @@
                             session.send('_Successfully added additional comment for your incident_');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`*${session.conversationData.capturedStr}*`)
-                                .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang]+` \nCategory : ` + session.conversationData.category +`\nStatus: ` + session.conversationData.incident_state + ` \nComments : ` + session.conversationData.comment).subtitle(`${session.conversationData.short_description}`)
+                                .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang]+` \nCategory : ` + session.conversationData.category +`\nStatus: ` + jsonData.incidentStatus[session.conversationData.incident_state][lang] + ` \nComments : ` + session.conversationData.comment).subtitle(`${session.conversationData.short_description}`)
                             ));
                             //session.send(`You can check status of your incident by typing your incident number eg: *incident status ${session.conversationData.capturedStr}*`);
                             //session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
@@ -117,8 +117,8 @@
                         case 'msteams':                        
                             session.send('<i>Successfully added additional comment for your incident</i>');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                .title(`*${session.conversationData.capturedStr}*`)
-                                .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang]+`<br/>Category : ` + session.conversationData.category +`<br/>Status: ` + session.conversationData.incident_state + ` <br/>Comments : ` + session.conversationData.comment)
+                                .title(`${session.conversationData.capturedStr}`)
+                                .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang]+`<br/>Category : ` + session.conversationData.category +`<br/>Status: ` + jsonData.incidentStatus[session.conversationData.incident_state][lang] + ` <br/>Comments : ` + session.conversationData.comment)
                                 .subtitle(`${session.conversationData.short_description}`)
                             ));
                             //session.send(`You can check status of your incident by typing your incident number eg: <b>incident status ${session.conversationData.capturedStr}</b>`);
@@ -166,7 +166,7 @@
                         case 'msteams':                        
                             session.send('<i>Successfully reopened your incident</i>');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                .title(`*${session.conversationData.capturedStr}*`)
+                                .title(`${session.conversationData.capturedStr}`)
                                 .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang]+`<br/>Category : ` + session.conversationData.category +`<br/>Status: ` + objData.incident_state + ` <br/>Comments : ` + session.conversationData.comment)
                                 .subtitle(`${session.conversationData.short_description}`)
                             ));
@@ -213,7 +213,7 @@
                         case 'msteams':                        
                             session.send('<i>Successfully closed your incident</i>');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                .title(`*${session.conversationData.capturedStr}*`)
+                                .title(`${session.conversationData.capturedStr}`)
                                 .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang]+`<br/>Category : ` + session.conversationData.category +`<br/>Status: ` + objData.incident_state + ` <br/>Comments : ` + session.conversationData.comment)
                                 .subtitle(`${session.conversationData.short_description}`)
                             ));
