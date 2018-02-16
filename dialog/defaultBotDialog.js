@@ -85,8 +85,7 @@
                                         break;
                                     case 'msteams':
                                         // session.send('<i>Below are the details for the requested incident</i>');
-                                        message = new builder.Message(session).textFormat(builder.TextFormat.xml)
-        .attachmentLayout(builder.AttachmentLayout.carousel).addAttachment(new builder.ThumbnailCard(session)
+                                        message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                             .title(`${session.conversationData.capturedStr}`)
                                             .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${jsonData.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
                                             .subtitle(`${data.result[0].short_description}`)
@@ -138,6 +137,38 @@
                                     }
                                 });
                             }
+                            var msgch = new builder.Message(session)
+                                .textFormat(builder.TextFormat.xml)
+                                .attachmentLayout(builder.AttachmentLayout.carousel)
+                                .attachments([
+                                    new builder.ThumbnailCard(session)
+                                        .title("Card number 1")
+                                        .text("Description first card")
+                                    .images([
+                                        builder.CardImage.create(session, "https://www.example.org/img1.gif")
+                                            .tap(builder.CardAction.showImage(session, "ttps://www.example.org/img1.gif")),
+                                    ])
+                                        .buttons([
+                                            builder.CardAction.openUrl(session, "https://google.com", "Website"),
+                                            builder.CardAction.imBack(session, "select:100", "button 1"),
+                                            builder.CardAction.imBack(session, "select:101", "Button2")
+
+                                        ]),
+                                    new builder.ThumbnailCard(session)
+                                        .title("Card 2")
+                                        .text("Description card 2")
+                                        .images([
+                                            builder.CardImage.create(session, "https://image.jpg")
+                                                .tap(builder.CardAction.showImage(session, "https://image.jpg")),
+                                        ])
+                                        .buttons([
+                                            builder.CardAction.openUrl(session, "https://google.com", "Website"),
+                                            builder.CardAction.imBack(session, "select:200", "button3"),
+                                            builder.CardAction.imBack(session, "select:201", "button4")
+                                        ]),
+                                ]);
+
+                            builder.Prompts.choice(session, msgch, "select:100|select:101|select:200|select:201");
                             console.log('Message ~~~~~~~',JSON.stringify(message));
                             // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Canceled
                             if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
