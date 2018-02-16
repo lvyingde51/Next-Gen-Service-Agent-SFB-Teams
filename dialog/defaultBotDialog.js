@@ -85,11 +85,10 @@
                                         break;
                                     case 'msteams':
                                         // session.send('<i>Below are the details for the requested incident</i>');
-                                        message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                        message = new builder.ThumbnailCard(session)
                                             .title(`${session.conversationData.capturedStr}`)
                                             .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${jsonData.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
-                                            .subtitle(`${data.result[0].short_description}`)
-                                        );
+                                            .subtitle(`${data.result[0].short_description}`);
                                         //session.endDialog();
                                         break;
                                     default:
@@ -140,9 +139,9 @@
                             console.log('Message ~~~~~~~',JSON.stringify(message));
                             // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Canceled
                             if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                                builder.Prompts.choice(session, 'test', ['Reopen']);
+                                builder.Prompts.choice(session, message, ['Reopen']);
                             } else {
-                                builder.Prompts.choice(session, 'test', ['Add a Comment', 'Close']);
+                                builder.Prompts.choice(session, message, ['Add a Comment', 'Close']);
                             }
                         }
                     }
