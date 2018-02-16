@@ -404,7 +404,7 @@
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType, session.conversationData.sys_id, function (data) {
                     switch (session.message.source) {
                         case 'slack':
-                            session.send('_Successfully added additional comment for your incident_');
+                            session.send('_Your comment has been added!_');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`*${session.conversationData.IncidentNumber}*`)
                                 .text(`Category : ${session.conversationData.category} \nStatus : ${jsonData.incidentStatus[session.conversationData.incident_state][lang]} \Comments : ${session.conversationData.commentReopenIncident}`)
@@ -413,7 +413,7 @@
                             session.endDialog();
                             break;
                         case 'msteams':
-                            session.send('Successfully added additional comment for your incident');
+                            session.send('Your comment has been added!');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`${session.conversationData.IncidentNumber}`)
                                 .text(`Category : ${session.conversationData.category} <br/>Status : ${jsonData.incidentStatus[session.conversationData.incident_state][lang]} <br/>Comments : ${session.conversationData.commentReopenIncident}`)
@@ -422,7 +422,7 @@
                             session.endDialog();
                             break;
                         default:
-                            let msg = 'Successfully added additional comment for your incident:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + jsonData.incidentStatus[session.conversationData.incident_state][lang] + ' <br/> Comments : ' + session.conversationData.commentReopenIncident;
+                            let msg = 'Your comment has been added:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + jsonData.incidentStatus[session.conversationData.incident_state][lang] + ' <br/> Comments : ' + session.conversationData.commentReopenIncident;
                             session.endDialog(msg);
                             break;
                     }
@@ -445,7 +445,7 @@
                 objData.comments = session.conversationData.commentReopenIncident;
                 session.send(pleaseWait["INCIDENTADDCOMMENT"][lang]);
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType, session.conversationData.sys_id, function (data) {
-                    let msg = 'Successfully added additional comment for your incident:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + jsonData.incidentStatus[session.conversationData.incident_state][lang] + ' <br/> Comments : ' + session.conversationData.commentReopenIncident;
+                    let msg = 'Your comment has been added:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + jsonData.incidentStatus[session.conversationData.incident_state][lang] + ' <br/> Comments : ' + session.conversationData.commentReopenIncident;
                     session.conversationData.commentReopenIncident = '';
                     session.conversationData.incident_state = '';
                     session.conversationData.urgency = '';

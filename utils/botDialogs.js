@@ -129,19 +129,19 @@
             "ENGLISH": "Hold on... Adding your incident..."
         },
         "INCIDENTSTATUS": {
-            "ENGLISH": "Hold on... Checking your incident status..."
+            "ENGLISH": "Hang tight... Searching for your incident..."
         },
         "INCIDENTLIST": {
-            "ENGLISH": "Hold on... Loading list of incidents..."
+            "ENGLISH": "Hang tight... Searching list of incidents..."
         },
         "CREATESR": {
             "ENGLISH": "Hold on... Creating your Service request..."
         },
         "SRSTATUS": {
-            "ENGLISH": "Hold on... Checking your service request status..."
+            "ENGLISH": "Stand by... Looking for your service request..."
         },
         "SRLIST": {
-            "ENGLISH": "Hold on... Loading list of service requests..."
+            "ENGLISH": "Stand by... Looking list of service requests..."
         },
         "INCIDENTREOPEN": {
             "ENGLISH": "Hold on... We are reopening your incident..."
@@ -156,7 +156,7 @@
 
     var BOT_MESSAGES = {
         "CREATEINCIDENT_1": {
-            "ENGLISH": "Successfully Created Incident"
+            "ENGLISH": "I have created your incident!"
         },
         "CREATEINCIDENT_2": {
             "ENGLISH": "Incident Id :"
@@ -180,7 +180,7 @@
 
     var BOT_MESSAGES_TEAMS = {
         "CREATEINCIDENT_1": {
-            "ENGLISH": "Successfully Created Incident"
+            "ENGLISH": "I have created your incident!"
         },
         "CREATEINCIDENT_2": {
             "ENGLISH": {
@@ -209,7 +209,7 @@
 
     var BOT_MESSAGES_SLACK = {
         "CREATEINCIDENT_1": {
-            "ENGLISH": "_Successfully Created Incident_"
+            "ENGLISH": "_I have created your incident!_"
         },
         "CREATEINCIDENT_2": {
             "ENGLISH": {

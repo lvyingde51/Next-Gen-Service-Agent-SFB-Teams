@@ -150,7 +150,7 @@
 
             session.conversationData.capturedOption = results.response.entity;
             if (results.response.entity == 'Add a Comment') {
-                builder.Prompts.text(session, 'Okay, Please enter the (additional) comments for your incident');
+                builder.Prompts.text(session, 'Okay, Please enter your comment');
             } else if (results.response.entity == 'Reopen') {
                 builder.Prompts.text(session, 'Okay, Please enter the (additional) comments for your reopening incident');
             } else if (results.response.entity == 'Close') {
@@ -174,7 +174,7 @@
                                 .title(`*${session.conversationData.capturedStr}*`)
                                 .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang]+` \nCategory : ` + session.conversationData.category +`\nStatus: ` + jsonData.incidentStatus[session.conversationData.incident_state][lang] + ` \nComments : ` + session.conversationData.comment).subtitle(`${session.conversationData.short_description}`)
                             ));
-                            //session.send(`You can check status of your incident by typing your incident number eg: *incident status ${session.conversationData.capturedStr}*`);
+                            //session.send(`You can check the status of your incident by simply typing your incident number eg: *incident status ${session.conversationData.capturedStr}*`);
                             //session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                             session.endDialog();
                             
@@ -186,7 +186,7 @@
                                 .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang]+`<br/>Category : ` + session.conversationData.category +`<br/>Status: ` + jsonData.incidentStatus[session.conversationData.incident_state][lang] + ` <br/>Comments : ` + session.conversationData.comment)
                                 .subtitle(`${session.conversationData.short_description}`)
                             ));
-                            //session.send(`You can check status of your incident by typing your incident number eg: <b>incident status ${session.conversationData.capturedStr}</b>`);
+                            //session.send(`You can check the status of your incident by simply typing your incident number eg: <b>incident status ${session.conversationData.capturedStr}</b>`);
                             //session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                             session.endDialog();
                             
@@ -223,7 +223,7 @@
                                 \nStatus: ` + objData.incident_state + ` \nComments : ` + session.conversationData.comment)
                                 .subtitle(`${session.conversationData.short_description}`)
                             ));
-                            //session.send(`You can check status of your incident by typing your incident number eg: *incident status ${session.conversationData.capturedStr}*`);
+                            //session.send(`You can check the status of your incident by simply typing your incident number eg: *incident status ${session.conversationData.capturedStr}*`);
                             //session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                             session.endDialog();
                             
@@ -235,7 +235,7 @@
                                 .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang]+`<br/>Category : ` + session.conversationData.category +`<br/>Status: ` + objData.incident_state + ` <br/>Comments : ` + session.conversationData.comment)
                                 .subtitle(`${session.conversationData.short_description}`)
                             ));
-                            //session.send(`You can check status of your incident by typing your incident number eg: <b>incident status ${session.conversationData.capturedStr}</b>`);
+                            //session.send(`You can check the status of your incident by simply typing your incident number eg: <b>incident status ${session.conversationData.capturedStr}</b>`);
                             //session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                             session.endDialog();
                             

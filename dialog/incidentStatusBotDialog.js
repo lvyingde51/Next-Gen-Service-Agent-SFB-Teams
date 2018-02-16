@@ -18,7 +18,6 @@
         },
         function (session, results) {
             session.conversationData.ISSearchType = results.response.entity;
-            log.consoleDefault(results.response);
 
             if (session.conversationData.ISSearchType === 'By Incident Id') {
                 session.beginDialog('isSearchById', function (err) {
@@ -28,7 +27,6 @@
                 });
             }
             if (session.conversationData.ISSearchType === 'Last 10 Incidents') {
-                log.consoleDefault('coming');
                 session.beginDialog('isSearchByList', function (err) {
                     if (err) {
                         session.send(new builder.Message().text('Error Occurred with isSearchByList' + err.message));
@@ -288,7 +286,7 @@
         function (session, results) {
             session.conversationData.capturedOption = results.response.entity;
             if (results.response.entity == 'Add a Comment') {
-                builder.Prompts.text(session, 'Okay, Please enter the (additional) comments for your incident');
+                builder.Prompts.text(session, 'Okay, Please enter your comment');
             } else if (results.response.entity == 'Reopen') {
                 builder.Prompts.text(session, 'Okay, Please enter the (additional) comments for your reopening incident');
             } else if (results.response.entity == 'Close') {
@@ -307,7 +305,7 @@
                     console.log('$$$$$$$ ', session.message.source);
                     switch (session.message.source) {
                         case 'slack':
-                            session.send('_Successfully added additional comment for your incident_');
+                            session.send('_Your comment has been added!_');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`*${session.conversationData.IncidentNumber}*`)
                                 .text(`Urgency : ` + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + ` \nCategory : ` + session.conversationData.category + `\nStatus: ` + commonTemplate.incidentStatus[session.conversationData.incident_state][lang] + ` \nComments : ` + session.conversationData.comment).subtitle(`${session.conversationData.short_description}`)
@@ -316,7 +314,7 @@
 
                             break;
                         case 'msteams':
-                            session.send('<i>Successfully added additional comment for your incident</i>');
+                            session.send('<i>Your comment has been added!</i>');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`${session.conversationData.IncidentNumber}`)
                                 .text(`Urgency : ` + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + `<br/>Category : ` + session.conversationData.category + `<br/>Status: ` + commonTemplate.incidentStatus[session.conversationData.incident_state][lang] + ` <br/>Comments : ` + session.conversationData.comment)
