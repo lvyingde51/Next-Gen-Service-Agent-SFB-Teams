@@ -85,10 +85,12 @@
                                         break;
                                     case 'msteams':
                                         // session.send('<i>Below are the details for the requested incident</i>');
-                                        message = new builder.ThumbnailCard(session)
+                                        message = new builder.Message(session).textFormat(builder.TextFormat.xml)
+        .attachmentLayout(builder.AttachmentLayout.carousel).addAttachment(new builder.ThumbnailCard(session)
                                             .title(`${session.conversationData.capturedStr}`)
                                             .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${jsonData.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
-                                            .subtitle(`${data.result[0].short_description}`);
+                                            .subtitle(`${data.result[0].short_description}`)
+                                        );
                                         //session.endDialog();
                                         break;
                                     default:
