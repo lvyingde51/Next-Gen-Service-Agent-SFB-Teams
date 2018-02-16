@@ -10,6 +10,7 @@
     var serviceRequestRegex = /^(ritm)\w+\d{6}$/gim;
     var reqType = 'INCIDENTSTATUS';
     var pleaseWait = require('../utils/botDialogs').pleaseWait;
+    var botDialogs = require('../utils/botDialogs').sendError;
 
     module.exports.beginDialog = [
         function (session) {
@@ -26,11 +27,11 @@
             console.log(textsess.match(incidentRegex));
             console.log(textsess.match(serviceRequestRegex));
 
-            if(textsess.match(incidentRegex)) {
+            if (textsess.match(incidentRegex)) {
                 log.consoleDefault('Inside Incident');
                 reqType = 'INCIDENTSTATUS';
             }
-            else if(textsess.match(serviceRequestRegex)) {
+            else if (textsess.match(serviceRequestRegex)) {
                 log.consoleDefault('Inside Service Request');
                 reqType = 'SERVICEREQUEST';
             }
@@ -42,21 +43,21 @@
                 apiService.getStatusByNumber(session.conversationData.capturedStr, reqType, function (data) {
                     log.consoleDefault(JSON.stringify(data));
                     if (!data) {
-                        let msg = 'An error has occurred while fetching the details... Please try again later...';
+                        let msg = botDialogs.DEFAULT[lang];
                         session.endDialog(msg);
                         return false;
                     }
 
                     if (data.hasOwnProperty('error')) {
-                        let msg = 'Incident Number does not exist in our database. ' + data.error.message;
+                        let msg = botDialogs.INCIDENTNOTFOUND[lang];
                         session.endDialog(msg);
                     } else {
-                        if(reqType === 'SERVICEREQUEST') {
+                        if (reqType === 'SERVICEREQUEST') {
                             let msg = 'These are the details of the requested Service Request:- <br/>Requested Item Number : ' + session.conversationData.capturedStr + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Installation Status: ' + jsonData.incidentStatus[data.result[0].state][lang] + ' <br/>Approval: ' + data.result[0].approval.toUpperCase() + ' <br/>Stage: ' + data.result[0].stage.toUpperCase().split('_').join(' ') + ' <br/>Due Date: ' + data.result[0].due_date;
                             session.endDialog(msg);
                         }
 
-                        if(reqType === 'INCIDENTSTATUS') {
+                        if (reqType === 'INCIDENTSTATUS') {
                             session.conversationData.sys_id = data.result[0].sys_id;
                             console.log('-- sys_id --', session.conversationData.sys_id);
                             session.conversationData.incident_state = data.result[0].incident_state;
@@ -99,7 +100,7 @@
                                 // session.send(pleaseWait["DEFAULT"][lang]);
                                 apiService.getAssignedToDetails(assignedTo, function (resp) {
                                     if (!resp) {
-                                        let msg = 'An error has occurred while fetching the details... Please try again later...';
+                                        let msg = botDialogs.DEFAULT[lang];
                                         session.endDialog(msg);
                                         return false;
                                     } else {
@@ -137,7 +138,7 @@
                             } else {
                                 builder.Prompts.choice(session, 'What do you want to do with the entered incident number?', ['Add a Comment', 'Close']);
                             }
-                        }                        
+                        }
                     }
                 });
 
@@ -166,30 +167,30 @@
                 objData.incident_state = session.conversationData.incident_state;
                 session.send(pleaseWait["INCIDENTADDCOMMENT"][lang]);
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType, session.conversationData.sys_id, function (data) {
-                    console.log('$$$$$$$ ',session.message.source);
+                    console.log('$$$$$$$ ', session.message.source);
                     switch (session.message.source) {
                         case 'slack':
                             session.send('_Your comment has been added!_');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`*${session.conversationData.capturedStr}*`)
-                                .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang]+` \nCategory : ` + session.conversationData.category +`\nStatus: ` + jsonData.incidentStatus[session.conversationData.incident_state][lang] + ` \nComments : ` + session.conversationData.comment).subtitle(`${session.conversationData.short_description}`)
+                                .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang] + ` \nCategory : ` + session.conversationData.category + `\nStatus: ` + jsonData.incidentStatus[session.conversationData.incident_state][lang] + ` \nComments : ` + session.conversationData.comment).subtitle(`${session.conversationData.short_description}`)
                             ));
                             //session.send(`You can check the status of your incident by simply typing your incident number eg: *incident status ${session.conversationData.capturedStr}*`);
                             //session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                             session.endDialog();
-                            
+
                             break;
-                        case 'msteams':                        
+                        case 'msteams':
                             session.send('<i>Your comment has been added!</i>');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`${session.conversationData.capturedStr}`)
-                                .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang]+`<br/>Category : ` + session.conversationData.category +`<br/>Status: ` + jsonData.incidentStatus[session.conversationData.incident_state][lang] + ` <br/>Comments : ` + session.conversationData.comment)
+                                .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang] + `<br/>Category : ` + session.conversationData.category + `<br/>Status: ` + jsonData.incidentStatus[session.conversationData.incident_state][lang] + ` <br/>Comments : ` + session.conversationData.comment)
                                 .subtitle(`${session.conversationData.short_description}`)
                             ));
                             //session.send(`You can check the status of your incident by simply typing your incident number eg: <b>incident status ${session.conversationData.capturedStr}</b>`);
                             //session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                             session.endDialog();
-                            
+
                             break;
                         default:
                             let msg = 'Successfully added comment for your incident:- <br/>Incident Id : ' + session.conversationData.capturedStr + '<br/>Urgency : ' + jsonData.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + session.conversationData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
@@ -213,39 +214,39 @@
                 objData.incident_state = 'In Progress';
                 session.send(pleaseWait["INCIDENTREOPEN"][lang]);
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType, session.conversationData.sys_id, function (data) {
-                    console.log('$$$$$$$ ',session.message.source);
+                    console.log('$$$$$$$ ', session.message.source);
                     switch (session.message.source) {
                         case 'slack':
                             session.send('_Successfully reopened your incident_');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`*${session.conversationData.capturedStr}*`)
-                                .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang]+` \nCategory : ` + session.conversationData.category +`
+                                .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang] + ` \nCategory : ` + session.conversationData.category + `
                                 \nStatus: ` + objData.incident_state + ` \nComments : ` + session.conversationData.comment)
                                 .subtitle(`${session.conversationData.short_description}`)
                             ));
                             //session.send(`You can check the status of your incident by simply typing your incident number eg: *incident status ${session.conversationData.capturedStr}*`);
                             //session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                             session.endDialog();
-                            
+
                             break;
-                        case 'msteams':                        
+                        case 'msteams':
                             session.send('<i>Successfully reopened your incident</i>');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`${session.conversationData.capturedStr}`)
-                                .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang]+`<br/>Category : ` + session.conversationData.category +`<br/>Status: ` + objData.incident_state + ` <br/>Comments : ` + session.conversationData.comment)
+                                .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang] + `<br/>Category : ` + session.conversationData.category + `<br/>Status: ` + objData.incident_state + ` <br/>Comments : ` + session.conversationData.comment)
                                 .subtitle(`${session.conversationData.short_description}`)
                             ));
                             //session.send(`You can check the status of your incident by simply typing your incident number eg: <b>incident status ${session.conversationData.capturedStr}</b>`);
                             //session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                             session.endDialog();
-                            
+
                             break;
                         default:
                             let msg = 'Successfully reopened your incident:- <br/>Incident Id : ' + session.conversationData.capturedStr + '<br/>Urgency : ' + jsonData.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + objData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
                             session.send(msg);
                             //session.send('Your incident will be assigned to a live agent shortly and your incident will be followed from there');
                             session.endDialog();
-                        
+
                     }
                     session.conversationData.capturedOption = '';
                     session.conversationData.capturedStr = '';
@@ -262,33 +263,33 @@
                 objData.incident_state = 'Closed';
                 session.send(pleaseWait["INCIDENTCLOSE"][lang]);
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType, session.conversationData.sys_id, function (data) {
-                    console.log('$$$$$$$ ',session.message.source);
+                    console.log('$$$$$$$ ', session.message.source);
                     switch (session.message.source) {
                         case 'slack':
                             session.send('_Successfully closed your incident_');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`*${session.conversationData.capturedStr}*`)
-                                .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang]+` \nCategory : ` + session.conversationData.category +`
+                                .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang] + ` \nCategory : ` + session.conversationData.category + `
                                 \nStatus: ` + objData.incident_state + ` \nComments : ` + session.conversationData.comment)
                                 .subtitle(`${session.conversationData.short_description}`)
                             ));
                             session.endDialog();
-                            
+
                             break;
-                        case 'msteams':                        
+                        case 'msteams':
                             session.send('<i>Successfully closed your incident</i>');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`${session.conversationData.capturedStr}`)
-                                .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang]+`<br/>Category : ` + session.conversationData.category +`<br/>Status: ` + objData.incident_state + ` <br/>Comments : ` + session.conversationData.comment)
+                                .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang] + `<br/>Category : ` + session.conversationData.category + `<br/>Status: ` + objData.incident_state + ` <br/>Comments : ` + session.conversationData.comment)
                                 .subtitle(`${session.conversationData.short_description}`)
                             ));
                             session.endDialog();
-                            
+
                             break;
                         default:
                             let msg = 'Successfully closed your incident:- <br/>Incident Id : ' + session.conversationData.capturedStr + '<br/>Urgency : ' + jsonData.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + objData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
                             session.send(msg);
-                            session.endDialog();	
+                            session.endDialog();
                     }
                     session.conversationData.capturedOption = '';
                     session.conversationData.capturedStr = '';

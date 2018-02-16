@@ -10,6 +10,7 @@
     var pleaseWait = require('../utils/botDialogs').pleaseWait;
     const lang = 'ENGLISH';
     const reqType = 'INCIDENTSTATUS';
+    var botDialogs = require('../utils/botDialogs').sendError;
 
     // Incident Request Status List
     module.exports.beginDialog = [
@@ -52,13 +53,13 @@
             apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
                 log.consoleDefault(JSON.stringify(data));
                 if (!data) {
-                    let msg = 'An error has occurred while fetching the details... Please try again later...';
+                    let msg = botDialogs.DEFAULT[lang];
                     session.endDialog(msg);
                     return false;
                 }
 
                 if (data.hasOwnProperty('error')) {
-                    let msg = 'Incident Number does not exist in our database. ' + data.error.message + ' Please try again!!!';
+                    let msg = botDialogs.INCIDENTNOTFOUND[lang];
                     session.endDialog(msg);
 
                     session.conversationData.IncidentNumber = '';
@@ -106,7 +107,7 @@
                         // session.send(pleaseWait["DEFAULT"][lang]);
                         apiService.getAssignedToDetails(assignedTo, function (resp) {
                             if (!resp) {
-                                let msg = 'An error has occurred while fetching the details... Please try again later...';
+                                let msg = botDialogs.DEFAULT[lang];
                                 session.endDialog(msg);
                                 return false;
                             } else {
@@ -159,7 +160,7 @@
             session.send(pleaseWait["INCIDENTLIST"][lang]);
             apiService.getStatusByList(reqType, function (data) {
                 if (!data) {
-                    let msg = 'An error has occurred while retrieving the data... Please try again later...';
+                    let msg = botDialogs.DEFAULT[lang];
                     session.endDialog(msg);
                     return false;
                 } else {
@@ -223,7 +224,7 @@
                 session.send(pleaseWait["INCIDENTSTATUS"][lang]);
                 apiService.getAssignedToDetails(assignedTo, function (resp) {
                     if (!resp) {
-                        let msg = 'An error has occurred while fetching the details... Please try again later...';
+                        let msg = botDialogs.DEFAULT[lang];
                         session.endDialog(msg);
                         return false;
                     } else {
@@ -278,7 +279,7 @@
             }
             catch (err) {
                 log.consoleDefault('Incident status Error:' + err);
-                let msg = 'An error has occurred... Please try again later...';
+                let msg = botDialogs.DEFAULT[lang];
                 session.endDialog(msg);
                 return false;
             }
@@ -438,13 +439,13 @@
     //             apiService.getIncidentStatusByNumber(session.conversationData.IncidentNumber, function (data) {
     //                 log.consoleDefault(JSON.stringify(data));
     //                 if (!data) {
-    //                     let msg = 'An error has occurred while fetching the details... Please try again later...';
+    //                     let msg = botDialogs.DEFAULT[lang];
     //                     session.endDialog(msg);
     //                     return false;
     //                 }
 
     //                 if (data.hasOwnProperty('error')) {
-    //                     let msg = 'Incident Number does not exist in our database. ' + data.error.message + ' Please try again';
+    //                     let msg = botDialogs.INCIDENTNOTFOUND[lang];
     //                     session.endDialog(msg);
     //                 } else {
     //                     let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + data.result[0].assigned_to + ' <br/>What do you want to do next?';
@@ -454,7 +455,7 @@
     //         }
     //         catch (err) {
     //             log.consoleDefault('Incident status Error:' + err);
-    //             let msg = 'An error has occurred... Please try again later...';
+    //             let msg = botDialogs.DEFAULT[lang];
     //             session.endDialog(msg);
     //             return false;
     //         }

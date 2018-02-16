@@ -10,6 +10,7 @@
     var pleaseWait = require('../utils/botDialogs').pleaseWait;
     const lang = 'ENGLISH';
     const reqType = 'SERVICEREQUEST';
+    var botDialogs = require('../utils/botDialogs').sendError;
 
     // Service Request Status List
     module.exports.beginDialog = [
@@ -52,13 +53,13 @@
             apiService.getStatusByNumber(session.conversationData.SRNumber, reqType, function (data) {
                 log.consoleDefault(JSON.stringify(data));
                 if (!data) {
-                    let msg = 'An error has occurred while fetching the details... Please try again later...';
+                    let msg = botDialogs.DEFAULT[lang];
                     session.endDialog(msg);
                     return false;
                 }
 
                 if (data.hasOwnProperty('error')) {
-                    let msg = 'Service Id does not exist in our database. ' + data.error.message + ' Please try again!!!';
+                    let msg = botDialogs.SRIDNOTFOUND[lang];
                     session.endDialog(msg);
 
                     session.conversationData.SRNumber = '';
@@ -106,7 +107,7 @@
             session.send(pleaseWait["SRLIST"][lang]);
             apiService.getStatusByList(reqType, function (data) {
                 if (!data) {
-                    let msg = 'An error has occurred while retrieving the data... Please try again later...';
+                    let msg = botDialogs.DEFAULT[lang];
                     session.endDialog(msg);
                     return false;
                 } else {

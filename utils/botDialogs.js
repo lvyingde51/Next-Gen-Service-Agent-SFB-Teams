@@ -236,7 +236,23 @@
         }
     };
 
+    var ERROR_MESSAGES = {
+        "DEFAULT" : {
+            "ENGLISH" : "Oops! There was an error connecting to our service desk. Please try again later."
+        },
+        "INCIDENTNOTFOUND" : {
+            "ENGLISH" : "Uh-oh! I couldn't find this incident. Please try again with a valid incident id."
+        },
+        "SRIDNOTFOUND" : {
+            "ENGLISH" : "Oh no..this Service Id does not exist. Please try again"
+        },
+        "INCIDENTOPEN" : {
+            "ENGLISH" : "Whoops! This incident is already open!"
+        }
+    };
+
     module.exports.greetingMessage = greetingMessage;
     module.exports.pleaseWait = PLEASE_WAIT_MESSAGE;
+    module.exports.sendError = ERROR_MESSAGES;
 
 }());

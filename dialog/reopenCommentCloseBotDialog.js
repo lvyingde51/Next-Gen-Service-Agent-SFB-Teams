@@ -9,6 +9,7 @@
     const lang = 'ENGLISH';
     const reqType = 'INCIDENTSTATUS';
     var pleaseWait = require('../utils/botDialogs').pleaseWait;
+    var botDialogs = require('../utils/botDialogs').sendError;
 
     module.exports.reopenIncident = [
         function (session) {
@@ -25,13 +26,13 @@
                 apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
                     log.consoleDefault(JSON.stringify(data));
                     if (!data) {
-                        let msg = 'An error has occurred while fetching the details... Please try again later...';
+                        let msg = botDialogs.DEFAULT[lang];
                         session.endDialog(msg);
                         return;
                     }
 
                     if (data.hasOwnProperty('error')) {
-                        let msg = 'Incident Number does not exist in our database. ' + data.error.message + ' Please try again';
+                        let msg = botDialogs.INCIDENTNOTFOUND[lang];
                         session.endDialog(msg);
                         return;
                     } else {
@@ -45,7 +46,7 @@
                         if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
                             builder.Prompts.text(session, 'Please give me a comment of the incident you’d like to reopen');
                         } else {
-                            let msg = 'Incident Number you entered cannot be reopened, As it is already in a open status.';
+                            let msg = botDialogs.INCIDENTOPEN[lang];
                             session.endDialog(msg);
                             return;
                         }
@@ -62,13 +63,13 @@
                 apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
                     log.consoleDefault(JSON.stringify(data));
                     if (!data) {
-                        let msg = 'An error has occurred while fetching the details... Please try again later...';
+                        let msg = botDialogs.DEFAULT[lang];
                         session.endDialog(msg);
                         return false;
                     }
 
                     if (data.hasOwnProperty('error')) {
-                        let msg = 'Incident Number does not exist in our database. ' + data.error.message + ' Please try again';
+                        let msg = botDialogs.INCIDENTNOTFOUND[lang];
                         session.endDialog(msg);
                     } else {
                         session.conversationData.sys_id = data.result[0].sys_id;
@@ -81,7 +82,7 @@
                         if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
                             builder.Prompts.text(session, 'Please give me a comment of the incident you’d like to reopen');
                         } else {
-                            let msg = 'Incident Number you entered cannot be reopened, As it is already in a open status.';
+                            let msg = botDialogs.INCIDENTOPEN[lang];
                             session.endDialog(msg);
                             return;
                         }
@@ -190,13 +191,13 @@
                 apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
                     log.consoleDefault(JSON.stringify(data));
                     if (!data) {
-                        let msg = 'An error has occurred while fetching the details... Please try again later...';
+                        let msg = botDialogs.DEFAULT[lang];
                         session.endDialog(msg);
                         return false;
                     }
 
                     if (data.hasOwnProperty('error')) {
-                        let msg = 'Incident Number does not exist in our database. ' + data.error.message + ' Please try again';
+                        let msg = botDialogs.INCIDENTNOTFOUND[lang];
                         session.endDialog(msg);
                     } else {
                         session.conversationData.sys_id = data.result[0].sys_id;
@@ -220,13 +221,13 @@
                 apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
                     log.consoleDefault(JSON.stringify(data));
                     if (!data) {
-                        let msg = 'An error has occurred while fetching the details... Please try again later...';
+                        let msg = botDialogs.DEFAULT[lang];
                         session.endDialog(msg);
                         return false;
                     }
 
                     if (data.hasOwnProperty('error')) {
-                        let msg = 'Incident Number does not exist in our database. ' + data.error.message + ' Please try again';
+                        let msg = botDialogs.INCIDENTNOTFOUND[lang];
                         session.endDialog(msg);
                     } else {
                         session.conversationData.sys_id = data.result[0].sys_id;
@@ -344,13 +345,13 @@
                 apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
                     log.consoleDefault(JSON.stringify(data));
                     if (!data) {
-                        let msg = 'An error has occurred while fetching the details... Please try again later...';
+                        let msg = botDialogs.DEFAULT[lang];
                         session.endDialog(msg);
                         return false;
                     }
 
                     if (data.hasOwnProperty('error')) {
-                        let msg = 'Incident Number does not exist in our database. ' + data.error.message + ' Please try again';
+                        let msg = botDialogs.INCIDENTNOTFOUND[lang];
                         session.endDialog(msg);
                     } else {
                         session.conversationData.sys_id = data.result[0].sys_id;
@@ -374,13 +375,13 @@
                 apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
                     log.consoleDefault(JSON.stringify(data));
                     if (!data) {
-                        let msg = 'An error has occurred while fetching the details... Please try again later...';
+                        let msg = botDialogs.DEFAULT[lang];
                         session.endDialog(msg);
                         return false;
                     }
 
                     if (data.hasOwnProperty('error')) {
-                        let msg = 'Incident Number does not exist in our database. ' + data.error.message + ' Please try again';
+                        let msg = botDialogs.INCIDENTNOTFOUND[lang];
                         session.endDialog(msg);
                     } else {
                         session.conversationData.sys_id = data.result[0].sys_id;
