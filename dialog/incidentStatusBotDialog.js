@@ -80,7 +80,7 @@
                     if (assignedTo == '-') {
                         switch (session.message.source) {
                             case 'slack':
-                                session.send('_Below are the details for the requested incident_');
+                                // session.send('_Below are the details for the requested incident_');
                                 session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                     .title(`*${session.conversationData.IncidentNumber}*`)
                                     .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : Unassigned`)
@@ -89,7 +89,7 @@
                                 // session.endDialog();
                                 break;
                             case 'msteams':
-                                session.send('Below are the details for the requested incident');
+                                // session.send('Below are the details for the requested incident');
                                 session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                     .title(`${session.conversationData.IncidentNumber}`)
                                     .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
@@ -114,7 +114,7 @@
                                 log.consoleDefault(JSON.stringify(resp));
                                 switch (session.message.source) {
                                     case 'slack':
-                                        session.send('_Below are the details for the requested incident_');
+                                        // session.send('_Below are the details for the requested incident_');
                                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                             .title(`*${session.conversationData.IncidentNumber}*`)
                                             .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : ${resp.result.name}`)
@@ -123,7 +123,7 @@
                                         // session.endDialog();
                                         break;
                                     case 'msteams':
-                                        session.send('Below are the details for the requested incident');
+                                        // session.send('Below are the details for the requested incident');
                                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                             .title(`${session.conversationData.IncidentNumber}`)
                                             .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : ${resp.result.name}`)
@@ -198,7 +198,7 @@
             if (assignedTo == '-') {
                 switch (session.message.source) {
                     case 'slack':
-                        session.send('_Below are the details for the requested incident_');
+                        // session.send('_Below are the details for the requested incident_');
                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                             .title(`*${session.conversationData.IncidentNumber}*`)
                             .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : Unassigned`)
@@ -207,7 +207,7 @@
                         // session.endDialog();
                         break;
                     case 'msteams':
-                        session.send('Below are the details for the requested incident');
+                        // session.send('Below are the details for the requested incident');
                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                             .title(`${session.conversationData.IncidentNumber}`)
                             .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : Unassigned`)
@@ -230,7 +230,7 @@
                     } else {
                         switch (session.message.source) {
                             case 'slack':
-                                session.send('_Below are the details for the requested incident_');
+                                // session.send('_Below are the details for the requested incident_');
                                 session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                     .title(`*${session.conversationData.IncidentNumber}*`)
                                     .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : ${resp.result.name}`)
@@ -239,7 +239,7 @@
                                 // session.endDialog();
                                 break;
                             case 'msteams':
-                                session.send('Below are the details for the requested incident');
+                                // session.send('Below are the details for the requested incident');
                                 session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                     .title(`${session.conversationData.IncidentNumber}`)
                                     .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : ${resp.result.name}`)

@@ -73,7 +73,7 @@
                             if (assignedTo == '-') {
                                 switch (session.message.source) {
                                     case 'slack':
-                                        session.send('_Below are the details for the requested incident_');
+                                        // session.send('_Below are the details for the requested incident_');
                                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                             .title(`*${session.conversationData.capturedStr}*`)
                                             .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${jsonData.incidentStatus[data.result[0].state][lang]} \nAssigned To : Unassigned`)
@@ -82,7 +82,7 @@
                                         //session.endDialog();
                                         break;
                                     case 'msteams':
-                                        session.send('<i>Below are the details for the requested incident</i>');
+                                        // session.send('<i>Below are the details for the requested incident</i>');
                                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                             .title(`${session.conversationData.capturedStr}`)
                                             .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${jsonData.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
@@ -107,7 +107,7 @@
                                         log.consoleDefault(JSON.stringify(resp));
                                         switch (session.message.source) {
                                             case 'slack':
-                                                session.send('_Below are the details for the requested incident_');
+                                                // session.send('_Below are the details for the requested incident_');
                                                 session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                                     .title(`*${session.conversationData.capturedStr}*`)
                                                     .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${jsonData.incidentStatus[data.result[0].state][lang]} \nAssigned To : ${resp.result.name}`)
@@ -116,7 +116,7 @@
                                                 //session.endDialog();
                                                 break;
                                             case 'msteams':
-                                                session.send('<i>Below are the details for the requested incident</i>');
+                                                // session.send('<i>Below are the details for the requested incident</i>');
                                                 session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                                     .title(`${session.conversationData.capturedStr}`)
                                                     .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${jsonData.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : ${resp.result.name}`)
