@@ -219,7 +219,6 @@
                         session.send(msg);
                         break;
                 }
-                return false;
             } else {
                 session.send(pleaseWait["INCIDENTSTATUS"][lang]);
                 apiService.getAssignedToDetails(assignedTo, function (resp) {
