@@ -18,6 +18,7 @@
         },
         function (session, results) {
             session.conversationData.ISSearchType = results.response.entity;
+            log.consoleDefault(results.response);
 
             if (session.conversationData.ISSearchType === 'By Incident Id') {
                 session.beginDialog('isSearchById', function (err) {
