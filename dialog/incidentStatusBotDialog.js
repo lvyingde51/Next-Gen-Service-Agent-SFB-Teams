@@ -181,7 +181,7 @@
                         case 'msteams':
                             session.send('<i>Successfully added additional comment for your incident</i>');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                .title(`${session.conversationData.capturedStr}`)
+                                .title(`${session.conversationData.IncidentNumber}`)
                                 .text(`Urgency : ` + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + `<br/>Category : ` + session.conversationData.category + `<br/>Status: ` + commonTemplate.incidentStatus[session.conversationData.incident_state][lang] + ` <br/>Comments : ` + session.conversationData.comment)
                                 .subtitle(`${session.conversationData.short_description}`)
                             ));
@@ -189,9 +189,10 @@
 
                             break;
                         default:
-                            let msg = 'Successfully added comment for your incident:- <br/>Incident Id : ' + session.conversationData.capturedStr + '<br/>Urgency : ' + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + session.conversationData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
+                            let msg = 'Successfully added comment for your incident:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Urgency : ' + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + session.conversationData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
                             session.endDialog(msg);
                     }
+                    session.conversationData.capturedOption = '';
                     session.conversationData.IncidentNumber = '';
                     session.conversationData.comment = '';
                     session.conversationData.incident_state = '';
@@ -211,7 +212,7 @@
                         case 'slack':
                             session.send('_Successfully reopened your incident_');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                .title(`*${session.conversationData.capturedStr}*`)
+                                .title(`*${session.conversationData.IncidentNumber}*`)
                                 .text(`Urgency : ` + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + ` \nCategory : ` + session.conversationData.category + `
                                 \nStatus: ` + objData.incident_state + ` \nComments : ` + session.conversationData.comment)
                                 .subtitle(`${session.conversationData.short_description}`)
@@ -221,17 +222,18 @@
                         case 'msteams':
                             session.send('<i>Successfully reopened your incident</i>');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                .title(`${session.conversationData.capturedStr}`)
+                                .title(`${session.conversationData.IncidentNumber}`)
                                 .text(`Urgency : ` + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + `<br/>Category : ` + session.conversationData.category + `<br/>Status: ` + objData.incident_state + ` <br/>Comments : ` + session.conversationData.comment)
                                 .subtitle(`${session.conversationData.short_description}`)
                             ));
                             session.endDialog();
                             break;
                         default:
-                            let msg = 'Successfully reopened your incident:- <br/>Incident Id : ' + session.conversationData.capturedStr + '<br/>Urgency : ' + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + objData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
+                            let msg = 'Successfully reopened your incident:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Urgency : ' + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + objData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
                             session.endDialog(msg);
                     }
                     
+                    session.conversationData.capturedOption = '';
                     session.conversationData.IncidentNumber = '';
                     session.conversationData.comment = '';
                     session.conversationData.incident_state = '';
@@ -251,7 +253,7 @@
                         case 'slack':
                             session.send('_Successfully closed your incident_');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                .title(`*${session.conversationData.capturedStr}*`)
+                                .title(`*${session.conversationData.IncidentNumber}*`)
                                 .text(`Urgency : ` + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + ` \nCategory : ` + session.conversationData.category + `
                                 \nStatus: ` + objData.incident_state + ` \nComments : ` + session.conversationData.comment)
                                 .subtitle(`${session.conversationData.short_description}`)
@@ -262,7 +264,7 @@
                         case 'msteams':
                             session.send('<i>Successfully closed your incident</i>');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                .title(`${session.conversationData.capturedStr}`)
+                                .title(`${session.conversationData.IncidentNumber}`)
                                 .text(`Urgency : ` + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + `<br/>Category : ` + session.conversationData.category + `<br/>Status: ` + objData.incident_state + ` <br/>Comments : ` + session.conversationData.comment)
                                 .subtitle(`${session.conversationData.short_description}`)
                             ));
@@ -270,10 +272,12 @@
 
                             break;
                         default:
-                            let msg = 'Successfully closed your incident:- <br/>Incident Id : ' + session.conversationData.capturedStr + '<br/>Urgency : ' + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + objData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
+                            let msg = 'Successfully closed your incident:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Urgency : ' + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + objData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
                             session.send(msg);
                             session.endDialog();
                     }
+
+                    session.conversationData.capturedOption = '';
                     session.conversationData.IncidentNumber = '';
                     session.conversationData.comment = '';
                     session.conversationData.incident_state = '';
