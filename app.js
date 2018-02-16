@@ -19,6 +19,8 @@ var reopenIncidentDialog = require("./dialog/reopenIncidentDialog");
 var commentIncidentDialog = require("./dialog/commentIncidentDialog");
 var closeIncidentDialog = require("./dialog/closeIncidentDialog");
 var reopenCommentCloseBotDialog = require("./dialog/reopenCommentCloseBotDialog");
+var lastIncidentDialog = require("./dialog/lastIncidentDialog");
+var lastIncidentBotDialog = require("./dialog/lastIncidentBotDialog");
 
 var QnAClient = require("./lib/client");
 var defaultBotDialog = require("./dialog/defaultBotDialog");
@@ -175,6 +177,7 @@ bot.dialog("default", defaultBotDialog.beginDialog);
 bot.dialog("reopenIncident", reopenCommentCloseBotDialog.reopenIncident);
 bot.dialog("closeIncident", reopenCommentCloseBotDialog.closeIncident);
 bot.dialog("commentIncident", reopenCommentCloseBotDialog.commentIncident);
+bot.dialog("lastIncident", lastIncidentBotDialog.beginDialog);
 bot.recognizer({
   recognize: function(context, done) {
     var intent = { score: 0.0 };

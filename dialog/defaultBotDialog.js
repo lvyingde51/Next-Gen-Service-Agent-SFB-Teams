@@ -24,6 +24,7 @@
             session.conversationData.sys_id = '';
 
             var textsess = session.message.text;
+            textsess = textsess.trim();
             console.log(textsess.match(incidentRegex));
             console.log(textsess.match(serviceRequestRegex));
 
@@ -105,38 +106,41 @@
                                         return false;
                                     } else {
                                         log.consoleDefault(JSON.stringify(resp));
-                                        switch (session.message.source) {
+                                        var msg;
+                                        switch (session.message.source) {                                            
                                             case 'slack':
                                                 // session.send('_Below are the details for the requested incident_');
-                                                session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                                msg = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                                     .title(`*${session.conversationData.capturedStr}*`)
                                                     .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${jsonData.incidentStatus[data.result[0].state][lang]} \nAssigned To : ${resp.result.name}`)
                                                     .subtitle(`${data.result[0].short_description}`)
-                                                ));
+                                                );
+                                                //session.send();
                                                 //session.endDialog();
                                                 break;
                                             case 'msteams':
                                                 // session.send('<i>Below are the details for the requested incident</i>');
-                                                session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                                msg = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                                     .title(`${session.conversationData.capturedStr}`)
                                                     .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${jsonData.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : ${resp.result.name}`)
                                                     .subtitle(`${data.result[0].short_description}`)
-                                                ));
+                                                );
                                                 //session.endDialog();
                                                 break;
                                             default:
-                                                let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.capturedStr + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + jsonData.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + jsonData.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
-                                                session.send(msg);
+                                                msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.capturedStr + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + jsonData.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + jsonData.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
+                                                //session.send(msg);
                                                 break;
                                         }
+                                        //session.send(msg);
                                     }
                                 });
                             }
                             // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Canceled
                             if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                                builder.Prompts.choice(session, 'What would you like to do further?', ['Reopen']);
+                                builder.Prompts.choice(session, msg, ['Reopen']);
                             } else {
-                                builder.Prompts.choice(session, 'What would you like to do further?', ['Add a Comment', 'Close']);
+                                builder.Prompts.choice(session, msg, ['Add a Comment', 'Close']);
                             }
                         }
                     }
