@@ -27,6 +27,7 @@
                 });
             }
             if (session.conversationData.ISSearchType === 'Last 10 Incidents') {
+                log.consoleDefault('coming');
                 session.beginDialog('isSearchByList', function (err) {
                     if (err) {
                         session.send(new builder.Message().text('Error Occurred with isSearchByList' + err.message));
