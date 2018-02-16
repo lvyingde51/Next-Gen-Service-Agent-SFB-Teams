@@ -91,7 +91,7 @@
                                                 .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${jsonData.incidentStatus[data.result[0].state][lang]} \nAssigned To : Unassigned`)
                                                 .subtitle(`${data.result[0].short_description}`)
                                                 .buttons([
-                                                    builder.CardAction.imBack(session, "Add a Comment", "Reopen"),
+                                                    builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
                                                     builder.CardAction.imBack(session, "Close", "Close")
                                                 ])
                                             );
@@ -114,7 +114,7 @@
                                                 .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${jsonData.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
                                                 .subtitle(`${data.result[0].short_description}`)
                                                 .buttons([
-                                                    builder.CardAction.imBack(session, "Add a Comment", "Reopen"),
+                                                    builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
                                                     builder.CardAction.imBack(session, "Close", "Close")
                                                 ])
                                             );
@@ -154,7 +154,7 @@
                                                         .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${jsonData.incidentStatus[data.result[0].state][lang]} \nAssigned To : ${resp.result.name}`)
                                                         .subtitle(`${data.result[0].short_description}`)
                                                         .buttons([
-                                                            builder.CardAction.imBack(session, "Add a Comment", "Reopen"),
+                                                            builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
                                                             builder.CardAction.imBack(session, "Close", "Close")
                                                         ])
                                                     );
@@ -184,7 +184,7 @@
                                                         .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${jsonData.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : ${resp.result.name}`)
                                                         .subtitle(`${data.result[0].short_description}`)
                                                         .buttons([
-                                                            builder.CardAction.imBack(session, "Add a Comment", "Reopen"),
+                                                            builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
                                                             builder.CardAction.imBack(session, "Close", "Close")
                                                         ])
                                                     );
