@@ -20,15 +20,15 @@
         log.consoleDefault(JSON.stringify(entities)); // Console Entity
         log.consoleDefault(JSON.stringify(session.message.text.substring(session.message.text.indexOf('inc'))));
 
-        session.conversationData.ISIncidentId = builder.EntityRecognizer.findEntity(args.entities, 'IncidentNumber') ? builder.EntityRecognizer.findEntity(args.entities, 'IncidentNumber').entity : '';
+        session.conversationData.IncidentNumber = builder.EntityRecognizer.findEntity(args.entities, 'IncidentNumber') ? builder.EntityRecognizer.findEntity(args.entities, 'IncidentNumber').entity : '';
 
-        if(session.conversationData.ISIncidentId === '' && session.message.text.toLowerCase().indexOf('inc') > -1 && incidentNumPattern.test(session.message.text.toLowerCase().substring(session.message.text.toLowerCase().indexOf('inc')))) {
-            session.conversationData.ISIncidentId = session.message.text.toLowerCase().substring(session.message.text.toLowerCase().indexOf('inc'));
+        if(session.conversationData.IncidentNumber === '' && session.message.text.toLowerCase().indexOf('inc') > -1 && incidentNumPattern.test(session.message.text.toLowerCase().substring(session.message.text.toLowerCase().indexOf('inc')))) {
+            session.conversationData.IncidentNumber = session.message.text.toLowerCase().substring(session.message.text.toLowerCase().indexOf('inc'));
             log.consoleDefault(session.message.text.toLowerCase().indexOf('inc'));
         }
-        log.consoleDefault(session.conversationData.ISIncidentId);
+        log.consoleDefault(session.conversationData.IncidentNumber);
 
-        if(session.conversationData.ISIncidentId === '' || session.conversationData.ISIncidentId === null || session.conversationData.ISIncidentId === undefined) {
+        if(session.conversationData.IncidentNumber === '' || session.conversationData.IncidentNumber === null || session.conversationData.IncidentNumber === undefined) {
             return session.beginDialog('incidentStatus', function(err) {
                 if(err) {
                     session.send(new builder.Message().text('Error Occurred with incidentStatus: ' + err.message));
