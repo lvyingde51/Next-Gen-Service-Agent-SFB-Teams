@@ -26,8 +26,7 @@
             session.conversationData.IncidentNumber = session.message.text.toLowerCase().substring(session.message.text.toLowerCase().indexOf('inc'));
             log.consoleDefault(session.message.text.toLowerCase().indexOf('inc'));
         }
-
-        session.conversationData.IncidentNumber = session.conversationData.IncidentNumber.toUpperCase();
+        
         log.consoleDefault(session.conversationData.IncidentNumber);
 
         if(session.conversationData.IncidentNumber === '' || session.conversationData.IncidentNumber === null || session.conversationData.IncidentNumber === undefined) {
@@ -37,6 +36,7 @@
                 }
             });
         } else {
+            session.conversationData.IncidentNumber = session.conversationData.IncidentNumber.toUpperCase();
             return session.beginDialog('isSearchById', args, function(err) {
                 if(err) {
                     session.send(new builder.Message().text('Error Occurred with incidentStatus: ' + err.message));
