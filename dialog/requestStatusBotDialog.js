@@ -71,7 +71,7 @@
                 } else {
                     switch (session.message.source) {
                         case 'slack':
-                            session.send('_These are the details of the requested Service Request_');
+                            // session.send('_These are the details of the requested Service Request_');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`*${session.conversationData.SRNumber}*`)
                                 .text(`Installation Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nApproval : ${data.result[0].approval.toUpperCase()} \nStage : ${data.result[0].stage.toUpperCase().split('_').join(' ')} \nDue Date : ${data.result[0].due_date}`)
@@ -80,7 +80,7 @@
                             session.endDialog();
                             break;
                         case 'msteams':
-                            session.send('These are the details of the requested Service Request');
+                            // session.send('These are the details of the requested Service Request');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`${session.conversationData.SRNumber}`)
                                 .text(`Installation Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Approval : ${data.result[0].approval.toUpperCase()} <br/>Stage : ${data.result[0].stage.toUpperCase().split('_').join(' ')} <br/>Due Date : ${data.result[0].due_date}`)
@@ -131,7 +131,7 @@
             let arrIndex = servicestatusArr.findIndex(x => x.number == session.conversationData.SRNumber);
             switch (session.message.source) {
                 case 'slack':
-                    session.send('_These are the details of the requested Service Request_');
+                    // session.send('_These are the details of the requested Service Request_');
                     session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                         .title(`*${session.conversationData.SRNumber}*`)
                         .text(`Installation Status : ${commonTemplate.incidentStatus[servicestatusArr[arrIndex].state][lang]} \nApproval : ${servicestatusArr[arrIndex].approval} \nStage : ${servicestatusArr[arrIndex].stage.split('_').join(' ')} \nDue Date : ${servicestatusArr[arrIndex].due_date}`)
@@ -140,7 +140,7 @@
                     session.endDialog();
                     break;
                 case 'msteams':
-                    session.send('These are the details of the requested Service Request');
+                    // session.send('These are the details of the requested Service Request');
                     session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                         .title(`${session.conversationData.SRNumber}`)
                         .text(`Installation Status : ${commonTemplate.incidentStatus[servicestatusArr[arrIndex].state][lang]} <br/>Approval : ${servicestatusArr[arrIndex].approval} <br/>Stage : ${servicestatusArr[arrIndex].stage.split('_').join(' ')} <br/>Due Date : ${servicestatusArr[arrIndex].due_date}`)
