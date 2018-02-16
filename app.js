@@ -164,6 +164,7 @@ bot.dialog("viewResult", createIncidentBotDialog.viewResult);
 bot.dialog("incidentStatus", incidentStatusBotDialog.beginDialog);
 bot.dialog("isSearchById", incidentStatusBotDialog.incidentID);
 bot.dialog("isSearchByList", incidentStatusBotDialog.prevIncidents);
+bot.dialog("updateIncident", incidentStatusBotDialog.updateIncident);
 bot.dialog("srStatus", requestStatusBotDialog.beginDialog);
 bot.dialog("srSearchById", requestStatusBotDialog.serviceID);
 bot.dialog("srSearchByList", requestStatusBotDialog.prevIncidents);
