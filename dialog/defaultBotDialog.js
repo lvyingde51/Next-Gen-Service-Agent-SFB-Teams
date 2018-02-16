@@ -169,7 +169,7 @@
                     console.log('$$$$$$$ ',session.message.source);
                     switch (session.message.source) {
                         case 'slack':
-                            session.send('_Successfully added additional comment for your incident_');
+                            session.send('_Your comment has been added!_');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`*${session.conversationData.capturedStr}*`)
                                 .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang]+` \nCategory : ` + session.conversationData.category +`\nStatus: ` + jsonData.incidentStatus[session.conversationData.incident_state][lang] + ` \nComments : ` + session.conversationData.comment).subtitle(`${session.conversationData.short_description}`)
@@ -180,7 +180,7 @@
                             
                             break;
                         case 'msteams':                        
-                            session.send('<i>Successfully added additional comment for your incident</i>');
+                            session.send('<i>Your comment has been added!</i>');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`${session.conversationData.capturedStr}`)
                                 .text(`Urgency : ` + jsonData.urgencyStatic[session.conversationData.urgency][lang]+`<br/>Category : ` + session.conversationData.category +`<br/>Status: ` + jsonData.incidentStatus[session.conversationData.incident_state][lang] + ` <br/>Comments : ` + session.conversationData.comment)
