@@ -71,6 +71,11 @@
                     let assignedTo = data.result[0].assigned_to == '' ? '-' : data.result[0].assigned_to.link;
                     log.consoleDefault(assignedTo);
                     log.consoleDefault(commonTemplate.incidentStatus[data.result[0].state][lang]);
+                    session.conversationData.incident_state = data.result[0].incident_state;
+                    session.conversationData.urgency = data.result[0].urgency;
+                    session.conversationData.category = data.result[0].category;
+                    session.conversationData.short_description = data.result[0].short_description;
+                    session.conversationData.sys_id = data.result[0].sys_id;
                     if (assignedTo == '-') {
                         switch (session.message.source) {
                             case 'slack':
@@ -80,7 +85,7 @@
                                     .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : Unassigned`)
                                     .subtitle(`${data.result[0].short_description}`)
                                 ));
-                                session.endDialog();
+                                // session.endDialog();
                                 break;
                             case 'msteams':
                                 session.send('Below are the details for the requested incident');
@@ -89,11 +94,11 @@
                                     .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
                                     .subtitle(`${data.result[0].short_description}`)
                                 ));
-                                session.endDialog();
+                                // session.endDialog();
                                 break;
                             default:
                                 let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: Unassigned';
-                                session.endDialog(msg);
+                                session.send(msg);
                                 break;
                         }
 
@@ -114,7 +119,7 @@
                                             .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : ${resp.result.name}`)
                                             .subtitle(`${data.result[0].short_description}`)
                                         ));
-                                        session.endDialog();
+                                        // session.endDialog();
                                         break;
                                     case 'msteams':
                                         session.send('Below are the details for the requested incident');
@@ -123,18 +128,79 @@
                                             .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : ${resp.result.name}`)
                                             .subtitle(`${data.result[0].short_description}`)
                                         ));
-                                        session.endDialog();
+                                        // session.endDialog();
                                         break;
                                     default:
                                         let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
-                                        session.endDialog(msg);
+                                        session.send(msg);
                                         break;
                                 }
                             }
                         });
                     }
+
+                    // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Cancelled
+                    if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
+                        builder.Prompts.choice(session, 'What do you want to do with the incident?', ['Reopen']);
+                    } else {
+                        builder.Prompts.choice(session, 'What do you want to do with the incident?', ['Add a Comment', 'Close']);
+                    }
                 }
             });
+        },
+        function (session, results) {
+            session.conversationData.capturedOption = results.response.entity;
+            if (results.response.entity == 'Add a Comment') {
+                builder.Prompts.text(session, 'Okay, Please enter the (additional) comments for your incident');
+            } else if (results.response.entity == 'Reopen') {
+                builder.Prompts.text(session, 'Okay, Please enter the (additional) comments for your reopening incident');
+            } else if (results.response.entity == 'Close') {
+                builder.Prompts.text(session, 'Okay, Please enter the (additional) comments for your closing incident');
+            }
+        },
+        function (session, results) {
+            var objData = new commonTemplate.statusUpdate();
+            objData.caller_id = 'rubin.crotts@example.com';
+            if (session.conversationData.capturedOption == 'Add a Comment') {
+                session.conversationData.comment = results.response;
+                objData.comments = session.conversationData.comment;
+                objData.incident_state = session.conversationData.incident_state;
+                session.send(pleaseWait["INCIDENTADDCOMMENT"][lang]);
+                apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType, session.conversationData.sys_id, function (data) {
+                    console.log('$$$$$$$ ', session.message.source);
+                    switch (session.message.source) {
+                        case 'slack':
+                            session.send('_Successfully added additional comment for your incident_');
+                            session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                .title(`*${ session.conversationData.IncidentNumber }*`)
+                                .text(`Urgency : ` + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + ` \nCategory : ` + session.conversationData.category + `\nStatus: ` + commonTemplate.incidentStatus[session.conversationData.incident_state][lang] + ` \nComments : ` + session.conversationData.comment).subtitle(`${session.conversationData.short_description}`)
+                            ));
+                            session.endDialog();
+
+                            break;
+                        case 'msteams':
+                            session.send('<i>Successfully added additional comment for your incident</i>');
+                            session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                .title(`${session.conversationData.capturedStr}`)
+                                .text(`Urgency : ` + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + `<br/>Category : ` + session.conversationData.category + `<br/>Status: ` + commonTemplate.incidentStatus[session.conversationData.incident_state][lang] + ` <br/>Comments : ` + session.conversationData.comment)
+                                .subtitle(`${session.conversationData.short_description}`)
+                            ));
+                            session.endDialog();
+
+                            break;
+                        default:
+                            let msg = 'Successfully added comment for your incident:- <br/>Incident Id : ' + session.conversationData.capturedStr + '<br/>Urgency : ' + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + session.conversationData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
+                            session.endDialog(msg);
+                    }
+                    session.conversationData.IncidentNumber = '';
+                    session.conversationData.comment = '';
+                    session.conversationData.incident_state = '';
+                    session.conversationData.urgency = '';
+                    session.conversationData.category = '';
+                    session.conversationData.short_description = '';
+                    session.conversationData.sys_id = '';
+                });
+            }
         }
     ];
 
