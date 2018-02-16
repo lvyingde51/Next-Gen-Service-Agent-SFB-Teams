@@ -100,7 +100,7 @@
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType, session.conversationData.sys_id, function (data) {
                     switch (session.message.source) {
                         case 'slack':
-                            session.send('_Successfully reopened your incident_');
+                            session.send('_Your incident has been reopened_');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`*${session.conversationData.IncidentNumber}*`)
                                 .text(`Category : ${session.conversationData.category} \nStatus : ${objData.incident_state} \Comments : ${session.conversationData.commentReopenIncident}`)
@@ -109,7 +109,7 @@
                             session.endDialog();
                             break;
                         case 'msteams':
-                            session.send('Successfully reopened your incident');
+                            session.send('Your incident has been reopened');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`${session.conversationData.IncidentNumber}`)
                                 .text(`Category : ${session.conversationData.category} <br/>Status : ${objData.incident_state} <br/>Comments : ${session.conversationData.commentReopenIncident}`)
@@ -118,7 +118,7 @@
                             session.endDialog();
                             break;
                         default:
-                            let msg = 'Successfully reopened your incident:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + objData.incident_state + ' <br/> Comments : ' + session.conversationData.commentReopenIncident;
+                            let msg = 'Your incident has been reopened:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + objData.incident_state + ' <br/> Comments : ' + session.conversationData.commentReopenIncident;
                             session.endDialog(msg);
                             break;
                     }
@@ -143,7 +143,7 @@
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType, session.conversationData.sys_id, function (data) {
                     switch (session.message.source) {
                         case 'slack':
-                            session.send('_Successfully reopened your incident_');
+                            session.send('_Your incident has been reopened_');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`*${session.conversationData.IncidentNumber}*`)
                                 .text(`Category : ${session.conversationData.category} \nStatus : ${objData.incident_state} \Comments : ${session.conversationData.commentReopenIncident}`)
@@ -152,7 +152,7 @@
                             session.endDialog();
                             break;
                         case 'msteams':
-                            session.send('Successfully reopened your incident');
+                            session.send('Your incident has been reopened');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`${session.conversationData.IncidentNumber}`)
                                 .text(`Category : ${session.conversationData.category} <br/>Status : ${objData.incident_state} <br/>Comments : ${session.conversationData.commentReopenIncident}`)
@@ -161,7 +161,7 @@
                             session.endDialog();
                             break;
                         default:
-                            let msg = 'Successfully reopened your incident:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + objData.incident_state + ' <br/> Comments : ' + session.conversationData.commentReopenIncident;
+                            let msg = 'Your incident has been reopened:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + objData.incident_state + ' <br/> Comments : ' + session.conversationData.commentReopenIncident;
                             session.endDialog(msg);
                             break;
                     }
@@ -252,7 +252,7 @@
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType, session.conversationData.sys_id, function (data) {
                     switch (session.message.source) {
                         case 'slack':
-                            session.send('_Successfully closed your incident_');
+                            session.send('_I have closed your incident..._');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`*${session.conversationData.IncidentNumber}*`)
                                 .text(`Category : ${session.conversationData.category} \nStatus : ${objData.incident_state} \Comments : ${session.conversationData.commentReopenIncident}`)
@@ -261,7 +261,7 @@
                             session.endDialog();
                             break;
                         case 'msteams':
-                            session.send('Successfully closed your incident');
+                            session.send('I have closed your incident...');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`${session.conversationData.IncidentNumber}`)
                                 .text(`Category : ${session.conversationData.category} <br/>Status : ${objData.incident_state} <br/>Comments : ${session.conversationData.commentReopenIncident}`)
@@ -270,7 +270,7 @@
                             session.endDialog();
                             break;
                         default:
-                            let msg = 'Successfully closed your incident:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + objData.incident_state + ' <br/> Comments : ' + session.conversationData.commentReopenIncident;
+                            let msg = 'I have closed your incident... <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + objData.incident_state + ' <br/> Comments : ' + session.conversationData.commentReopenIncident;
                             session.endDialog(msg);
                             break;
                     }
@@ -296,7 +296,7 @@
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType, session.conversationData.sys_id, function (data) {
                     switch (session.message.source) {
                         case 'slack':
-                            session.send('_Successfully closed your incident_');
+                            session.send('_I have closed your incident..._');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`*${session.conversationData.IncidentNumber}*`)
                                 .text(`Category : ${session.conversationData.category} \nStatus : ${objData.incident_state} \Comments : ${session.conversationData.commentReopenIncident}`)
@@ -305,7 +305,7 @@
                             session.endDialog();
                             break;
                         case 'msteams':
-                            session.send('Successfully closed your incident');
+                            session.send('I have closed your incident...');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`${session.conversationData.IncidentNumber}`)
                                 .text(`Category : ${session.conversationData.category} <br/>Status : ${objData.incident_state} <br/>Comments : ${session.conversationData.commentReopenIncident}`)
@@ -314,7 +314,7 @@
                             session.endDialog();
                             break;
                         default:
-                            let msg = 'Successfully closed your incident:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + objData.incident_state + ' <br/> Comments : ' + session.conversationData.commentReopenIncident;
+                            let msg = 'I have closed your incident... <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + objData.incident_state + ' <br/> Comments : ' + session.conversationData.commentReopenIncident;
                             session.endDialog(msg);
                             break;
                     }

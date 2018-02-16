@@ -132,25 +132,25 @@
             "ENGLISH": "Hang tight... Searching for your incident..."
         },
         "INCIDENTLIST": {
-            "ENGLISH": "Hang tight... Searching list of incidents..."
+            "ENGLISH": "Stay put... Getting your incidents..."
         },
         "CREATESR": {
-            "ENGLISH": "Hold on... Creating your Service request..."
+            "ENGLISH": "Hang around... Creating your request..."
         },
         "SRSTATUS": {
             "ENGLISH": "Stand by... Looking for your service request..."
         },
         "SRLIST": {
-            "ENGLISH": "Stand by... Looking list of service requests..."
+            "ENGLISH": "One moment please... Getting your requests..."
         },
         "INCIDENTREOPEN": {
-            "ENGLISH": "Hold on... We are reopening your incident..."
+            "ENGLISH": "One sec... Sending your request..."
         },
         "INCIDENTCLOSE": {
-            "ENGLISH": "Hold on... We are closing your incident..."
+            "ENGLISH": "Just a moment... Closing your incident..."
         },
         "INCIDENTADDCOMMENT": {
-            "ENGLISH": "Hold on... We are adding your comment..."
+            "ENGLISH": "Alright... Sending your comment..."
         }
     };
 

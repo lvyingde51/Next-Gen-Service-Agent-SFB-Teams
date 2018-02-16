@@ -15,7 +15,7 @@
             if (session.conversationData.SoftwareName == '' || session.conversationData.SoftwareName == undefined) {
                 builder.Prompts.choice(session, 'Select Request Categories', ['Install Software']);
             } else {
-                builder.Prompts.choice(session, 'We noticed you have given a installation request at the start of the conversation ie., `' + session.conversationData.SoftwareName + '` Can we take it as your service request?', ['Yes', 'No']);
+                builder.Prompts.choice(session, 'You requested for an installation sometime back. `' + session.conversationData.SoftwareName + '` Can we take this as your service request?', ['Yes', 'No']);
             }
         },
         function (session, results) {
@@ -50,7 +50,7 @@
     module.exports.softwareList = [
         function (session) {
             if (session.conversationData.SoftwareName == '' || session.conversationData.SoftwareName == undefined) {
-                builder.Prompts.choice(session, 'Pick a software you want to install', ['Nanoheal', 'Notepad++', 'VS Code', 'Spyder', 'Office 365']);
+                builder.Prompts.choice(session, 'Pick a software you want installed', ['Nanoheal', 'Notepad++', 'VS Code', 'Spyder', 'Office 365']);
             } else {
                 session.endDialog();
                 session.beginDialog('createSR', function (err) {
@@ -80,7 +80,7 @@
                 objSRData.sr_ID = data.result.number;
                 mailer('Create Service Request', 'ArunP3@hexaware.com', objSRData);
 
-                let msg = 'We have created a Service Request for you. The Service Request Item Number is ' + data.result.number;
+                let msg = 'Service Request ' + data.result.number + ' has been created!';
                 session.conversationData.SRType = '';
                 session.conversationData.SoftwareName = '';
                 session.endDialog(msg);

@@ -272,9 +272,9 @@
             try {
                 // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Cancelled
                 if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                    builder.Prompts.choice(session, '', ['Reopen']);
+                    builder.Prompts.choice(session, 'What would you like to do with the incident?', ['Reopen']);
                 } else {
-                    builder.Prompts.choice(session, '', ['Add a Comment', 'Close']);
+                    builder.Prompts.choice(session, 'What would you like to do with the incident?', ['Add a Comment', 'Close']);
                 }
             }
             catch (err) {
@@ -286,13 +286,14 @@
         },
         function (session, results) {
             session.conversationData.capturedOption = results.response.entity;
-            if (results.response.entity == 'Add a Comment') {
-                builder.Prompts.text(session, 'Okay, Please enter your comment');
-            } else if (results.response.entity == 'Reopen') {
-                builder.Prompts.text(session, 'Okay, Please enter the (additional) comments for your reopening incident');
-            } else if (results.response.entity == 'Close') {
-                builder.Prompts.text(session, 'Okay, Please enter the (additional) comments for your closing incident');
-            }
+            // if (results.response.entity == 'Add a Comment') {
+            //     builder.Prompts.text(session, 'Okay, Please enter your comment');
+            // } else if (results.response.entity == 'Reopen') {
+            //     builder.Prompts.text(session, 'Okay, Please enter your comment');
+            // } else if (results.response.entity == 'Close') {
+            //     builder.Prompts.text(session, 'Okay, Please enter your comment');
+            // }
+            builder.Prompts.text(session, 'Okay, Please enter your comment');
         },
         function (session, results) {
             var objData = new commonTemplate.statusUpdate();
@@ -325,7 +326,7 @@
 
                             break;
                         default:
-                            let msg = 'Successfully added comment for your incident:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Urgency : ' + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + session.conversationData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
+                            let msg = 'Your comment has been added:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Urgency : ' + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + session.conversationData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
                             session.endDialog(msg);
                     }
                     session.conversationData.capturedOption = '';
@@ -346,7 +347,7 @@
                     console.log('$$$$$$$ ', session.message.source);
                     switch (session.message.source) {
                         case 'slack':
-                            session.send('_Successfully reopened your incident_');
+                            session.send('_Your incident has been reopened_');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`*${session.conversationData.IncidentNumber}*`)
                                 .text(`Urgency : ` + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + ` \nCategory : ` + session.conversationData.category + `
@@ -356,7 +357,7 @@
                             session.endDialog();
                             break;
                         case 'msteams':
-                            session.send('<i>Successfully reopened your incident</i>');
+                            session.send('<i>Your incident has been reopened</i>');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`${session.conversationData.IncidentNumber}`)
                                 .text(`Urgency : ` + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + `<br/>Category : ` + session.conversationData.category + `<br/>Status: ` + objData.incident_state + ` <br/>Comments : ` + session.conversationData.comment)
@@ -365,7 +366,7 @@
                             session.endDialog();
                             break;
                         default:
-                            let msg = 'Successfully reopened your incident:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Urgency : ' + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + objData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
+                            let msg = 'Your incident has been reopened:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Urgency : ' + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + objData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
                             session.endDialog(msg);
                     }
 
@@ -387,7 +388,7 @@
                     console.log('$$$$$$$ ', session.message.source);
                     switch (session.message.source) {
                         case 'slack':
-                            session.send('_Successfully closed your incident_');
+                            session.send('_I have closed your incident..._');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`*${session.conversationData.IncidentNumber}*`)
                                 .text(`Urgency : ` + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + ` \nCategory : ` + session.conversationData.category + `
@@ -398,7 +399,7 @@
 
                             break;
                         case 'msteams':
-                            session.send('<i>Successfully closed your incident</i>');
+                            session.send('<i>I have closed your incident...</i>');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`${session.conversationData.IncidentNumber}`)
                                 .text(`Urgency : ` + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + `<br/>Category : ` + session.conversationData.category + `<br/>Status: ` + objData.incident_state + ` <br/>Comments : ` + session.conversationData.comment)
@@ -408,7 +409,7 @@
 
                             break;
                         default:
-                            let msg = 'Successfully closed your incident:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Urgency : ' + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + objData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
+                            let msg = 'I have closed your incident... <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Urgency : ' + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + objData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
                             session.send(msg);
                             session.endDialog();
                     }
