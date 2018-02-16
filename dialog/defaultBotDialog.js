@@ -140,9 +140,9 @@
                             console.log('Message ~~~~~~~',JSON.stringify(message));
                             // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Canceled
                             if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                                builder.Prompts.choice(session, message, ['Reopen']);
+                                builder.Prompts.choice(session, 'test', ['Reopen']);
                             } else {
-                                builder.Prompts.choice(session, message, ['Add a Comment', 'Close']);
+                                builder.Prompts.choice(session, 'test', ['Add a Comment', 'Close']);
                             }
                         }
                     }
