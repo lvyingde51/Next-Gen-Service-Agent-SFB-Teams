@@ -280,6 +280,8 @@
     module.exports.updateIncident = [
         function (session, message) {
             try {
+                log.consoleDefault('log check');
+                log.consoleDefault(message);
                 // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Cancelled
                 // if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
                 //     builder.Prompts.choice(session, message, ['Reopen']);
