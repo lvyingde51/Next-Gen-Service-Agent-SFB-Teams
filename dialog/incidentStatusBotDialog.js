@@ -269,7 +269,7 @@
             }
 
             session.endDialog();
-            session.beginDialog('updateIncident', null, message, function (err) {
+            session.beginDialog('updateIncident', message, function (err) {
                 if (err) {
                     session.send(new builder.Message().text('Error Occurred with isSearchById: ' + err.message));
                 }
@@ -278,7 +278,7 @@
     ];
 
     module.exports.updateIncident = [
-        function (session, args, message) {
+        function (session, message) {
             try {
                 // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Cancelled
                 // if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
@@ -287,7 +287,7 @@
                 //     builder.Prompts.choice(session, message, ['Add a Comment', 'Close']);
                 // }
 
-                builder.Prompts.choice(session, message, ['Add a Comment', 'Close']);
+                builder.Prompts.choice(session, message, ['Add a Comment', 'Close', 'Thank You']);
             }
             catch (err) {
                 log.consoleDefault('Incident status Error:' + err);
@@ -298,14 +298,12 @@
         },
         function (session, results) {
             session.conversationData.capturedOption = results.response.entity;
-            // if (results.response.entity == 'Add a Comment') {
-            //     builder.Prompts.text(session, 'Okay, Please enter your comment');
-            // } else if (results.response.entity == 'Reopen') {
-            //     builder.Prompts.text(session, 'Okay, Please enter your comment');
-            // } else if (results.response.entity == 'Close') {
-            //     builder.Prompts.text(session, 'Okay, Please enter your comment');
-            // }
-            builder.Prompts.text(session, 'Okay, Please enter your comment');
+            if (results.response.entity == 'Thank You') {
+                session.endDialog('Happy to help!');
+            } else {
+                builder.Prompts.text(session, 'Okay, Please enter your comment');
+            }
+
         },
         function (session, results) {
             var objData = new commonTemplate.statusUpdate();
@@ -443,9 +441,9 @@
         // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Cancelled
         var options = null;
         if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                options = builder.CardAction.imBack(session, "Reopen", "Reopen")
+            options = builder.CardAction.imBack(session, "Reopen", "Reopen")
         } else {
-                options = builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
+            options = builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
                 builder.CardAction.imBack(session, "Close", "Close")
         }
         return options;
