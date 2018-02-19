@@ -83,6 +83,7 @@
                                                 .subtitle(`${data.result[0].short_description}`)
                                                 .buttons([
                                                     builder.CardAction.imBack(session, "Reopen", "Reopen"),
+                                                    builder.CardAction.imBack(session, "Thank You", "Thank You")
                                                 ])
                                             );
                                         } else {
@@ -92,7 +93,8 @@
                                                 .subtitle(`${data.result[0].short_description}`)
                                                 .buttons([
                                                     builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
-                                                    builder.CardAction.imBack(session, "Close", "Close")
+                                                    builder.CardAction.imBack(session, "Close", "Close"),
+                                                    builder.CardAction.imBack(session, "Thank You", "Thank You")
                                                 ])
                                             );
                                         }
@@ -106,6 +108,7 @@
                                                 .subtitle(`${data.result[0].short_description}`)
                                                 .buttons([
                                                     builder.CardAction.imBack(session, "Reopen", "Reopen"),
+                                                    builder.CardAction.imBack(session, "Thank You", "Thank You")
                                                 ])
                                             );
                                         } else {
@@ -115,7 +118,8 @@
                                                 .subtitle(`${data.result[0].short_description}`)
                                                 .buttons([
                                                     builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
-                                                    builder.CardAction.imBack(session, "Close", "Close")
+                                                    builder.CardAction.imBack(session, "Close", "Close"),
+                                                    builder.CardAction.imBack(session, "Thank You", "Thank You")
                                                 ])
                                             );
                                         }
@@ -146,6 +150,7 @@
                                                         .subtitle(`${data.result[0].short_description}`)
                                                         .buttons([
                                                             builder.CardAction.imBack(session, "Reopen", "Reopen"),
+                                                            builder.CardAction.imBack(session, "Thank You", "Thank You")
                                                         ])
                                                     );
                                                 } else {
@@ -155,7 +160,8 @@
                                                         .subtitle(`${data.result[0].short_description}`)
                                                         .buttons([
                                                             builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
-                                                            builder.CardAction.imBack(session, "Close", "Close")
+                                                            builder.CardAction.imBack(session, "Close", "Close"),
+                                                            builder.CardAction.imBack(session, "Thank You", "Thank You")
                                                         ])
                                                     );
                                                 }
@@ -176,6 +182,7 @@
                                                         .subtitle(`${data.result[0].short_description}`)
                                                         .buttons([
                                                             builder.CardAction.imBack(session, "Reopen", "Reopen"),
+                                                            builder.CardAction.imBack(session, "Thank You", "Thank You")
                                                         ])
                                                     );
                                                 } else {
@@ -185,7 +192,8 @@
                                                         .subtitle(`${data.result[0].short_description}`)
                                                         .buttons([
                                                             builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
-                                                            builder.CardAction.imBack(session, "Close", "Close")
+                                                            builder.CardAction.imBack(session, "Close", "Close"),
+                                                            builder.CardAction.imBack(session, "Thank You", "Thank You")
                                                         ])
                                                     );
                                                 }
@@ -209,9 +217,9 @@
                             console.log('Message ~~~~~~~',JSON.stringify(message));
                             // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Canceled
                             if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                                builder.Prompts.choice(session, message, ['Reopen']);
+                                builder.Prompts.choice(session, message, ['Reopen', 'Thank You']);
                             } else {
-                                builder.Prompts.choice(session, message, ['Add a Comment', 'Close']);
+                                builder.Prompts.choice(session, message, ['Add a Comment', 'Close', 'Thank You']);
                             }
                         }
                     }

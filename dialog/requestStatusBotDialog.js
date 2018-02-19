@@ -112,7 +112,7 @@
                     session.endDialog(msg);
                     return false;
                 } else {
-                    servicestatusArr = data.result.reverse();
+                    // servicestatusArr = data.result.reverse();
                     log.consoleDefault(servicestatusArr);
                     var requestDate = '';
                     for (let count = 0; count < servicestatusArr.length && count < 10; count++) {

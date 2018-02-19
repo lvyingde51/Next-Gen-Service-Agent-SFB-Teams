@@ -236,7 +236,7 @@
                     session.endDialog(msg);
                     return false;
                 } else {
-                    incidentstatusArr = data.result.reverse();
+                    // incidentstatusArr = data.result.reverse();
                     // incidentstatusArr.slice((incidentstatusArr.length - 10), incidentstatusArr.length);
                     // incidentstatusArr.slice(Math.max(incidentstatusArr.length - 10, 1));
                     log.consoleDefault(incidentstatusArr);

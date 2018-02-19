@@ -18,9 +18,9 @@
 
         log.consoleDefault(JSON.stringify(args)); // Console Args
         log.consoleDefault(JSON.stringify(entities)); // Console Entity
-        log.consoleDefault(JSON.stringify(session.message.text.substring(session.message.text.indexOf('inc'))));
+        log.consoleDefault(session.conversationData.IncidentNumber);
 
-        session.conversationData.IncidentNumber = builder.EntityRecognizer.findEntity(args.entities, 'IncidentNumber') ? builder.EntityRecognizer.findEntity(args.entities, 'IncidentNumber').entity : '';
+        session.conversationData.IncidentNumber = builder.EntityRecognizer.findEntity(args.entities, 'IncidentNumber') ? builder.EntityRecognizer.findEntity(args.entities, 'IncidentNumber').entity : session.conversationData.IncidentNumber;
 
         if(session.conversationData.IncidentNumber === '' && session.message.text.toLowerCase().indexOf('inc') > -1 && incidentNumPattern.test(session.message.text.toLowerCase().substring(session.message.text.toLowerCase().indexOf('inc')))) {
             session.conversationData.IncidentNumber = session.message.text.toLowerCase().substring(session.message.text.toLowerCase().indexOf('inc'));
