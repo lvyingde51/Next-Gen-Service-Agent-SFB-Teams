@@ -18,7 +18,7 @@
 
         log.consoleDefault(JSON.stringify(args)); // Console Args
         log.consoleDefault(JSON.stringify(entities)); // Console Entity
-        log.consoleDefault(JSON.stringify(session.message.text.substring(session.message.text.indexOf('inc'))));
+        log.consoleDefault(session.conversationData.IncidentNumber);
 
         session.conversationData.IncidentNumber = builder.EntityRecognizer.findEntity(args.entities, 'IncidentNumber') ? builder.EntityRecognizer.findEntity(args.entities, 'IncidentNumber').entity : '';
 
