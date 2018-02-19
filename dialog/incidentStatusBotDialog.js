@@ -78,7 +78,7 @@
                     session.conversationData.short_description = data.result[0].short_description;
                     session.conversationData.sys_id = data.result[0].sys_id;
                     var message = '';
-                    var resp = getButtons();
+                    var resp = getButtons(session);
                     if (assignedTo == '-') {
                         switch (session.message.source) {
                             case 'slack':
@@ -432,7 +432,7 @@
         }
     ];
 
-    var getButtons = function () {
+    var getButtons = function (session) {
         // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Cancelled
         var response = null;
         if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
