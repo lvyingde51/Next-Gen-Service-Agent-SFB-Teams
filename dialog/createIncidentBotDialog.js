@@ -153,12 +153,13 @@
                         console.log('changed the incident to -In Progress-');
                     });
                     console.log('Total Response : ', JSON.stringify(data));
-                    var objFinalData = new jsonData.incidentCreatedData();
+                    var objFinalData = new jsonData.incidentCreatedData();                    
                     objFinalData.incidentid = data.result.number;
                     objFinalData.urgency = objData.urgency;
                     objFinalData.category = objData.category;
                     objFinalData.short_description = objData.short_description;
                     objFinalData.status = 'In Progress';
+                    session.conversationData.IncidentNumber = data.result.number;
 
                     mailer('Create Incident', 'ArunP3@hexaware.com', objFinalData);
 
