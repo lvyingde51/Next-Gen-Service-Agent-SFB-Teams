@@ -146,7 +146,7 @@
                     }
 
                     session.endDialog();
-                    session.beginDialog('updateIncident', null, message, function (err) {
+                    session.beginDialog('updateIncident', message, function (err) {
                         if (err) {
                             session.send(new builder.Message().text('Error Occurred with isSearchById: ' + err.message));
                         }
