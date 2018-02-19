@@ -10,6 +10,7 @@
     var pleaseWait = require('../utils/botDialogs').pleaseWait;
     const lang = 'ENGLISH';
     const reqType = 'INCIDENTSTATUS';
+    const reqListType = 'INCIDENTLIST';
     var botDialogs = require('../utils/botDialogs').sendError;
 
     // Incident Request Status List
@@ -229,7 +230,7 @@
             incidentstatusArr = [];
             let incidentArr = [];
             session.send(pleaseWait["INCIDENTLIST"][lang]);
-            apiService.getStatusByList(reqType, function (data) {
+            apiService.getStatusByList(reqListType, function (data) {
                 if (!data) {
                     let msg = botDialogs.DEFAULT[lang];
                     session.endDialog(msg);

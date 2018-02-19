@@ -10,6 +10,7 @@
     var pleaseWait = require('../utils/botDialogs').pleaseWait;
     const lang = 'ENGLISH';
     const reqType = 'SERVICEREQUEST';
+    const reqListType = 'SERVICELIST';
     var botDialogs = require('../utils/botDialogs').sendError;
 
     // Service Request Status List
@@ -105,7 +106,7 @@
             servicestatusArr = [];
             let serviceArr = [];
             session.send(pleaseWait["SRLIST"][lang]);
-            apiService.getStatusByList(reqType, function (data) {
+            apiService.getStatusByList(reqListType, function (data) {
                 if (!data) {
                     let msg = botDialogs.DEFAULT[lang];
                     session.endDialog(msg);
