@@ -77,11 +77,12 @@
                     session.conversationData.category = data.result[0].category;
                     session.conversationData.short_description = data.result[0].short_description;
                     session.conversationData.sys_id = data.result[0].sys_id;
+                    var message = '';
                     if (assignedTo == '-') {
                         switch (session.message.source) {
                             case 'slack':
                                 // session.send('_Below are the details for the requested incident_');
-                                session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                message = session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                     .title(`*${session.conversationData.IncidentNumber}*`)
                                     .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : Unassigned`)
                                     .subtitle(`${data.result[0].short_description}`)
@@ -90,7 +91,7 @@
                                 break;
                             case 'msteams':
                                 // session.send('Below are the details for the requested incident');
-                                session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                message = session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                     .title(`${session.conversationData.IncidentNumber}`)
                                     .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
                                     .subtitle(`${data.result[0].short_description}`)
@@ -98,8 +99,8 @@
                                 // session.endDialog();
                                 break;
                             default:
-                                let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: Unassigned';
-                                session.send(msg);
+                                message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: Unassigned';
+                                // session.send(msg);
                                 break;
                         }
 
@@ -115,7 +116,7 @@
                                 switch (session.message.source) {
                                     case 'slack':
                                         // session.send('_Below are the details for the requested incident_');
-                                        session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                        message = session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                             .title(`*${session.conversationData.IncidentNumber}*`)
                                             .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : ${resp.result.name}`)
                                             .subtitle(`${data.result[0].short_description}`)
@@ -124,7 +125,7 @@
                                         break;
                                     case 'msteams':
                                         // session.send('Below are the details for the requested incident');
-                                        session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                        message = session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                             .title(`${session.conversationData.IncidentNumber}`)
                                             .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : ${resp.result.name}`)
                                             .subtitle(`${data.result[0].short_description}`)
@@ -132,8 +133,8 @@
                                         // session.endDialog();
                                         break;
                                     default:
-                                        let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
-                                        session.send(msg);
+                                        message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
+                                        // session.send(msg);
                                         break;
                                 }
                             }
@@ -141,7 +142,7 @@
                     }
 
                     session.endDialog();
-                    session.beginDialog('updateIncident', null, function (err) {
+                    session.beginDialog('updateIncident', null, message, function (err) {
                         if (err) {
                             session.send(new builder.Message().text('Error Occurred with isSearchById: ' + err.message));
                         }
@@ -194,12 +195,13 @@
             session.conversationData.category = incidentstatusArr[arrIndex].category;
             session.conversationData.short_description = incidentstatusArr[arrIndex].short_description;
             session.conversationData.sys_id = incidentstatusArr[arrIndex].sys_id;
+            var message = '';
 
             if (assignedTo == '-') {
                 switch (session.message.source) {
                     case 'slack':
                         // session.send('_Below are the details for the requested incident_');
-                        session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                        message = session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                             .title(`*${session.conversationData.IncidentNumber}*`)
                             .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : Unassigned`)
                             .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
@@ -208,7 +210,7 @@
                         break;
                     case 'msteams':
                         // session.send('Below are the details for the requested incident');
-                        session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                        message = session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                             .title(`${session.conversationData.IncidentNumber}`)
                             .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : Unassigned`)
                             .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
@@ -216,8 +218,8 @@
                         // session.endDialog();
                         break;
                     default:
-                        let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: Unassigned';
-                        session.send(msg);
+                        message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: Unassigned';
+                        // session.send(msg);
                         break;
                 }
             } else {
@@ -231,7 +233,7 @@
                         switch (session.message.source) {
                             case 'slack':
                                 // session.send('_Below are the details for the requested incident_');
-                                session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                message = session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                     .title(`*${session.conversationData.IncidentNumber}*`)
                                     .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : ${resp.result.name}`)
                                     .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
@@ -240,7 +242,7 @@
                                 break;
                             case 'msteams':
                                 // session.send('Below are the details for the requested incident');
-                                session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                message = session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                     .title(`${session.conversationData.IncidentNumber}`)
                                     .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : ${resp.result.name}`)
                                     .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
@@ -248,8 +250,8 @@
                                 // session.endDialog();
                                 break;
                             default:
-                                let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
-                                session.send(msg);
+                                message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
+                                // session.send(msg);
                                 break;
                         }
                         // log.consoleDefault(JSON.stringify(resp));
@@ -259,7 +261,7 @@
             }
 
             session.endDialog();
-            session.beginDialog('updateIncident', null, function (err) {
+            session.beginDialog('updateIncident', null, message, function (err) {
                 if (err) {
                     session.send(new builder.Message().text('Error Occurred with isSearchById: ' + err.message));
                 }
@@ -268,13 +270,13 @@
     ];
 
     module.exports.updateIncident = [
-        function (session) {
+        function (session, args, message) {
             try {
                 // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Cancelled
                 if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                    builder.Prompts.choice(session, 'What would you like to do further?', ['Reopen']);
+                    builder.Prompts.choice(session, message, ['Reopen']);
                 } else {
-                    builder.Prompts.choice(session, 'What would you like to do further?', ['Add a Comment', 'Close']);
+                    builder.Prompts.choice(session, message, ['Add a Comment', 'Close']);
                 }
             }
             catch (err) {
