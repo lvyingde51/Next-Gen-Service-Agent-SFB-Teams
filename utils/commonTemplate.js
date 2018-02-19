@@ -87,7 +87,8 @@
         'CREATEINCIDENT' : 'https://dev18442.service-now.com/api/now/v1/table/incident',
         'CREATESERVICEREQUEST' : 'https://dev18442.service-now.com/api/now/v1/table/sc_req_item',
         'INCIDENTLIST' : 'https://dev18442.service-now.com/api/now/v1/table/incident?sysparm_limit=10&sysparm_query=ORDERBYDESCsys_created_on',
-        'SERVICELIST' : 'https://dev18442.service-now.com/api/now/v1/table/sc_req_item?sysparm_limit=10&sysparm_query=ORDERBYDESCsys_created_on '
+        'SERVICELIST' : 'https://dev18442.service-now.com/api/now/v1/table/sc_req_item?sysparm_limit=10&sysparm_query=ORDERBYDESCsys_created_on',
+        'LASTINCIDENT' : 'https://dev18442.service-now.com/api/now/v1/table/incident?sysparm_limit=1&sysparm_query=ORDERBYDESCsys_created_on'
     };
 
     var capitaliseString = function(string) {
