@@ -446,7 +446,7 @@
             options = builder.CardAction.imBack(session, "Reopen", "Reopen")
         } else {
             options = builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
-                builder.CardAction.imBack(session, "Close", "Close")
+            options += builder.CardAction.imBack(session, "Close", "Close")
         }
         return options;
     };
