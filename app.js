@@ -153,6 +153,7 @@ createServiceRequestDialog.load(intents);
 reopenIncidentDialog.load(intents);
 commentIncidentDialog.load(intents);
 closeIncidentDialog.load(intents);
+lastIncidentDialog.load(intents);
 
 bot.dialog("/", intents);
 
