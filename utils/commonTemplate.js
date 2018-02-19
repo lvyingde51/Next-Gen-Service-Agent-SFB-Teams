@@ -82,22 +82,12 @@
     };
 
     const apiList = {
-<<<<<<< HEAD
         'INCIDENTSTATUS' : `${process.env.ServiceNowURL}/incident`,        
         'SERVICEREQUEST' : `${process.env.ServiceNowURL}/sc_req_item`,
         'CREATEINCIDENT' : `${process.env.ServiceNowURL}/incident`,
         'CREATESERVICEREQUEST' : `${process.env.ServiceNowURL}/sc_req_item`,
         'INCIDENTLIST' : `${process.env.ServiceNowURL}/incident?sysparm_limit=10&sysparm_query=ORDERBYDESCsys_created_on`,
         'SERVICELIST' : `${process.env.ServiceNowURL}/sc_req_item?sysparm_limit=10&sysparm_query=ORDERBYDESCsys_created_on `
-=======
-        'INCIDENTSTATUS' : 'https://dev18442.service-now.com/api/now/v1/table/incident',        
-        'SERVICEREQUEST' : 'https://dev18442.service-now.com/api/now/v1/table/sc_req_item',
-        'CREATEINCIDENT' : 'https://dev18442.service-now.com/api/now/v1/table/incident',
-        'CREATESERVICEREQUEST' : 'https://dev18442.service-now.com/api/now/v1/table/sc_req_item',
-        'INCIDENTLIST' : 'https://dev18442.service-now.com/api/now/v1/table/incident?sysparm_limit=10&sysparm_query=ORDERBYDESCsys_created_on',
-        'SERVICELIST' : 'https://dev18442.service-now.com/api/now/v1/table/sc_req_item?sysparm_limit=10&sysparm_query=ORDERBYDESCsys_created_on',
-        'LASTINCIDENT' : 'https://dev18442.service-now.com/api/now/v1/table/incident?sysparm_limit=1&sysparm_query=ORDERBYDESCsys_created_on'
->>>>>>> bd6ec45a0c11206bfbf0db127a37311cbcc311c5
     };
 
     var capitaliseString = function(string) {
