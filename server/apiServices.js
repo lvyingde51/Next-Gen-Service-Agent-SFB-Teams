@@ -79,6 +79,7 @@
                     try {
                         log.consoleDefault('headers:' + response.headers);
                         log.consoleDefault('status code:' + response.statusCode);
+                        console.log(body);
                         // log.consoleDefault('JSON parser:' + JSON.parse(body));
                         callback(body);
                     }
