@@ -78,6 +78,7 @@
                     session.conversationData.short_description = data.result[0].short_description;
                     session.conversationData.sys_id = data.result[0].sys_id;
                     var message = '';
+                    var resp = getButtons();
                     if (assignedTo == '-') {
                         switch (session.message.source) {
                             case 'slack':
@@ -86,7 +87,7 @@
                                     .title(`*${session.conversationData.IncidentNumber}*`)
                                     .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : Unassigned`)
                                     .subtitle(`${data.result[0].short_description}`)
-                                )).getButtons();
+                                )) + resp;
                                 // session.endDialog();
                                 break;
                             case 'msteams':
@@ -95,7 +96,7 @@
                                     .title(`${session.conversationData.IncidentNumber}`)
                                     .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
                                     .subtitle(`${data.result[0].short_description}`)
-                                )).getButtons();
+                                )) + resp;
                                 // session.endDialog();
                                 break;
                             default:
@@ -120,7 +121,7 @@
                                             .title(`*${session.conversationData.IncidentNumber}*`)
                                             .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : ${resp.result.name}`)
                                             .subtitle(`${data.result[0].short_description}`)
-                                        )).getButtons();
+                                        )) + resp;
                                         // session.endDialog();
                                         break;
                                     case 'msteams':
@@ -129,7 +130,7 @@
                                             .title(`${session.conversationData.IncidentNumber}`)
                                             .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : ${resp.result.name}`)
                                             .subtitle(`${data.result[0].short_description}`)
-                                        )).getButtons();
+                                        )) + resp;
                                         // session.endDialog();
                                         break;
                                     default:
@@ -205,7 +206,7 @@
                             .title(`*${session.conversationData.IncidentNumber}*`)
                             .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : Unassigned`)
                             .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
-                        )).getButtons();
+                        )) + resp;
                         // session.endDialog();
                         break;
                     case 'msteams':
@@ -214,7 +215,7 @@
                             .title(`${session.conversationData.IncidentNumber}`)
                             .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : Unassigned`)
                             .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
-                        )).getButtons();
+                        )) + resp;
                         // session.endDialog();
                         break;
                     default:
@@ -237,7 +238,7 @@
                                     .title(`*${session.conversationData.IncidentNumber}*`)
                                     .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : ${resp.result.name}`)
                                     .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
-                                )).getButtons();
+                                )) + resp;
                                 // session.endDialog();
                                 break;
                             case 'msteams':
@@ -246,7 +247,7 @@
                                     .title(`${session.conversationData.IncidentNumber}`)
                                     .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : ${resp.result.name}`)
                                     .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
-                                )).getButtons();
+                                )) + resp;
                                 // session.endDialog();
                                 break;
                             default:
@@ -439,12 +440,12 @@
                 builder.CardAction.imBack(session, "Reopen", "Reopen")
             ]);
         } else {
-            response = buttons([
+            response =  buttons([
                 builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
                 builder.CardAction.imBack(session, "Close", "Close")
             ]);
         }
-        return response;
+        return "." + response;
     };
 
     //************** Commented due to mismatch of conversational flow****************//
