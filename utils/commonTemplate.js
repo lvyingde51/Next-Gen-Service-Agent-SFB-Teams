@@ -87,7 +87,7 @@
         'CREATEINCIDENT' : `${process.env.ServiceNowURL}/incident`,
         'CREATESERVICEREQUEST' : `${process.env.ServiceNowURL}/sc_req_item`,
         'INCIDENTLIST' : `${process.env.ServiceNowURL}/incident?sysparm_limit=10&sysparm_query=ORDERBYDESCsys_created_on`,
-        'SERVICELIST' : `${process.env.ServiceNowURL}/sc_req_item?sysparm_limit=10&sysparm_query=ORDERBYDESCsys_created_on `
+        'SERVICELIST' : `${process.env.ServiceNowURL}/sc_req_item?sysparm_limit=10&sysparm_query=ORDERBYDESCsys_created_on`
     };
 
     var capitaliseString = function(string) {
