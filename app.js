@@ -190,6 +190,24 @@ bot.recognizer({
         case "goodbye":
           intent = { score: 1.0, intent: "Goodbye" };
           break;
+          case "Good Bye":
+          intent = { score: 1.0, intent: "Goodbye" };
+          break;
+          case "exit":
+          intent = { score: 1.0, intent: "Goodbye" };
+          break; 
+          case "quit":
+          intent = { score: 1.0, intent: "Goodbye" };
+          break;
+          case "Thank You":
+          intent = { score: 1.0, intent: "Goodbye" };
+          break; 
+          case "Thankyou":
+          intent = { score: 1.0, intent: "Goodbye" };
+          break; 
+          case "Thanks":
+          intent = { score: 1.0, intent: "Goodbye" };
+          break;   
         case "cancel":
           intent = { score: 1.0, intent: "Cancel" };
           break;
