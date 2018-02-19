@@ -9,8 +9,8 @@
         var transporter = nodemailer.createTransport({
             service: 'Gmail',
             auth: {
-                user: '39416.hexaware@gmail.com',
-                pass: 'T3m!24618024'
+                user: process.env.MailUser,
+                pass: process.env.MailPassword
             }
         });
 
@@ -100,8 +100,8 @@
         }
 
         transporter.sendMail({
-            from: '39416.hexaware@gmail.com',
-            to: 'RameshN2@hexaware.com',//mailAddress,
+            from: process.env.MailUser,
+            to: process.env.MailTo,//mailAddress,
             subject: mailSubject,
             html: messageContent
         });

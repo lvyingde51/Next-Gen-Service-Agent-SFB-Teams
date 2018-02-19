@@ -3,7 +3,7 @@
 
     function jsonRequest() {
         this.short_description = null;
-        this.caller_id = 'rubin.crotts@example.com';
+        this.caller_id = `${process.env.caller_id}`;
         this.category = null;
         this.urgency = null;
         this.incident_state = null;
@@ -11,7 +11,7 @@
     }
 
     function statusUpdate() {
-        this.caller_id = 'rubin.crotts@example.com';
+        this.caller_id = `${process.env.caller_id}`;
         this.comments = '';
         this.incident_state = null;
         this.json = true;
@@ -82,12 +82,12 @@
     };
 
     const apiList = {
-        'INCIDENTSTATUS' : 'https://dev18442.service-now.com/api/now/v1/table/incident',        
-        'SERVICEREQUEST' : 'https://dev18442.service-now.com/api/now/v1/table/sc_req_item',
-        'CREATEINCIDENT' : 'https://dev18442.service-now.com/api/now/v1/table/incident',
-        'CREATESERVICEREQUEST' : 'https://dev18442.service-now.com/api/now/v1/table/sc_req_item',
-        'INCIDENTLIST' : 'https://dev18442.service-now.com/api/now/v1/table/incident?sysparm_limit=10&sysparm_query=ORDERBYDESCsys_created_on',
-        'SERVICELIST' : 'https://dev18442.service-now.com/api/now/v1/table/sc_req_item?sysparm_limit=10&sysparm_query=ORDERBYDESCsys_created_on '
+        'INCIDENTSTATUS' : `${process.env.ServiceNowURL}/incident`,        
+        'SERVICEREQUEST' : `${process.env.ServiceNowURL}/sc_req_item`,
+        'CREATEINCIDENT' : `${process.env.ServiceNowURL}/incident`,
+        'CREATESERVICEREQUEST' : `${process.env.ServiceNowURL}/sc_req_item`,
+        'INCIDENTLIST' : `${process.env.ServiceNowURL}/incident?sysparm_limit=10&sysparm_query=ORDERBYDESCsys_created_on`,
+        'SERVICELIST' : `${process.env.ServiceNowURL}/sc_req_item?sysparm_limit=10&sysparm_query=ORDERBYDESCsys_created_on `
     };
 
     var capitaliseString = function(string) {

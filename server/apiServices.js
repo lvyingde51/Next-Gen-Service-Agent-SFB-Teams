@@ -3,8 +3,8 @@
     const requestAPI = require('request');
     var log = require('../utils/logs');
     var apiList = require('../utils/commonTemplate').apiList
-    const ServiceNowUserName = '33238';
-    const ServiceNowPwd = 'abc123';    
+    const ServiceNowUserName = process.env.ServiceNowUserName;
+    const ServiceNowPwd = process.env.ServiceNowPassword;    
 
     const header = {
         'Cache-Control': 'no-cache',
