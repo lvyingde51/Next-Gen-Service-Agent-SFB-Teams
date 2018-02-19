@@ -403,6 +403,7 @@
             session.endDialog();
             session.beginDialog('updateIncident', null, message, function (err) {
                 if (err) {
+                    log.consoleDefault('log checking');
                     session.send(new builder.Message().text('Error Occurred with isSearchById: ' + err.message));
                 }
             });
@@ -412,6 +413,10 @@
     module.exports.updateIncident = [
         function (session, args, message) {
             try {
+                log.consoleDefault('log check');
+                log.consoleDefault(session);
+                log.consoleDefault(args);
+                log.consoleDefault(message);
                 // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Cancelled
                 // if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
                 //     builder.Prompts.choice(session, message, ['Reopen']);
