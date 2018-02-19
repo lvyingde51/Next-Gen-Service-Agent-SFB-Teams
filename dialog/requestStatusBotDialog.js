@@ -119,7 +119,6 @@
                         requestDate = moment(servicestatusArr[count].opened_at).format('LLL');
                         serviceArr.push(servicestatusArr[count].number + ' - ' + requestDate);
                     }
-                    console.log(serviceArr);
                     builder.Prompts.choice(session, 'List of Service Requests', serviceArr);
                 }
             });

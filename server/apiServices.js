@@ -27,6 +27,8 @@
                 }
             };
 
+            console.log(apiList[type]);
+
             requestAPI(options, function (error, response, body) {
                 if (error) {
                     log.consoleDefault(JSON.stringify(error));
@@ -64,6 +66,8 @@
                     password: ServiceNowPwd
                 }
             };
+
+            console.log(apiList[type]);
 
             requestAPI(options, function (error, response, body) {
                 if (error) {
