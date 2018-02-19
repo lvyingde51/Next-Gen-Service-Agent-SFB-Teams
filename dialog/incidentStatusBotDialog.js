@@ -86,7 +86,7 @@
                                     .title(`*${session.conversationData.IncidentNumber}*`)
                                     .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : Unassigned`)
                                     .subtitle(`${data.result[0].short_description}`)
-                                ));
+                                )).getButtons();
                                 // session.endDialog();
                                 break;
                             case 'msteams':
@@ -95,7 +95,7 @@
                                     .title(`${session.conversationData.IncidentNumber}`)
                                     .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
                                     .subtitle(`${data.result[0].short_description}`)
-                                ));
+                                )).getButtons();
                                 // session.endDialog();
                                 break;
                             default:
@@ -120,7 +120,7 @@
                                             .title(`*${session.conversationData.IncidentNumber}*`)
                                             .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : ${resp.result.name}`)
                                             .subtitle(`${data.result[0].short_description}`)
-                                        ));
+                                        )).getButtons();
                                         // session.endDialog();
                                         break;
                                     case 'msteams':
@@ -129,7 +129,7 @@
                                             .title(`${session.conversationData.IncidentNumber}`)
                                             .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : ${resp.result.name}`)
                                             .subtitle(`${data.result[0].short_description}`)
-                                        ));
+                                        )).getButtons();
                                         // session.endDialog();
                                         break;
                                     default:
@@ -205,7 +205,7 @@
                             .title(`*${session.conversationData.IncidentNumber}*`)
                             .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : Unassigned`)
                             .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
-                        ));
+                        )).getButtons();
                         // session.endDialog();
                         break;
                     case 'msteams':
@@ -214,7 +214,7 @@
                             .title(`${session.conversationData.IncidentNumber}`)
                             .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : Unassigned`)
                             .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
-                        ));
+                        )).getButtons();
                         // session.endDialog();
                         break;
                     default:
@@ -237,7 +237,7 @@
                                     .title(`*${session.conversationData.IncidentNumber}*`)
                                     .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : ${resp.result.name}`)
                                     .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
-                                ));
+                                )).getButtons();
                                 // session.endDialog();
                                 break;
                             case 'msteams':
@@ -246,7 +246,7 @@
                                     .title(`${session.conversationData.IncidentNumber}`)
                                     .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : ${resp.result.name}`)
                                     .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
-                                ));
+                                )).getButtons();
                                 // session.endDialog();
                                 break;
                             default:
@@ -273,11 +273,13 @@
         function (session, args, message) {
             try {
                 // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Cancelled
-                if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                    builder.Prompts.choice(session, message, ['Reopen']);
-                } else {
-                    builder.Prompts.choice(session, message, ['Add a Comment', 'Close']);
-                }
+                // if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
+                //     builder.Prompts.choice(session, message, ['Reopen']);
+                // } else {
+                //     builder.Prompts.choice(session, message, ['Add a Comment', 'Close']);
+                // }
+
+                builder.Prompts.choice(session, message, ['Add a Comment', 'Close']);
             }
             catch (err) {
                 log.consoleDefault('Incident status Error:' + err);
@@ -428,6 +430,22 @@
             }
         }
     ];
+
+    var getButtons = function () {
+        // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Cancelled
+        var response = null;
+        if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
+            response = buttons([
+                builder.CardAction.imBack(session, "Reopen", "Reopen")
+            ]);
+        } else {
+            response = buttons([
+                builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
+                builder.CardAction.imBack(session, "Close", "Close")
+            ]);
+        }
+        return response;
+    };
 
     //************** Commented due to mismatch of conversational flow****************//
     // Fetch Incident Status Directly
