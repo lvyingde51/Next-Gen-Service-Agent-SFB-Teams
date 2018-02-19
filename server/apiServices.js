@@ -36,6 +36,7 @@
                 }
                 else {
                     try {
+                        console.log(body);
                         //log.consoleDefault('headers:' + response.headers);
                         //log.consoleDefault('status code:' + response.statusCode);
                         // log.consoleDefault('JSON parser:' + JSON.parse(body));
