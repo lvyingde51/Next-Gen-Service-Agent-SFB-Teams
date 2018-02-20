@@ -89,13 +89,13 @@ var luisAPIKey = process.env.LuisAPIKey;
 var luisAPIHostName =
   process.env.LuisAPIHostName || "westus.api.cognitive.microsoft.com";
 
-const LuisModelUrl =
-  "https://" +
+const LuisModelUrl =`https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/3b34deef-fe27-4fb0-85b5-268a626040fa?subscription-key=a0a7d96d1a674912bc12d18d1c61648b&staging=true&verbose=true&timezoneOffset=0&q=`
+ /* "https://" +
   luisAPIHostName +
   "/luis/v1/application?id=" +
   luisAppId +"&staging=true"
   "&subscription-key=" +
-  luisAPIKey;
+  luisAPIKey;*/
 
 // Main dialog with LUIS
 var recognizer = new builder.LuisRecognizer(LuisModelUrl);
