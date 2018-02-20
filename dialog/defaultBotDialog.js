@@ -11,6 +11,7 @@
     var reqType = 'INCIDENTSTATUS';
     var pleaseWait = require('../utils/botDialogs').pleaseWait;
     var botDialogs = require('../utils/botDialogs').sendError;
+    var progress = require('../utils/commonTemplate').progress;
 
     module.exports.beginDialog = [
         function (session) {
@@ -41,6 +42,17 @@
             if (textsess.match(incidentRegex) != null || textsess.match(serviceRequestRegex) != null) {
                 session.conversationData.capturedStr = session.message.text;
                 session.send(pleaseWait["DEFAULT"][lang]);
+                var options = {
+                    
+                                    initialText: pleaseWait["DEFAULT"][lang],
+                    
+                                    text: 'Please wait... This is taking a little longer than expected.',
+                    
+                                    speak: '<speak>Please wait.<break time="2s"/></speak>'
+                    
+                                };
+                    
+                progress(session, options, function (callback) {
                 apiService.getStatusByNumber(session.conversationData.capturedStr, reqType, function (data) {
                     log.consoleDefault(JSON.stringify(data));
                     if (!data) {
@@ -223,8 +235,9 @@
                             }
                         }
                     }
+                   callback("Start Over"); 
                 });
-
+            });
             } else {
                 session.send('Sorry, I did not understand \'%s\'.', session.message.text);
                 session.endDialog();
