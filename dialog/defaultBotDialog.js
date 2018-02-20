@@ -232,14 +232,11 @@
         },
         function (session, results) {
             session.conversationData.capturedOption = results.response.entity;
-            // if (results.response.entity == 'Add a Comment') {
-            //     builder.Prompts.text(session, 'Okay, Please enter your comment');
-            // } else if (results.response.entity == 'Reopen') {
-            //     builder.Prompts.text(session, 'Okay, Please enter your comment');
-            // } else if (results.response.entity == 'Close') {
-            //     builder.Prompts.text(session, 'Okay, Please enter your comment');
-            // }
-            builder.Prompts.text(session, 'Okay, Please enter your comment');
+            if (results.response.entity == 'Thank You') {
+                session.endDialog('Happy to help!');
+            } else {
+                builder.Prompts.text(session, 'Okay, Please enter your comment');
+            }
         },
         function (session, results) {
             var objData = new jsonData.statusUpdate();

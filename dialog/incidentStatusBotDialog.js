@@ -138,7 +138,6 @@
                                 // session.send(msg);
                                 break;
                         }
-
                     } else {
                         // session.send(pleaseWait["DEFAULT"][lang]);
                         apiService.getAssignedToDetails(assignedTo, function (resp) {
