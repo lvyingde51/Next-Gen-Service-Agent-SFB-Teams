@@ -284,7 +284,7 @@ bot.dialog("progressDialog", function(session, args) {
         inputHint: builder.InputHint.ignoringInput
       });
       
-      if(count=3)
+      if(count==3)
       {
       clearTimeout(hTimer);
       session.send('Something gone wrong please try again later');
