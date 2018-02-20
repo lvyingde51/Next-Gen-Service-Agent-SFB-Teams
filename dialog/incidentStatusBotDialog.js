@@ -48,12 +48,7 @@
             }
         },
         function (session, results) {
-            let resp = results.response;
-            let regex = commonTemplate.regexPattern['INCIDENTREGEX'];
-            console.log(resp.match(commonTemplate.regexPattern['INCIDENTREGEX']));
-            console.log(regex);
-            console.log(resp);
-            if (!resp.match(regex)) {
+            if (!results.response.match(commonTemplate.regexPattern['INCIDENTREGEX'])) {
                 session.endDialog(botDialogs.INVALIDINCIDENTFORMAT[lang]);
                 session.beginDialog('isSearchById', function (err) {
                     if (err) {
