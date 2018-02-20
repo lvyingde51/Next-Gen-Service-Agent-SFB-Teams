@@ -48,6 +48,15 @@
             }
         },
         function (session, results) {
+            if (!results.response.match(commonTemplate.regexPattern['SERVICEREGEX'])) {
+                session.endDialog(botDialogs.INVALIDSERVICEFORMAT[lang]);
+                session.beginDialog('srSearchById', function (err) {
+                    if (err) {
+                        session.send(new builder.Message().text('Error Occurred with srSearchById ' + err.message));
+                    }
+                });
+                return false;
+            }
             session.conversationData.SRNumber = results.response;
             // Make API call to Service Now with Service Id and get Response...
             session.send(pleaseWait["SRSTATUS"][lang]);
