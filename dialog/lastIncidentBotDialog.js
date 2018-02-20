@@ -7,7 +7,7 @@
     var jsonData = require('../utils/commonTemplate');
     var  pleaseWait  =  require('../utils/botDialogs').pleaseWait;
     const lang = 'ENGLISH';
-    const reqType = 'INCIDENTSTATUS';
+    const reqType = 'INCIDENTLIST';
     var botDialogs = require('../utils/botDialogs').sendError;
     function progress(session, options, asyncFn) {
         session.beginDialog("progressDialog", {
