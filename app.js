@@ -287,7 +287,7 @@ bot.dialog("progressDialog", function(session, args) {
       {
       clearTimeout(hTimer);
       session.send('Something gone wrong please try again later');
-      session.endDialogWithResult({ response: response });
+      session.endDialogWithResult({ response: 'Start Over' });
       return;    
       }
     } else {
