@@ -5,6 +5,7 @@
     var apiService = require('../server/apiServices');
     var log = require('../utils/logs');
     var createSR = require('../utils/commonTemplate').createSR;
+    var progress = require('../utils/commonTemplate').progress;
     var mailer = require('../utils/commonMailer').sendMail;
     var pleaseWait = require('../utils/botDialogs').pleaseWait;
     const lang = 'ENGLISH';
@@ -75,7 +76,18 @@
         function (session) {
             var objSRData = new createSR();
             objSRData.short_description = session.conversationData.SoftwareName;
-            session.send(pleaseWait["CREATESR"][lang]);
+           // session.send(pleaseWait["CREATESR"][lang]);
+            var options = {
+                
+                                initialText: pleaseWait["CREATESR"][lang],
+                
+                                text: 'Please wait... This is taking a little longer than expected.',
+                
+                                speak: '<speak>Please wait.<break time="2s"/></speak>'
+                
+                            };
+                
+            progress(session, options, function (callback) {
             apiService.createIncidentService(JSON.parse(JSON.stringify(objSRData)), reqType, function (data) {
                 objSRData.sr_ID = data.result.number;
                 mailer('Create Service Request', 'ArunP3@hexaware.com', objSRData);
@@ -84,7 +96,9 @@
                 session.conversationData.SRType = '';
                 session.conversationData.SoftwareName = '';
                 session.endDialog(msg);
+                callback('Start Over');
             });
+        });
         }
     ];
 }());
