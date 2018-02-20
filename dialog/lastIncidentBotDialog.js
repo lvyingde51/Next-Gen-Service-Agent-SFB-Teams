@@ -8,6 +8,7 @@
     var  pleaseWait  =  require('../utils/botDialogs').pleaseWait;
     const lang = 'ENGLISH';
     const reqType = 'INCIDENTSTATUS';
+    var botDialogs = require('../utils/botDialogs').sendError;
     function progress(session, options, asyncFn) {
         session.beginDialog("progressDialog", {
             asyncFn: asyncFn,
@@ -19,9 +20,9 @@
         
         function (session) {
             console.log(session.conversationData.IncidentNumber);
-            if (session.conversationData.IncidentNumber == '' || session.conversationData.IncidentNumber == undefined) {
+            if (session.conversationData.IncidentNumber != undefined) {
                  apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
-                    log.consoleDefault(JSON.stringify(data));
+                    //log.consoleDefault(JSON.stringify(data));
                     if (!data) {
                         let msg = botDialogs.DEFAULT[lang];
                         session.endDialog(msg);
