@@ -48,9 +48,9 @@
             }
         },
         function (session, results) {
-            let resp = results.response;
-            let regex = commonTemplate.regexPattern['INCIDENTREGEX'];
-            console.log(commonTemplate.regexPattern['INCIDENTREGEX'].test(resp));
+            var resp = results.response;
+            var regex = commonTemplate.regexPattern['INCIDENTREGEX'];
+            console.log(regex.test(resp));
             console.log(regex);
             console.log(resp);
             if (!resp.match(regex)) {
