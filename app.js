@@ -280,11 +280,11 @@ bot.dialog("progressDialog", function(session, args) {
 
   function sendProgress() {
     if (count++ > 0) {
-     /* session.say(options.text, options.speak, {
+      session.say(options.text, options.speak, {
         inputHint: builder.InputHint.ignoringInput
-      });*/
-      session.send(options.text);
-      if(count=5)
+      });
+      
+      if(count=3)
       {
       clearTimeout(hTimer);
       session.send('Something gone wrong please try again later');
