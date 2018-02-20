@@ -251,6 +251,9 @@
         },
         "INVALIDINCIDENTFORMAT" : {
             "ENGLISH" : "It seems you have entered the incident number in wrong format!"
+        },
+        "INVALIDSERVICEFORMAT" : {
+            "ENGLISH" : "It seems you have entered the service number in wrong format!"
         }
     };
 

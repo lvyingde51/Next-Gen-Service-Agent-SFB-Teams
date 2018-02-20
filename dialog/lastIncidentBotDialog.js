@@ -7,7 +7,7 @@
     var jsonData = require('../utils/commonTemplate');
     var  pleaseWait  =  require('../utils/botDialogs').pleaseWait;
     const lang = 'ENGLISH';
-    const reqType = 'LASTINCIDENT';
+    const reqType = 'INCIDENTSTATUS';
     function progress(session, options, asyncFn) {
         session.beginDialog("progressDialog", {
             asyncFn: asyncFn,
@@ -18,6 +18,7 @@
     module.exports.beginDialog = [
         
         function (session) {
+            console.log(session.conversationData.IncidentNumber);
             if (session.conversationData.IncidentNumber == '' || session.conversationData.IncidentNumber == undefined) {
                  apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
                     log.consoleDefault(JSON.stringify(data));

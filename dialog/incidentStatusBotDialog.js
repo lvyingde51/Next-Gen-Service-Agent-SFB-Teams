@@ -54,8 +54,8 @@
                     if (err) {
                         session.send(new builder.Message().text('Error Occurred with isSearchById ' + err.message));
                     }
-                }); 
-                return false;               
+                });
+                return false;
             }
             session.conversationData.IncidentNumber = results.response;
             // Make API call to Service Now with Incident Id and get Response...
