@@ -260,5 +260,5 @@ bot
     );
   })
   .triggerAction({ matches: "Help" });
-
+  
 bot.library(require("./dialog/progressIndicatorDialog"));

@@ -1,9 +1,7 @@
 var builder = require('botbuilder');
-const library = new builder.Library('progressDialog');
+const library = new builder.Library('progress');
 
-library.dialog("progressDialog", new builder.IntentDialog()
-
-        .onBegin(function (session, args) {
+library.dialog("progressDialog", new builder.IntentDialog().onBegin(function (session, args) {
     if (!args) return;
   
     var asyncFn = args.asyncFn;
