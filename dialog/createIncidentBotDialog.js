@@ -10,7 +10,7 @@
     const lang = 'ENGLISH';
     const reqType = 'CREATEINCIDENT';
     function progress(session, options, asyncFn) {
-        session.beginDialog("progressDialog", {
+        session.beginDialog("progressDialog:progressDialog", {
             asyncFn: asyncFn,
             options: options
         });
