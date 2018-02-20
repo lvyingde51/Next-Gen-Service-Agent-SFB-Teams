@@ -29,7 +29,12 @@
         this.short_description = null;
         this.sr_ID = null;
     }
-
+    function progress(session, options, asyncFn) {
+        session.beginDialog("progress:progressDialog", {
+            asyncFn: asyncFn,
+            options: options
+        });
+    }
     const incidentStatus = {
         '1': {
             'ENGLISH': 'New'
@@ -110,4 +115,5 @@
     module.exports.statusUpdate = statusUpdate;
     module.exports.camelCase = capitaliseString;
     module.exports.regexPattern = regexPattern;
+    module.exports.progress = progress;
 }());

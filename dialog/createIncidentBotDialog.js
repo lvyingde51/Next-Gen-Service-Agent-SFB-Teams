@@ -9,13 +9,7 @@
     var mailer = require('../utils/commonMailer').sendMail;
     const lang = 'ENGLISH';
     const reqType = 'CREATEINCIDENT';
-    function progress(session, options, asyncFn) {
-        session.beginDialog("progress:progressDialog", {
-            asyncFn: asyncFn,
-            options: options
-        });
-    }
-
+  
     module.exports.beginDialog = [
         // function (session) {
         //     if(session.conversationData.severity == '' || session.conversationData.severity == undefined) {
@@ -132,7 +126,7 @@
 
             };
 
-            progress(session, options, function (callback) {
+            jsonData.progress(session, options, function (callback) {
 
                 // Make our async call here. If the call completes quickly then no progress
 
