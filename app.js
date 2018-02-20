@@ -93,7 +93,7 @@ const LuisModelUrl =
   "https://" +
   luisAPIHostName +
   "/luis/v1/application?id=" +
-  luisAppId +
+  luisAppId +"&staging=true"
   "&subscription-key=" +
   luisAPIKey;
 
