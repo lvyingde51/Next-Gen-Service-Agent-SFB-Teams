@@ -48,6 +48,20 @@
             }
         },
         function (session, results) {
+            let resp = results.response;
+            let regex = commonTemplate.regexPattern['INCIDENTREGEX'];
+            console.log(resp.match(commonTemplate.regexPattern['INCIDENTREGEX']));
+            console.log(regex);
+            console.log(resp);
+            if (!resp.match(regex)) {
+                session.endDialog(botDialogs.INVALIDINCIDENTFORMAT[lang]);
+                session.beginDialog('isSearchById', function (err) {
+                    if (err) {
+                        session.send(new builder.Message().text('Error Occurred with isSearchById ' + err.message));
+                    }
+                }); 
+                return false;               
+            }
             session.conversationData.IncidentNumber = results.response;
             // Make API call to Service Now with Incident Id and get Response...
             session.send(pleaseWait["INCIDENTSTATUS"][lang]);
