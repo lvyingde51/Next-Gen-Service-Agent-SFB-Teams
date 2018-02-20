@@ -95,8 +95,8 @@
     };
 
     const regexPattern = {
-        'INCIDENTREGEX': '/^(inc)\w+\d{6}$/gim',
-        'SERVICEREGEX': '/^(ritm)\w+\d{6}$/gim'
+        'INCIDENTREGEX': /^(inc)\w+\d{6}$/gim,
+        'SERVICEREGEX': /^(ritm)\w+\d{6}$/gim
     };
 
     module.exports.jsonRequest = jsonRequest;
