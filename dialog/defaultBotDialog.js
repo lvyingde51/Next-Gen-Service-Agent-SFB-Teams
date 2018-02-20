@@ -42,17 +42,7 @@
             if (textsess.match(incidentRegex) != null || textsess.match(serviceRequestRegex) != null) {
                 session.conversationData.capturedStr = session.message.text;
                 session.send(pleaseWait["DEFAULT"][lang]);
-                var options = {
-                    
-                                    initialText: pleaseWait["DEFAULT"][lang],
-                    
-                                    text: 'Please wait... This is taking a little longer than expected.',
-                    
-                                    speak: '<speak>Please wait.<break time="2s"/></speak>'
-                    
-                                };
-                    
-                progress(session, options, function (callback) {
+                
                 apiService.getStatusByNumber(session.conversationData.capturedStr, reqType, function (data) {
                     log.consoleDefault(JSON.stringify(data));
                     if (!data) {
@@ -235,9 +225,9 @@
                             }
                         }
                     }
-                   callback("Start Over"); 
+                 
                 });
-            });
+          
             } else {
                 session.send('Sorry, I did not understand \'%s\'.', session.message.text);
                 session.endDialog();
@@ -258,7 +248,18 @@
                 session.conversationData.comment = results.response;
                 objData.comments = session.conversationData.comment;
                 objData.incident_state = session.conversationData.incident_state;
-                session.send(pleaseWait["INCIDENTADDCOMMENT"][lang]);
+               // session.send(pleaseWait["INCIDENTADDCOMMENT"][lang]);
+                let options = {
+                    
+                                    initialText: pleaseWait["INCIDENTADDCOMMENT"][lang],
+                    
+                                    text: 'Please wait... This is taking a little longer than expected.',
+                    
+                                    speak: '<speak>Please wait.<break time="2s"/></speak>'
+                    
+                                };
+                    
+                progress(session, options, function (callback) {
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType, session.conversationData.sys_id, function (data) {
                     console.log('$$$$$$$ ', session.message.source);
                     switch (session.message.source) {
@@ -300,12 +301,25 @@
                     session.conversationData.short_description = '';
                     session.conversationData.sys_id = '';
                     //session.endDialog(msg);
+                    callback(`Start Over`);
                 });
+            });
             } else if (session.conversationData.capturedOption == 'Reopen') {
                 session.conversationData.comment = results.response;
                 objData.comments = session.conversationData.comment;
                 objData.incident_state = 'In Progress';
-                session.send(pleaseWait["INCIDENTREOPEN"][lang]);
+               // session.send(pleaseWait["INCIDENTREOPEN"][lang]);
+                let options = {
+                    
+                                    initialText: pleaseWait["INCIDENTREOPEN"][lang],
+                    
+                                    text: 'Please wait... This is taking a little longer than expected.',
+                    
+                                    speak: '<speak>Please wait.<break time="2s"/></speak>'
+                    
+                                };
+                    
+                progress(session, options, function (callback) {
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType, session.conversationData.sys_id, function (data) {
                     console.log('$$$$$$$ ', session.message.source);
                     switch (session.message.source) {
@@ -349,12 +363,25 @@
                     session.conversationData.category = '';
                     session.conversationData.short_description = '';
                     //session.endDialog(msg);
+                    callback(`Start Over`);
                 });
+            });
             } else if (session.conversationData.capturedOption == 'Close') {
                 session.conversationData.comment = results.response;
                 objData.comments = session.conversationData.comment;
                 objData.incident_state = 'Closed';
-                session.send(pleaseWait["INCIDENTCLOSE"][lang]);
+                //session.send(pleaseWait["INCIDENTCLOSE"][lang]);
+                let options = {
+                    
+                                    initialText: pleaseWait["INCIDENTCLOSE"][lang],
+                    
+                                    text: 'Please wait... This is taking a little longer than expected.',
+                    
+                                    speak: '<speak>Please wait.<break time="2s"/></speak>'
+                    
+                                };
+                    
+                progress(session, options, function (callback) {
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType, session.conversationData.sys_id, function (data) {
                     console.log('$$$$$$$ ', session.message.source);
                     switch (session.message.source) {
@@ -392,7 +419,9 @@
                     session.conversationData.category = '';
                     session.conversationData.short_description = '';
                     //session.endDialog(msg);
+                    callback(`Start Over`);
                 });
+            });
             }
         }
     ];
