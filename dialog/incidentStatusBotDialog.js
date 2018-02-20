@@ -48,7 +48,17 @@
             }
         },
         function (session, results) {
-            session.conversationData.IncidentNumber = results.response;
+            if (results.response.match(commonTemplate.regexPattern['INCIDENTREGEX'])) {
+                session.conversationData.IncidentNumber = results.response;
+            } else {
+                session.endDialog(botDialogs.INVALIDINCIDENTFORMAT[lang]);
+                session.beginDialog('isSearchById', function (err) {
+                    if (err) {
+                        session.send(new builder.Message().text('Error Occurred with isSearchById ' + err.message));
+                    }
+                });
+            }
+
             // Make API call to Service Now with Incident Id and get Response...
             session.send(pleaseWait["INCIDENTSTATUS"][lang]);
             apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
@@ -138,7 +148,6 @@
                                 // session.send(msg);
                                 break;
                         }
-
                     } else {
                         // session.send(pleaseWait["DEFAULT"][lang]);
                         apiService.getAssignedToDetails(assignedTo, function (resp) {

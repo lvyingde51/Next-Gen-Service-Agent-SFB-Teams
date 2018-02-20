@@ -29,7 +29,7 @@
         this.short_description = null;
         this.sr_ID = null;
     }
-    
+
     const incidentStatus = {
         '1': {
             'ENGLISH': 'New'
@@ -82,16 +82,21 @@
     };
 
     const apiList = {
-        'INCIDENTSTATUS' : `${process.env.ServiceNowURL}/incident`,        
-        'SERVICEREQUEST' : `${process.env.ServiceNowURL}/sc_req_item`,
-        'CREATEINCIDENT' : `${process.env.ServiceNowURL}/incident`,
-        'CREATESERVICEREQUEST' : `${process.env.ServiceNowURL}/sc_req_item`,
-        'INCIDENTLIST' : `${process.env.ServiceNowURL}/incident?sysparm_limit=10&sysparm_query=ORDERBYDESCsys_created_on`,
-        'SERVICELIST' : `${process.env.ServiceNowURL}/sc_req_item?sysparm_limit=10&sysparm_query=ORDERBYDESCsys_created_on`
+        'INCIDENTSTATUS': `${process.env.ServiceNowURL}/incident`,
+        'SERVICEREQUEST': `${process.env.ServiceNowURL}/sc_req_item`,
+        'CREATEINCIDENT': `${process.env.ServiceNowURL}/incident`,
+        'CREATESERVICEREQUEST': `${process.env.ServiceNowURL}/sc_req_item`,
+        'INCIDENTLIST': `${process.env.ServiceNowURL}/incident?sysparm_limit=10&sysparm_query=ORDERBYDESCsys_created_on`,
+        'SERVICELIST': `${process.env.ServiceNowURL}/sc_req_item?sysparm_limit=10&sysparm_query=ORDERBYDESCsys_created_on`
     };
 
-    var capitaliseString = function(string) {
+    var capitaliseString = function (string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+
+    const regexPattern = {
+        'INCIDENTREGEX': '/^(inc)\w+\d{6}$/gim',
+        'SERVICEREGEX': '/^(ritm)\w+\d{6}$/gim'
     };
 
     module.exports.jsonRequest = jsonRequest;
@@ -103,4 +108,5 @@
     module.exports.createSR = createSR;
     module.exports.statusUpdate = statusUpdate;
     module.exports.camelCase = capitaliseString;
+    module.exports.regexPattern = regexPattern;
 }());

@@ -248,6 +248,9 @@
         },
         "INCIDENTOPEN" : {
             "ENGLISH" : "Whoops! This incident is already open!"
+        },
+        "INVALIDINCIDENTFORMAT" : {
+            "ENGLISH" : "It seems you have entered the incident number in wrong format!"
         }
     };
 
