@@ -20,7 +20,7 @@
         
         function (session) {
             console.log(session.conversationData.IncidentNumber);
-            if (session.conversationData.IncidentNumber != '' || session.conversationData.IncidentNumber != undefined) {
+            if (session.conversationData.IncidentNumber != undefined) {
                  apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
                     //log.consoleDefault(JSON.stringify(data));
                     if (!data) {
