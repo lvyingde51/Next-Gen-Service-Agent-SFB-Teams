@@ -660,7 +660,7 @@
                 response += builder.CardAction.imBack(session, "Close", "Close")
                 break;
         }
-        console.log('get buttons response', JSON.parse(response));
+        console.log('get buttons response', JSON.parse(JSON.stringify(response)));
         return response;
     };
 
