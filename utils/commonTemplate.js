@@ -131,12 +131,12 @@
         return response;
     };
 
-    var getCardResponse = function (platform, session, title, text, subtitle, buttons) {
-        var card = null;
+    var getFinalResponse = function (platform, session, title, text, subtitle, buttons, assignedTo) {
+        var message = null;
         let cardText = null;
         if (platform == 'slack') {
             cardText = text.split('<%>').join('\n');
-            card = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+            message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                 .title(`*${title}*`)
                 .text(`${cardText}`)
                 .subtitle(`${subtitle}`)
@@ -145,14 +145,21 @@
         }
         else if (platform == 'msteams') {
             cardText = text.split('<%>').join('<br/>');
-            card = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+            message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                 .title(`${title}`)
                 .text(`${cardText}`)
                 .subtitle(`${subtitle}`)
                 .buttons(buttons)
             );
+        } else {
+            if (assignedTo == '-') {
+                message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + session.conversationData.short_description + ' <br/>Urgency : ' + urgencyStatic[session.conversationData.urgency][lang] + ' <br/>Status: ' + incidentStatus[session.conversationData.incident_state][lang] + ' <br/>Assigned To: Unassigned';
+            } else {
+                message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + session.conversationData.short_description + ' <br/>Urgency : ' + urgencyStatic[session.conversationData.urgency][lang] + ' <br/>Status: ' + incidentStatus[session.conversationData.incident_state][lang] + ' <br/>Assigned To: ' + assignedTo;
+            }
+            
         }
-        return card;
+        return message;
     };
 
     module.exports.jsonRequest = jsonRequest;
@@ -167,5 +174,5 @@
     module.exports.regexPattern = regexPattern;
     module.exports.progress = progress;
     module.exports.getButtonsList = getButtonsList;
-    module.exports.getCardResponse = getCardResponse;
+    module.exports.getFinalResponse = getFinalResponse;
 }());

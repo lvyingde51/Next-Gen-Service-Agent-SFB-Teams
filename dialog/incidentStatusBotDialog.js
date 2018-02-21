@@ -99,11 +99,7 @@
                         var buttonArr = commonTemplate.getButtonsList(session, 'CardArray');
 
                         if (assignedTo == '-') {
-                            if (session.message.source === 'slack' || session.message.source === 'msteams') {
-                                message = commonTemplate.getCardResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[session.conversationData.urgency][lang]} <%>Status : ${commonTemplate.incidentStatus[session.conversationData.incident_state][lang]} <%>Assigned To : Unassigned`, session.conversationData.short_description, buttonArr);
-                            } else {
-                                message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: Unassigned';
-                            }
+                            message = commonTemplate.getFinalResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[session.conversationData.urgency][lang]} <%>Status : ${commonTemplate.incidentStatus[session.conversationData.incident_state][lang]} <%>Assigned To : Unassigned`, session.conversationData.short_description, buttonArr, assignedTo);
                         } else {
                             // session.send(pleaseWait["DEFAULT"][lang]);
                             apiService.getAssignedToDetails(assignedTo, function (resp) {
@@ -112,11 +108,8 @@
                                     session.endDialog(msg);
                                     return false;
                                 } else {
-                                    if (session.message.source === 'slack' || session.message.source === 'msteams') {
-                                        message = commonTemplate.getCardResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[session.conversationData.urgency][lang]} <%>Status : ${commonTemplate.incidentStatus[session.conversationData.incident_state][lang]} <%>Assigned To : ${resp.result.name}`, session.conversationData.short_description, buttonArr);
-                                    } else {
-                                        message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
-                                    }
+                                    assignedTo = resp.result.name;
+                                    message = commonTemplate.getFinalResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[session.conversationData.urgency][lang]} <%>Status : ${commonTemplate.incidentStatus[session.conversationData.incident_state][lang]} <%>Assigned To : ${resp.result.name}`, session.conversationData.short_description, buttonArr, assignedTo);
                                 }
                             });
                         }
@@ -180,11 +173,7 @@
             var buttonArr = commonTemplate.getButtonsList(session, 'CardArray');
 
             if (assignedTo == '-') {
-                if (session.message.source === 'slack' || session.message.source === 'msteams') {
-                    message = commonTemplate.getCardResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <%>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].incident_state][lang]} <%>Assigned To : Unassigned`, session.conversationData.short_description, buttonArr);
-                } else {
-                    message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: Unassigned';
-                }
+                message = commonTemplate.getFinalResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <%>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].incident_state][lang]} <%>Assigned To : Unassigned`, session.conversationData.short_description, buttonArr, assignedTo);
             } else {
                 // session.send(pleaseWait["INCIDENTSTATUS"][lang]);
                 let options = {
@@ -200,11 +189,7 @@
                             session.endDialog(msg);
                             return false;
                         } else {
-                            if (session.message.source === 'slack' || session.message.source === 'msteams') {
-                                message = commonTemplate.getCardResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <%>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].incident_state][lang]} <%>Assigned To : ${resp.result.name}`, session.conversationData.short_description, buttonArr);
-                            } else {
-                                message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
-                            }
+                            message = commonTemplate.getFinalResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <%>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].incident_state][lang]} <%>Assigned To : ${resp.result.name}`, session.conversationData.short_description, buttonArr, assignedTo);
                             callback(`Start Over`);
                         }
                     });
