@@ -127,7 +127,7 @@
         if (platform == 'slack') {
             card = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                 .title(`*${title}*`)
-                .text(`${text}`)
+                .text(`${text.replace('<%>').join('\n')}`)
                 .subtitle(`${subtitle}`)
                 .buttons(buttons)
             );
@@ -135,7 +135,7 @@
         else if (platform == 'msteams') {
             card = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                 .title(`${title}`)
-                .text(`${text}`)
+                .text(`${text.replace('<%>').join('<br/>')}`)
                 .subtitle(`${subtitle}`)
                 .buttons(buttons)
             );

@@ -100,7 +100,7 @@
 
                         if (assignedTo == '-') {
                             if (session.message.source === 'slack' || session.message.source === 'msteams') {
-                                message = commonTemplate.getCardResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[session.conversationData.urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[session.conversationData.incident_state][lang]} \nAssigned To : Unassigned`, session.conversationData.short_description, buttonArr);
+                                message = commonTemplate.getCardResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[session.conversationData.urgency][lang]} <%>Status : ${commonTemplate.incidentStatus[session.conversationData.incident_state][lang]} <%>Assigned To : Unassigned`, session.conversationData.short_description, buttonArr);
                             } else {
                                 message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: Unassigned';
                             }
@@ -113,7 +113,7 @@
                                     return false;
                                 } else {
                                     if (session.message.source === 'slack' || session.message.source === 'msteams') {
-                                        message = commonTemplate.getCardResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[session.conversationData.urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[session.conversationData.incident_state][lang]} \nAssigned To : ${resp.result.name}`, session.conversationData.short_description, buttonArr);
+                                        message = commonTemplate.getCardResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[session.conversationData.urgency][lang]} <%>Status : ${commonTemplate.incidentStatus[session.conversationData.incident_state][lang]} <%>Assigned To : ${resp.result.name}`, session.conversationData.short_description, buttonArr);
                                     } else {
                                         message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
                                     }
@@ -181,7 +181,7 @@
 
             if (assignedTo == '-') {
                 if (session.message.source === 'slack' || session.message.source === 'msteams') {
-                    message = commonTemplate.getCardResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].incident_state][lang]} \nAssigned To : Unassigned`, session.conversationData.short_description, buttonArr);
+                    message = commonTemplate.getCardResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <%>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].incident_state][lang]} <%>Assigned To : Unassigned`, session.conversationData.short_description, buttonArr);
                 } else {
                     message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: Unassigned';
                 }
@@ -201,7 +201,7 @@
                             return false;
                         } else {
                             if (session.message.source === 'slack' || session.message.source === 'msteams') {
-                                message = commonTemplate.getCardResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].incident_state][lang]} \nAssigned To : ${resp.result.name}`, session.conversationData.short_description, buttonArr);
+                                message = commonTemplate.getCardResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <%>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].incident_state][lang]} <%>Assigned To : ${resp.result.name}`, session.conversationData.short_description, buttonArr);
                             } else {
                                 message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
                             }
@@ -262,7 +262,7 @@
                                 session.send('_Your comment has been added!_');
                                 session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                     .title(`*${session.conversationData.IncidentNumber}*`)
-                                    .text(`Urgency : ` + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + ` \nCategory : ` + session.conversationData.category + `\nStatus: ` + commonTemplate.incidentStatus[session.conversationData.incident_state][lang] + ` \nComments : ` + session.conversationData.comment).subtitle(`${session.conversationData.short_description}`)
+                                    .text(`Urgency : ` + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + ` <%>Category : ` + session.conversationData.category + `<%>Status: ` + commonTemplate.incidentStatus[session.conversationData.incident_state][lang] + ` <%>Comments : ` + session.conversationData.comment).subtitle(`${session.conversationData.short_description}`)
                                 ));
                                 session.endDialog();
                                 break;
@@ -309,8 +309,8 @@
                                 session.send('_Your incident has been reopened_');
                                 session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                     .title(`*${session.conversationData.IncidentNumber}*`)
-                                    .text(`Urgency : ` + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + ` \nCategory : ` + session.conversationData.category + `
-                                \nStatus: ` + objData.incident_state + ` \nComments : ` + session.conversationData.comment)
+                                    .text(`Urgency : ` + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + ` <%>Category : ` + session.conversationData.category + `
+                                <%>Status: ` + objData.incident_state + ` <%>Comments : ` + session.conversationData.comment)
                                     .subtitle(`${session.conversationData.short_description}`)
                                 ));
                                 session.endDialog();
@@ -359,8 +359,8 @@
                                 session.send('_I have closed your incident..._');
                                 session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                     .title(`*${session.conversationData.IncidentNumber}*`)
-                                    .text(`Urgency : ` + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + ` \nCategory : ` + session.conversationData.category + `
-                                \nStatus: ` + objData.incident_state + ` \nComments : ` + session.conversationData.comment)
+                                    .text(`Urgency : ` + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + ` <%>Category : ` + session.conversationData.category + `
+                                <%>Status: ` + objData.incident_state + ` <%>Comments : ` + session.conversationData.comment)
                                     .subtitle(`${session.conversationData.short_description}`)
                                 ));
                                 session.endDialog();
