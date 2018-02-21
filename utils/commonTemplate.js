@@ -127,7 +127,7 @@
         if (platform == 'slack') {
             card = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                 .title(`*${title}*`)
-                .text(`${text.replace('<%>').join('\n')}`)
+                .text(`${text.split('<%>').join('\n')}`)
                 .subtitle(`${subtitle}`)
                 .buttons(buttons)
             );
