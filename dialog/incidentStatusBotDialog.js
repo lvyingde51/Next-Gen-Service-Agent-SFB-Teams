@@ -130,7 +130,6 @@
                                     break;
                                 case 'msteams':
                                     var buttonArr = getButtons(session);
-                                    console.log(buttonArr);
                                     // session.send('Below are the details for the requested incident');
                                     message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                         .title(`${session.conversationData.IncidentNumber}`)
@@ -445,7 +444,7 @@
                 //     builder.Prompts.choice(session, message, ['Add a Comment', 'Close']);
                 // }
 
-                builder.Prompts.choice(session, message, ['Add a Comment', 'Close', 'Thank You']);
+                builder.Prompts.choice(session, message, ['Add a Comment', 'Close', 'Reopen', 'Thank You']);
             }
             catch (err) {
                 log.consoleDefault('Incident status Error:' + err);
