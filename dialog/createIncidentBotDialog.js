@@ -75,7 +75,6 @@
     module.exports.viewResult = [
         function (session) {
             var objData = new jsonData.jsonRequest();
-            objData.caller_id = 'rubin.crotts@example.com';
             objData.category = session.conversationData.category;
             objData.short_description = session.conversationData.shortDescription;
             objData.urgency = session.conversationData.severity;
@@ -92,7 +91,6 @@
                     var inprogressData = new jsonData.statusUpdate();
                     var objFinalData = new jsonData.incidentCreatedData();
                     var inprogressSysId = data.result.sys_id;
-                    inprogressData.caller_id = 'rubin.crotts@example.com';
                     inprogressData.incident_state = 'In Progress';
                     objFinalData.status = 'In Progress';
                     objFinalData.incidentid = data.result.number;
