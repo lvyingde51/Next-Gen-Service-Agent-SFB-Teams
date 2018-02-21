@@ -112,38 +112,14 @@
                                     session.endDialog(msg);
                                     return false;
                                 } else {
-                                    log.consoleDefault(JSON.stringify(resp));
-                                    switch (session.message.source) {
-                                        case 'slack':
-                                            message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                                .title(`*${session.conversationData.IncidentNumber}*`)
-                                                .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : ${resp.result.name}`)
-                                                .subtitle(`${data.result[0].short_description}`)
-                                                .buttons(buttonArr)
-                                            );
-                                            // session.send('_Below are the details for the requested incident_');
-
-                                            // session.endDialog();
-                                            break;
-                                        case 'msteams':
-                                            // session.send('Below are the details for the requested incident');
-                                            message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                                .title(`${session.conversationData.IncidentNumber}`)
-                                                .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : ${resp.result.name}`)
-                                                .subtitle(`${data.result[0].short_description}`)
-                                                .buttons(buttonArr)
-                                            );
-                                            // session.endDialog();
-                                            break;
-                                        default:
-                                            message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
-                                            // session.send(msg);
-                                            break;
+                                    if (session.message.source === 'slack' || session.message.source === 'msteams') {
+                                        message = commonTemplate.getCardResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[session.conversationData.urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[session.conversationData.incident_state][lang]} \nAssigned To : ${resp.result.name}`, session.conversationData.short_description, buttonArr);
+                                    } else {
+                                        message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
                                     }
                                 }
                             });
                         }
-
                         session.endDialog();
                         callback(`Start Over`);
                         session.beginDialog('updateIncident', message, function (err) {
@@ -204,31 +180,10 @@
             var buttonArr = commonTemplate.getButtonsList(session);
 
             if (assignedTo == '-') {
-                switch (session.message.source) {
-                    case 'slack':
-                        // session.send('_Below are the details for the requested incident_');
-                        message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                            .title(`*${session.conversationData.IncidentNumber}*`)
-                            .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : Unassigned`)
-                            .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
-                            .buttons(buttonArr)
-                        );
-                        // session.endDialog();
-                        break;
-                    case 'msteams':
-                        // session.send('Below are the details for the requested incident');
-                        message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                            .title(`${session.conversationData.IncidentNumber}`)
-                            .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : Unassigned`)
-                            .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
-                            .buttons(buttonArr)
-                        );
-                        // session.endDialog();
-                        break;
-                    default:
-                        message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: Unassigned';
-                        // session.send(msg);
-                        break;
+                if (session.message.source === 'slack' || session.message.source === 'msteams') {
+                    message = commonTemplate.getCardResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].incident_state][lang]} \nAssigned To : Unassigned`, session.conversationData.short_description, buttonArr);
+                } else {
+                    message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: Unassigned';
                 }
             } else {
                 // session.send(pleaseWait["INCIDENTSTATUS"][lang]);
@@ -245,39 +200,16 @@
                             session.endDialog(msg);
                             return false;
                         } else {
-                            switch (session.message.source) {
-                                case 'slack':
-                                    message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                        .title(`*${session.conversationData.IncidentNumber}*`)
-                                        .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : ${resp.result.name}`)
-                                        .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
-                                        .buttons(buttonArr)
-                                    );
-                                    // session.send('_Below are the details for the requested incident_');
-                                    // session.endDialog();
-                                    break;
-                                case 'msteams':
-                                    // session.send('Below are the details for the requested incident');
-                                    message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                        .title(`${session.conversationData.IncidentNumber}`)
-                                        .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : ${resp.result.name}`)
-                                        .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
-                                        .buttons(buttonArr)
-                                    );
-                                    // session.endDialog();
-                                    break;
-                                default:
-                                    message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
-                                    // session.send(msg);
-                                    break;
+                            if (session.message.source === 'slack' || session.message.source === 'msteams') {
+                                message = commonTemplate.getCardResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].incident_state][lang]} \nAssigned To : ${resp.result.name}`, session.conversationData.short_description, buttonArr);
+                            } else {
+                                message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + incidentstatusArr[arrIndex].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
                             }
-                            // log.consoleDefault(JSON.stringify(resp));
                             callback(`Start Over`);
                         }
                     });
                 });
             }
-
             session.endDialog();
             session.beginDialog('updateIncident', message, function (err) {
                 if (err) {
@@ -285,9 +217,7 @@
                     session.send(new builder.Message().text('Error Occurred with isSearchById: ' + err.message));
                 }
             });
-
         }
-
     ];
 
     module.exports.updateIncident = [
