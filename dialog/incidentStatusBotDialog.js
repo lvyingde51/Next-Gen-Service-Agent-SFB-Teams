@@ -130,6 +130,7 @@
                                     break;
                                 case 'msteams':
                                     var buttonArr = getButtons(session);
+                                    console.log(buttonArr);
                                     // session.send('Below are the details for the requested incident');
                                     if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
                                         message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
@@ -650,14 +651,16 @@
         var response = [];
         switch (session.conversationData.incident_state) {
             case '7' || '8':
+            log.consoleDefault('Inside 7 and 8');
                 response = builder.CardAction.imBack(session, "Reopen", "Reopen")
                 break;
             default:
+            log.consoleDefault('Default');
                 response = builder.CardAction.imBack(session, "Add a Comment", "Add a Comment")
                 response += builder.CardAction.imBack(session, "Close", "Close")
                 break;
         }
-        log.consoleDefault(response);
+        console.log('get buttons response', response);
         return response;
     };
 
