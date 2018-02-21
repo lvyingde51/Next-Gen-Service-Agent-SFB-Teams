@@ -651,17 +651,17 @@
         var response = [];
         switch (session.conversationData.incident_state) {
             case '7' || '8':
-            log.consoleDefault('Inside 7 and 8');
-                response = `builder.CardAction.imBack(session, "Reopen", "Reopen")`;
+                log.consoleDefault('Inside 7 and 8');
+                response.push(builder.CardAction.imBack(session, "Reopen", "Reopen"));
                 break;
             default:
-            log.consoleDefault('Default');
-                response = builder.CardAction.imBack(session, "Add a Comment", "Add a Comment")
-                response += builder.CardAction.imBack(session, "Close", "Close")
+                log.consoleDefault('Default');
+                response.push(builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"));
+                response.push(builder.CardAction.imBack(session, "Close", "Close"));
                 break;
         }
-        console.log('get buttons response', JSON.parse(JSON.stringify(response)));
-        return JSON.parse(JSON.stringify(response));
+        console.log('get buttons response', response);
+        return response;
     };
 
     //************** Commented due to mismatch of conversational flow****************//
