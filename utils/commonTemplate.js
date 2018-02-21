@@ -131,7 +131,7 @@
         return response;
     };
 
-    var getFinalResponse = function (platform, session, title, text, subtitle, buttons, assignedTo) {
+    var getFinalResponse = function (platform, session, title, text, subtitle, buttons, params, messageType) {
         var message = null;
         let cardText = null;
         if (platform == 'slack') {
@@ -152,12 +152,15 @@
                 .buttons(buttons)
             );
         } else {
-            if (assignedTo == '-') {
-                message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + session.conversationData.short_description + ' <br/>Urgency : ' + urgencyStatic[session.conversationData.urgency][lang] + ' <br/>Status: ' + incidentStatus[session.conversationData.incident_state][lang] + ' <br/>Assigned To: Unassigned';
+            if (messageType == 'IncidentUpdate') {
+                message = 'Your comment has been added:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Urgency : ' + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + session.conversationData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
             } else {
-                message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + session.conversationData.short_description + ' <br/>Urgency : ' + urgencyStatic[session.conversationData.urgency][lang] + ' <br/>Status: ' + incidentStatus[session.conversationData.incident_state][lang] + ' <br/>Assigned To: ' + assignedTo;
+                if (params == '-') {
+                    message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + session.conversationData.short_description + ' <br/>Urgency : ' + urgencyStatic[session.conversationData.urgency][lang] + ' <br/>Status: ' + incidentStatus[session.conversationData.incident_state][lang] + ' <br/>Assigned To: Unassigned';
+                } else {
+                    message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + session.conversationData.short_description + ' <br/>Urgency : ' + urgencyStatic[session.conversationData.urgency][lang] + ' <br/>Status: ' + incidentStatus[session.conversationData.incident_state][lang] + ' <br/>Assigned To: ' + assignedTo;
+                }
             }
-            
         }
         return message;
     };
