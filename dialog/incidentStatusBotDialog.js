@@ -652,7 +652,7 @@
         switch (session.conversationData.incident_state) {
             case '7' || '8':
             log.consoleDefault('Inside 7 and 8');
-                response = builder.CardAction.imBack(session, "Reopen", "Reopen")
+                response = `builder.CardAction.imBack(session, "Reopen", "Reopen")`
                 break;
             default:
             log.consoleDefault('Default');
@@ -660,7 +660,7 @@
                 response += builder.CardAction.imBack(session, "Close", "Close")
                 break;
         }
-        console.log('get buttons response', response);
+        console.log('get buttons response', JSON.parse(response));
         return response;
     };
 
