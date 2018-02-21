@@ -105,6 +105,43 @@
         'SERVICEREGEX': /^(ritm)\w+\d{6}$/gim
     };
 
+    var getButtonsList = function (session) {
+        // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Cancelled
+        var response = [];
+        switch (session.conversationData.incident_state) {
+            case '7' || '8':
+                response.push(builder.CardAction.imBack(session, "Reopen", "Reopen"));
+                break;
+            default:
+                response.push(builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"));
+                response.push(builder.CardAction.imBack(session, "Close", "Close"));
+                break;
+        }
+        response.push(builder.CardAction.imBack(session, "Thank You", "Thank You"));
+        return response;
+    };
+
+    var getCardResponse = function (platform, session, title, text, subtitle, buttons) {
+        var card = null;
+        if (platform == 'slack') {
+            card = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                .title(`*${title}*`)
+                .text(`${text}`)
+                .subtitle(`${subtitle}`)
+                .buttons(buttons)
+            );
+        }
+        else if (platform == 'msteams') {
+            card = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                .title(`${title}`)
+                .text(`${text}`)
+                .subtitle(`${subtitle}`)
+                .buttons(buttons)
+            );
+        }
+        return card;
+    };
+
     module.exports.jsonRequest = jsonRequest;
     module.exports.incidentStatus = incidentStatus;
     module.exports.categoryStatic = categoryStatic;
@@ -116,4 +153,6 @@
     module.exports.camelCase = capitaliseString;
     module.exports.regexPattern = regexPattern;
     module.exports.progress = progress;
+    module.exports.getButtonsList = getButtonsList;
+    module.exports.getCardResponse = getCardResponse;
 }());

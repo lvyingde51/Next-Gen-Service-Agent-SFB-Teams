@@ -62,13 +62,9 @@
             // Make API call to Service Now with Incident Id and get Response...
             //  session.send(pleaseWait["INCIDENTSTATUS"][lang]);
             let options = {
-
                 initialText: pleaseWait["INCIDENTSTATUS"][lang],
-
                 text: 'Please wait... This is taking a little longer than expected.',
-
                 speak: '<speak>Please wait.<break time="2s"/></speak>'
-
             };
 
             progress(session, options, function (callback) {
@@ -100,44 +96,12 @@
                         session.conversationData.short_description = data.result[0].short_description;
                         session.conversationData.sys_id = data.result[0].sys_id;
                         var message = '';
+                        var buttonArr = commonTemplate.getButtonsList(session);
 
                         if (assignedTo == '-') {
                             switch (session.message.source) {
-                                case 'slack':
-                                    if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                                        message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                            .title(`*${session.conversationData.IncidentNumber}*`)
-                                            .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : Unassigned`)
-                                            .subtitle(`${data.result[0].short_description}`)
-                                            .buttons([
-                                                builder.CardAction.imBack(session, "Reopen", "Reopen"),
-                                                builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                            ])
-                                        );
-                                    } else {
-                                        message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                            .title(`*${session.conversationData.IncidentNumber}*`)
-                                            .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : Unassigned`)
-                                            .subtitle(`${data.result[0].short_description}`)
-                                            .buttons([
-                                                builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
-                                                builder.CardAction.imBack(session, "Close", "Close"),
-                                                builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                            ])
-                                        );
-                                    }
-                                    // session.send('_Below are the details for the requested incident_');
-                                    break;
-                                case 'msteams':
-                                    var buttonArr = getButtons(session);
-                                    // session.send('Below are the details for the requested incident');
-                                    message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                        .title(`${session.conversationData.IncidentNumber}`)
-                                        .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
-                                        .subtitle(`${data.result[0].short_description}`)
-                                        .buttons(buttonArr)
-                                    );
-                                    // session.endDialog();
+                                case 'slack' || 'msteams':
+                                    commonTemplate.getCardResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[session.conversationData.urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[session.conversationData.incident_state][lang]} \nAssigned To : Unassigned`, session.conversationData.short_description, buttonArr);
                                     break;
                                 default:
                                     message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: Unassigned';
@@ -155,57 +119,24 @@
                                     log.consoleDefault(JSON.stringify(resp));
                                     switch (session.message.source) {
                                         case 'slack':
-                                            if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                                                message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                                    .title(`*${session.conversationData.IncidentNumber}*`)
-                                                    .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : ${resp.result.name}`)
-                                                    .subtitle(`${data.result[0].short_description}`)
-                                                    .buttons([
-                                                        builder.CardAction.imBack(session, "Reopen", "Reopen"),
-                                                        builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                                    ])
-                                                );
-                                            } else {
-                                                message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                                    .title(`*${session.conversationData.IncidentNumber}*`)
-                                                    .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : ${resp.result.name}`)
-                                                    .subtitle(`${data.result[0].short_description}`)
-                                                    .buttons([
-                                                        builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
-                                                        builder.CardAction.imBack(session, "Close", "Close"),
-                                                        builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                                    ])
-                                                );
-                                            }
+                                            message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                                .title(`*${session.conversationData.IncidentNumber}*`)
+                                                .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nAssigned To : ${resp.result.name}`)
+                                                .subtitle(`${data.result[0].short_description}`)
+                                                .buttons(buttonArr)
+                                            );
                                             // session.send('_Below are the details for the requested incident_');
 
                                             // session.endDialog();
                                             break;
                                         case 'msteams':
                                             // session.send('Below are the details for the requested incident');
-                                            if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                                                message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                                    .title(`${session.conversationData.IncidentNumber}`)
-                                                    .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : ${resp.result.name}`)
-                                                    .subtitle(`${data.result[0].short_description}`)
-                                                    .buttons([
-                                                        builder.CardAction.imBack(session, "Reopen", "Reopen"),
-                                                        builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                                    ])
-                                                );
-                                            } else {
-                                                message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                                    .title(`${session.conversationData.IncidentNumber}`)
-                                                    .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : ${resp.result.name}`)
-                                                    .subtitle(`${data.result[0].short_description}`)
-                                                    .buttons([
-                                                        builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
-                                                        builder.CardAction.imBack(session, "Close", "Close"),
-                                                        builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                                    ])
-                                                );
-                                            }
-
+                                            message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                                .title(`${session.conversationData.IncidentNumber}`)
+                                                .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : ${resp.result.name}`)
+                                                .subtitle(`${data.result[0].short_description}`)
+                                                .buttons(buttonArr)
+                                            );
                                             // session.endDialog();
                                             break;
                                         default:
@@ -249,7 +180,7 @@
                     log.consoleDefault(incidentstatusArr);
                     var incidentDate = '';
                     var incidentCategory = '';
-                    for (let count = 0; count < incidentstatusArr.length && count < 10; count++) {
+                    for (let count = 0; count < incidentstatusArr.length; count++) {
                         incidentDate = moment(incidentstatusArr[count].sys_updated_on).format('LLL');
                         incidentCategory = commonTemplate.camelCase(incidentstatusArr[count].category);
                         incidentArr.push(incidentstatusArr[count].number + ' - ' + incidentCategory + ' - ' + incidentDate);
@@ -274,60 +205,28 @@
             session.conversationData.short_description = incidentstatusArr[arrIndex].short_description;
             session.conversationData.sys_id = incidentstatusArr[arrIndex].sys_id;
             var message = '';
+            var buttonArr = commonTemplate.getButtonsList(session);
 
             if (assignedTo == '-') {
                 switch (session.message.source) {
                     case 'slack':
                         // session.send('_Below are the details for the requested incident_');
-                        if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                            message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                .title(`*${session.conversationData.IncidentNumber}*`)
-                                .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : Unassigned`)
-                                .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
-                                .buttons([
-                                    builder.CardAction.imBack(session, "Reopen", "Reopen"),
-                                    builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                ])
-                            );
-                        } else {
-                            message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                .title(`*${session.conversationData.IncidentNumber}*`)
-                                .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : Unassigned`)
-                                .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
-                                .buttons([
-                                    builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
-                                    builder.CardAction.imBack(session, "Close", "Close"),
-                                    builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                ])
-                            );
-                        }
-
+                        message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                            .title(`*${session.conversationData.IncidentNumber}*`)
+                            .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : Unassigned`)
+                            .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
+                            .buttons(buttonArr)
+                        );
                         // session.endDialog();
                         break;
                     case 'msteams':
                         // session.send('Below are the details for the requested incident');
-                        if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                            message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                .title(`${session.conversationData.IncidentNumber}`)
-                                .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : Unassigned`)
-                                .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
-                                .buttons([
-                                    builder.CardAction.imBack(session, "Reopen", "Reopen"),
-                                    builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                ])
-                            );
-                        } else {
-                            message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                .title(`${session.conversationData.IncidentNumber}`)
-                                .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : Unassigned`)
-                                .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
-                                .buttons([
-                                    builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
-                                    builder.CardAction.imBack(session, "Close", "Close"),
-                                    builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                ])
-                            );
-                        }
+                        message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                            .title(`${session.conversationData.IncidentNumber}`)
+                            .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : Unassigned`)
+                            .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
+                            .buttons(buttonArr)
+                        );
                         // session.endDialog();
                         break;
                     default:
@@ -338,13 +237,9 @@
             } else {
                 // session.send(pleaseWait["INCIDENTSTATUS"][lang]);
                 let options = {
-
                     initialText: pleaseWait["INCIDENTSTATUS"][lang],
-
                     text: 'Please wait... This is taking a little longer than expected.',
-
                     speak: '<speak>Please wait.<break time="2s"/></speak>'
-
                 };
 
                 progress(session, options, function (callback) {
@@ -356,56 +251,23 @@
                         } else {
                             switch (session.message.source) {
                                 case 'slack':
-                                    if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                                        message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                            .title(`*${session.conversationData.IncidentNumber}*`)
-                                            .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : ${resp.result.name}`)
-                                            .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
-                                            .buttons([
-                                                builder.CardAction.imBack(session, "Reopen", "Reopen"),
-                                                builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                            ])
-                                        );
-                                    } else {
-                                        message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                            .title(`*${session.conversationData.IncidentNumber}*`)
-                                            .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : ${resp.result.name}`)
-                                            .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
-                                            .buttons([
-                                                builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
-                                                builder.CardAction.imBack(session, "Close", "Close"),
-                                                builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                            ])
-                                        );
-                                    }
+                                    message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                        .title(`*${session.conversationData.IncidentNumber}*`)
+                                        .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} \nAssigned To : ${resp.result.name}`)
+                                        .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
+                                        .buttons(buttonArr)
+                                    );
                                     // session.send('_Below are the details for the requested incident_');
-
                                     // session.endDialog();
                                     break;
                                 case 'msteams':
                                     // session.send('Below are the details for the requested incident');
-                                    if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                                        message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                            .title(`${session.conversationData.IncidentNumber}`)
-                                            .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : ${resp.result.name}`)
-                                            .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
-                                            .buttons([
-                                                builder.CardAction.imBack(session, "Reopen", "Reopen"),
-                                                builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                            ])
-                                        );
-                                    } else {
-                                        message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                            .title(`${session.conversationData.IncidentNumber}`)
-                                            .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : ${resp.result.name}`)
-                                            .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
-                                            .buttons([
-                                                builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
-                                                builder.CardAction.imBack(session, "Close", "Close"),
-                                                builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                            ]
-                                            ));
-                                    }
+                                    message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                        .title(`${session.conversationData.IncidentNumber}`)
+                                        .text(`Urgency : ${commonTemplate.urgencyStatic[incidentstatusArr[arrIndex].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[incidentstatusArr[arrIndex].state][lang]} <br/>Assigned To : ${resp.result.name}`)
+                                        .subtitle(`${incidentstatusArr[arrIndex].short_description}`)
+                                        .buttons(buttonArr)
+                                    );
                                     // session.endDialog();
                                     break;
                                 default:
@@ -435,15 +297,6 @@
     module.exports.updateIncident = [
         function (session, message) {
             try {
-                log.consoleDefault('log check');
-                log.consoleDefault(message);
-                // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Cancelled
-                // if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                //     builder.Prompts.choice(session, message, ['Reopen']);
-                // } else {
-                //     builder.Prompts.choice(session, message, ['Add a Comment', 'Close']);
-                // }
-
                 builder.Prompts.choice(session, message, ['Add a Comment', 'Close', 'Reopen', 'Thank You']);
             }
             catch (err) {
@@ -470,13 +323,9 @@
                 objData.incident_state = session.conversationData.incident_state;
                 // session.send(pleaseWait["INCIDENTADDCOMMENT"][lang]);
                 let options = {
-
                     initialText: pleaseWait["INCIDENTADDCOMMENT"][lang],
-
                     text: 'Please wait... This is taking a little longer than expected.',
-
                     speak: '<speak>Please wait.<break time="2s"/></speak>'
-
                 };
 
                 progress(session, options, function (callback) {
@@ -490,7 +339,6 @@
                                     .text(`Urgency : ` + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + ` \nCategory : ` + session.conversationData.category + `\nStatus: ` + commonTemplate.incidentStatus[session.conversationData.incident_state][lang] + ` \nComments : ` + session.conversationData.comment).subtitle(`${session.conversationData.short_description}`)
                                 ));
                                 session.endDialog();
-
                                 break;
                             case 'msteams':
                                 session.send('<i>Your comment has been added!</i>');
@@ -500,7 +348,6 @@
                                     .subtitle(`${session.conversationData.short_description}`)
                                 ));
                                 session.endDialog();
-
                                 break;
                             default:
                                 let msg = 'Your comment has been added:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Urgency : ' + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + session.conversationData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
@@ -523,13 +370,9 @@
                 objData.incident_state = 'In Progress';
                 //session.send(pleaseWait["INCIDENTREOPEN"][lang]);
                 let options = {
-
                     initialText: pleaseWait["INCIDENTREOPEN"][lang],
-
                     text: 'Please wait... This is taking a little longer than expected.',
-
                     speak: '<speak>Please wait.<break time="2s"/></speak>'
-
                 };
 
                 progress(session, options, function (callback) {
@@ -577,13 +420,9 @@
                 objData.incident_state = 'Closed';
                 //session.send(pleaseWait["INCIDENTCLOSE"][lang]);
                 let options = {
-
                     initialText: pleaseWait["INCIDENTCLOSE"][lang],
-
                     text: 'Please wait... This is taking a little longer than expected.',
-
                     speak: '<speak>Please wait.<break time="2s"/></speak>'
-
                 };
 
                 progress(session, options, function (callback) {
@@ -631,56 +470,4 @@
             }
         }
     ];
-
-    var getButtons = function (session) {
-        // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Cancelled
-        var response = [];
-        switch (session.conversationData.incident_state) {
-            case '7' || '8':
-                response.push(builder.CardAction.imBack(session, "Reopen", "Reopen"));
-                break;
-            default:
-                response.push(builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"));
-                response.push(builder.CardAction.imBack(session, "Close", "Close"));
-                break;
-        }
-        response.push(builder.CardAction.imBack(session, "Thank You", "Thank You"));
-        return response;
-    };
-
-    //************** Commented due to mismatch of conversational flow****************//
-    // Fetch Incident Status Directly
-    // module.exports.getincidentStatus = [
-    //     function (session, args) {
-    //         try {
-    //             log.consoleDefault(args); // Console Args
-    //             session.conversationData.IncidentNumber = args[0].resolution.value;
-
-    //             // Make API call to Service Now with Incident Id and get Response...
-    //             session.send(pleaseWait["INCIDENTSTATUS"][lang]);
-    //             apiService.getIncidentStatusByNumber(session.conversationData.IncidentNumber, function (data) {
-    //                 log.consoleDefault(JSON.stringify(data));
-    //                 if (!data) {
-    //                     let msg = botDialogs.DEFAULT[lang];
-    //                     session.endDialog(msg);
-    //                     return false;
-    //                 }
-
-    //                 if (data.hasOwnProperty('error')) {
-    //                     let msg = botDialogs.INCIDENTNOTFOUND[lang];
-    //                     session.endDialog(msg);
-    //                 } else {
-    //                     let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + data.result[0].assigned_to + ' <br/>What do you want to do next?';
-    //                     session.endDialog(msg);
-    //                 }
-    //             });
-    //         }
-    //         catch (err) {
-    //             log.consoleDefault('Incident status Error:' + err);
-    //             let msg = botDialogs.DEFAULT[lang];
-    //             session.endDialog(msg);
-    //             return false;
-    //         }
-    //     }
-    // ];
 }());
