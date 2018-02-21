@@ -99,14 +99,10 @@
                         var buttonArr = commonTemplate.getButtonsList(session);
 
                         if (assignedTo == '-') {
-                            switch (session.message.source) {
-                                case 'slack' || 'msteams':
-                                    message = commonTemplate.getCardResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[session.conversationData.urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[session.conversationData.incident_state][lang]} \nAssigned To : Unassigned`, session.conversationData.short_description, buttonArr);
-                                    break;
-                                default:
-                                    message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: Unassigned';
-                                    // session.send(msg);
-                                    break;
+                            if (session.message.source === 'slack' || session.message.source === 'msteams') {
+                                message = commonTemplate.getCardResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[session.conversationData.urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[session.conversationData.incident_state][lang]} \nAssigned To : Unassigned`, session.conversationData.short_description, buttonArr);
+                            } else {
+                                message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: Unassigned';
                             }
                         } else {
                             // session.send(pleaseWait["DEFAULT"][lang]);
