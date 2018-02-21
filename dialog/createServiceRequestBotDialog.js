@@ -1,6 +1,5 @@
 (function () {
     'use strict';
-
     var builder = require('botbuilder');
     var apiService = require('../server/apiServices');
     var log = require('../utils/logs');
@@ -75,30 +74,26 @@
     module.exports.createSR = [
         function (session) {
             var objSRData = new createSR();
-            objSRData.short_description = session.conversationData.SoftwareName;
-           // session.send(pleaseWait["CREATESR"][lang]);
-            var options = {
-                
-                                initialText: pleaseWait["CREATESR"][lang],
-                
-                                text: 'Please wait... This is taking a little longer than expected.',
-                
-                                speak: '<speak>Please wait.<break time="2s"/></speak>'
-                
-                            };
+            var options = {                
+                initialText: pleaseWait["CREATESR"][lang],
+                text: 'Please wait... This is taking a little longer than expected.',
+                speak: '<speak>Please wait.<break time="2s"/></speak>'
+            };
+            objSRData.short_description = session.conversationData.SoftwareName;            
                 
             progress(session, options, function (callback) {
-            apiService.createIncidentService(JSON.parse(JSON.stringify(objSRData)), reqType, function (data) {
-                objSRData.sr_ID = data.result.number;
-                mailer('Create Service Request', 'ArunP3@hexaware.com', objSRData);
+                /* ### Api to Create a New Service Request ### */
+                apiService.createIncidentService(JSON.parse(JSON.stringify(objSRData)), reqType, function (data) {
+                    objSRData.sr_ID = data.result.number;
+                    mailer('Create Service Request', 'ArunP3@hexaware.com', objSRData);
 
-                let msg = 'Service Request ' + data.result.number + ' has been created!';
-                session.conversationData.SRType = '';
-                session.conversationData.SoftwareName = '';
-                session.endDialog(msg);
-                callback('Start Over');
+                    let msg = 'Service Request ' + data.result.number + ' has been created!';
+                    session.conversationData.SRType = '';
+                    session.conversationData.SoftwareName = '';
+                    session.endDialog(msg);
+                    callback('Start Over');
+                });
             });
-        });
         }
     ];
 }());
