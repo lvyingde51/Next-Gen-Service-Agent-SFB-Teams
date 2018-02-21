@@ -101,7 +101,7 @@
                         if (assignedTo == '-') {
                             switch (session.message.source) {
                                 case 'slack' || 'msteams':
-                                    commonTemplate.getCardResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[session.conversationData.urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[session.conversationData.incident_state][lang]} \nAssigned To : Unassigned`, session.conversationData.short_description, buttonArr);
+                                    message = commonTemplate.getCardResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[session.conversationData.urgency][lang]} \nStatus : ${commonTemplate.incidentStatus[session.conversationData.incident_state][lang]} \nAssigned To : Unassigned`, session.conversationData.short_description, buttonArr);
                                     break;
                                 default:
                                     message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + commonTemplate.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: Unassigned';
