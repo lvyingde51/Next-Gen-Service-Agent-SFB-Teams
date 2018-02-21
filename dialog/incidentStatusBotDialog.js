@@ -132,25 +132,12 @@
                                     var buttonArr = getButtons(session);
                                     console.log(buttonArr);
                                     // session.send('Below are the details for the requested incident');
-                                    if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                                        message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                            .title(`${session.conversationData.IncidentNumber}`)
-                                            .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
-                                            .subtitle(`${data.result[0].short_description}`)
-                                            .buttons(buttonArr)
-                                        );
-                                    } else {
-                                        message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                            .title(`${session.conversationData.IncidentNumber}`)
-                                            .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
-                                            .subtitle(`${data.result[0].short_description}`)
-                                            .buttons([
-                                                builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
-                                                builder.CardAction.imBack(session, "Close", "Close"),
-                                                builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                            ])
-                                        );
-                                    }
+                                    message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                                        .title(`${session.conversationData.IncidentNumber}`)
+                                        .text(`Urgency : ${commonTemplate.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
+                                        .subtitle(`${data.result[0].short_description}`)
+                                        .buttons(buttonArr)
+                                    );
                                     // session.endDialog();
                                     break;
                                 default:
@@ -651,16 +638,14 @@
         var response = [];
         switch (session.conversationData.incident_state) {
             case '7' || '8':
-                log.consoleDefault('Inside 7 and 8');
                 response.push(builder.CardAction.imBack(session, "Reopen", "Reopen"));
                 break;
             default:
-                log.consoleDefault('Default');
                 response.push(builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"));
                 response.push(builder.CardAction.imBack(session, "Close", "Close"));
                 break;
         }
-        console.log('get buttons response', response);
+        response.push(builder.CardAction.imBack(session, "Thank You", "Thank You"));
         return response;
     };
 
