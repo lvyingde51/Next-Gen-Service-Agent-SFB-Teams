@@ -96,7 +96,7 @@
                         session.conversationData.short_description = data.result[0].short_description;
                         session.conversationData.sys_id = data.result[0].sys_id;
                         var message = '';
-                        var buttonArr = commonTemplate.getButtonsList(session);
+                        var buttonArr = commonTemplate.getButtonsList(session, 'CardArray');
 
                         if (assignedTo == '-') {
                             if (session.message.source === 'slack' || session.message.source === 'msteams') {
@@ -177,7 +177,7 @@
             session.conversationData.short_description = incidentstatusArr[arrIndex].short_description;
             session.conversationData.sys_id = incidentstatusArr[arrIndex].sys_id;
             var message = '';
-            var buttonArr = commonTemplate.getButtonsList(session);
+            var buttonArr = commonTemplate.getButtonsList(session, 'CardArray');
 
             if (assignedTo == '-') {
                 if (session.message.source === 'slack' || session.message.source === 'msteams') {
@@ -223,7 +223,8 @@
     module.exports.updateIncident = [
         function (session, message) {
             try {
-                builder.Prompts.choice(session, message, ['Add a Comment', 'Close', 'Reopen', 'Thank You']);
+                var prompts = commonTemplate.getButtonsList(session, 'Buttons');
+                builder.Prompts.choice(session, message, prompts);
             }
             catch (err) {
                 log.consoleDefault('Incident status Error:' + err);

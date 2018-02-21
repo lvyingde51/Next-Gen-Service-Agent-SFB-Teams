@@ -106,19 +106,28 @@
         'SERVICEREGEX': /^(ritm)\w+\d{6}$/gim
     };
 
-    var getButtonsList = function (session) {
+    var getButtons = function (session) {
+
+    }
+
+    var getButtonsList = function (session, type) {
         // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Cancelled
         var response = [];
-        switch (session.conversationData.incident_state) {
-            case '7' || '8':
+        if (type == 'CardArray') {
+            if (session.conversationData.incident_state == '7' || session.conversationData.incident_state == '8') {
                 response.push(builder.CardAction.imBack(session, "Reopen", "Reopen"));
-                break;
-            default:
+            } else {
                 response.push(builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"));
                 response.push(builder.CardAction.imBack(session, "Close", "Close"));
-                break;
+            }
+            response.push(builder.CardAction.imBack(session, "Thank You", "Thank You"));
+        } else {
+            if (session.conversationData.incident_state == '7' || session.conversationData.incident_state == '8') {
+                response.push("Reopen", "Thank You");
+            } else {
+                response.push("Add a Comment", "Close", "Thank You");
+            }
         }
-        response.push(builder.CardAction.imBack(session, "Thank You", "Thank You"));
         return response;
     };
 
