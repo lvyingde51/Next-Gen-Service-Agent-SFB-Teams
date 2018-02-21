@@ -124,18 +124,21 @@
 
     var getCardResponse = function (platform, session, title, text, subtitle, buttons) {
         var card = null;
+        let cardText = null;
         if (platform == 'slack') {
+            cardText = text.split('<%>').join('\n');
             card = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                 .title(`*${title}*`)
-                .text(`${text.split('<%>').join('\n')}`)
+                .text(`${cardText}`)
                 .subtitle(`${subtitle}`)
                 .buttons(buttons)
             );
         }
         else if (platform == 'msteams') {
+            cardText = text.split('<%>').join('<br/>');
             card = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                 .title(`${title}`)
-                .text(`${text.replace('<%>').join('<br/>')}`)
+                .text(`${cardText}`)
                 .subtitle(`${subtitle}`)
                 .buttons(buttons)
             );
