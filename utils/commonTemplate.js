@@ -1,5 +1,6 @@
 (function () {
     'use strict';
+    var builder = require('botbuilder');
 
     function jsonRequest() {
         this.short_description = null;
