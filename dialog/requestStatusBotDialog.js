@@ -83,7 +83,7 @@
                     session.conversationData.approval = data.result[0].approval.toUpperCase();
                     session.conversationData.Stage = data.result[0].stage.toUpperCase().split('_').join(' ');
                     session.conversationData.DueDate = data.result[0].due_date;
-                    var message = commonTemplate.getFinalResponse(session.message.source, session, session.conversationData.SRNumber, `Installation Status : ${commonTemplate.incidentStatus[session.conversationData.state][lang]} <%>nApproval : ${session.conversationData.approval} <%>nStage : ${session.conversationData.Stage} <%>Due Date : ${session.conversationData.DueDate}`, session.conversationData.short_description, [], '', 'SRStatus');
+                    var message = commonTemplate.getFinalResponse(session.message.source, session, session.conversationData.SRNumber, `Installation Status : ${commonTemplate.incidentStatus[session.conversationData.state][lang]} <%>Approval : ${session.conversationData.approval} <%>Stage : ${session.conversationData.Stage} <%>Due Date : ${session.conversationData.DueDate}`, session.conversationData.short_description, [], '', 'SRStatus');
                     session.endDialog(message).endConversation();
                 }
             });
@@ -126,7 +126,7 @@
             session.conversationData.Stage = servicestatusArr[arrIndex].stage.split('_').join(' ');
             session.conversationData.DueDate = servicestatusArr[arrIndex].due_date;
 
-            var message = commonTemplate.getFinalResponse(session.message.source, session, session.conversationData.SRNumber, `Installation Status : ${commonTemplate.incidentStatus[session.conversationData.state][lang]} <%>nApproval : ${session.conversationData.approval} <%>nStage : ${session.conversationData.Stage} <%>Due Date : ${session.conversationData.DueDate}`, session.conversationData.short_description, [], '', 'SRStatus');
+            var message = commonTemplate.getFinalResponse(session.message.source, session, session.conversationData.SRNumber, `Installation Status : ${commonTemplate.incidentStatus[session.conversationData.state][lang]} <%>Approval : ${session.conversationData.approval} <%>Stage : ${session.conversationData.Stage} <%>Due Date : ${session.conversationData.DueDate}`, session.conversationData.short_description, [], '', 'SRStatus');
             session.endDialog(message).endConversation();            
         }
     ];
