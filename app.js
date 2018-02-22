@@ -75,6 +75,7 @@ const logUserConversation = event => {
 // Middleware for logging
 bot.use({
   botbuilder: function(session, next) {
+
     spellService
 
       .getCorrectedText(session.message.text)
@@ -94,10 +95,12 @@ bot.use({
       });
   },
   receive: function(event, next) {
+    console.log("Recieve Event::"+json.stringify(event));
     logUserConversation(event);
     next();
   },
   send: function(event, next) {
+    console.log("Send Event::"+json.stringify(event));
     logUserConversation(event);
     next();
   }
