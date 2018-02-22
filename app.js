@@ -74,29 +74,30 @@ const logUserConversation = event => {
 };
 
 // Middleware for logging
-var resText = session.message.text;
-if(!resText.match(commonTemplate.regexPattern['INCIDENTREGEX']))
-{
+
   bot.use({
     botbuilder: function(session, next) {
+      var resText = session.message.text;
+      if(!resText.match(commonTemplate.regexPattern['INCIDENTREGEX']))
+      {
+        spellService
 
-      spellService
+          .getCorrectedText(session.message.text)
 
-        .getCorrectedText(session.message.text)
+          .then(function(text) {
+            console.log('Text corrected to "' + text + '"');
 
-        .then(function(text) {
-          console.log('Text corrected to "' + text + '"');
+            session.message.text = text;
 
-          session.message.text = text;
+            next();
+          })
 
-          next();
-        })
+          .catch(function(error) {
+            console.error(error);
 
-        .catch(function(error) {
-          console.error(error);
-
-          next();
-        });
+            next();
+          });
+      }
     },
     receive: function(event, next) {
       
@@ -109,7 +110,7 @@ if(!resText.match(commonTemplate.regexPattern['INCIDENTREGEX']))
       next();
     }
   });
-}
+
 // Make sure you add code to validate these fields
 var luisAppId = process.env.LuisAppId;
 var luisAPIKey = process.env.LuisAPIKey;
