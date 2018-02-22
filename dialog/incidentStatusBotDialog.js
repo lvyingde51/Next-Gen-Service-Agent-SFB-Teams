@@ -43,7 +43,7 @@
     module.exports.incidentID = [
         function (session, args, next) {
             if (!session.conversationData.IncidentNumber) {
-                builder.IntentDialog()
+                new builder.IntentDialog()
                     .onBegin(function (session, args) {
                         console.log(args);
                         console.log(args.prompt);
