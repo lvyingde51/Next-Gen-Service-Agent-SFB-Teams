@@ -19,152 +19,161 @@
 
     module.exports.beginDialog = [
         function (session) {
-            apiService.getStatusByList('FINALINCIDENT', function (data) {
-                if (!data) {
-                    let msg = botDialogs.DEFAULT[lang];
-                    session.endDialog(msg);
-                    return false;
-                }
-                if (data.hasOwnProperty('error')) {
-                    let msg = botDialogs.INCIDENTNOTFOUND[lang];
-                    session.endDialog(msg);
-                } else {
-                    let assignedTo = data.result[0].assigned_to == '' ? '-' : data.result[0].assigned_to.link;
-                    var message;
-
-                    session.conversationData.IncidentNumber = data.result[0].number;
-                    session.conversationData.sys_id = data.result[0].sys_id;
-                    session.conversationData.incident_state = data.result[0].incident_state;
-                    session.conversationData.urgency = data.result[0].urgency;
-                    session.conversationData.category = data.result[0].category;
-                    session.conversationData.short_description = data.result[0].short_description;                    
-                    if (assignedTo == '-') {
-                        /* ### Finding the Channel - Previous/Last/Final Incident ### */
-                        switch (session.message.source) {
-                            case 'slack':
-                                if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                                    message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                        .title(`*${session.conversationData.IncidentNumber}*`)
-                                        .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${jsonData.incidentStatus[data.result[0].state][lang]} \nAssigned To : Unassigned`)
-                                        .subtitle(`${data.result[0].short_description}`)
-                                        .buttons([
-                                            builder.CardAction.imBack(session, "Reopen", "Reopen"),
-                                            builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                        ])
-                                    );
-                                } else {
-                                    message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                        .title(`*${session.conversationData.IncidentNumber}*`)
-                                        .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${jsonData.incidentStatus[data.result[0].state][lang]} \nAssigned To : Unassigned`)
-                                        .subtitle(`${data.result[0].short_description}`)
-                                        .buttons([
-                                            builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
-                                            builder.CardAction.imBack(session, "Close", "Close"),
-                                            builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                        ])
-                                    );
-                                }
-                                break;
-                            case 'msteams':
-                                if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                                    message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                        .title(`${session.conversationData.IncidentNumber}`)
-                                        .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${jsonData.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
-                                        .subtitle(`${data.result[0].short_description}`)
-                                        .buttons([
-                                            builder.CardAction.imBack(session, "Reopen", "Reopen"),
-                                            builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                        ])
-                                    );
-                                } else {
-                                    message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                        .title(`${session.conversationData.IncidentNumber}`)
-                                        .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${jsonData.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
-                                        .subtitle(`${data.result[0].short_description}`)
-                                        .buttons([
-                                            builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
-                                            builder.CardAction.imBack(session, "Close", "Close"),
-                                            builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                        ])
-                                    );
-                                }
-                                break;
-                            default:
-                                message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + jsonData.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + jsonData.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: Unassigned';
-                                break;
-                        }
-                    } else {
-                        /* ### Api to get `Assigned to` value for the incident ### */
-                        apiService.getAssignedToDetails(assignedTo, function (resp) {
-                            if (!resp) {
-                                let msg = botDialogs.DEFAULT[lang];
-                                session.endDialog(msg);
-                                return false;
-                            } else {
-                                /* ### Finding the Channel - Previous/Last/Final Incident ### */
-                                switch (session.message.source) {
-                                    case 'slack':
-                                        if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                                            message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                                .title(`*${session.conversationData.IncidentNumber}*`)
-                                                .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${jsonData.incidentStatus[data.result[0].state][lang]} \nAssigned To : ${resp.result.name}`)
-                                                .subtitle(`${data.result[0].short_description}`)
-                                                .buttons([
-                                                    builder.CardAction.imBack(session, "Reopen", "Reopen"),
-                                                    builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                                ])
-                                            );
-                                        } else {
-                                            message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                                .title(`*${session.conversationData.IncidentNumber}*`)
-                                                .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${jsonData.incidentStatus[data.result[0].state][lang]} \nAssigned To : ${resp.result.name}`)
-                                                .subtitle(`${data.result[0].short_description}`)
-                                                .buttons([
-                                                    builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
-                                                    builder.CardAction.imBack(session, "Close", "Close"),
-                                                    builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                                ])
-                                            );
-                                        }
-                                        break;
-                                    case 'msteams':
-                                        if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                                            message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                                .title(`${session.conversationData.IncidentNumber}`)
-                                                .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${jsonData.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : ${resp.result.name}`)
-                                                .subtitle(`${data.result[0].short_description}`)
-                                                .buttons([
-                                                    builder.CardAction.imBack(session, "Reopen", "Reopen"),
-                                                    builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                                ])
-                                            );
-                                        } else {
-                                            message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                                .title(`${session.conversationData.IncidentNumber}`)
-                                                .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${jsonData.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : ${resp.result.name}`)
-                                                .subtitle(`${data.result[0].short_description}`)
-                                                .buttons([
-                                                    builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
-                                                    builder.CardAction.imBack(session, "Close", "Close"),
-                                                    builder.CardAction.imBack(session, "Thank You", "Thank You")
-                                                ])
-                                            );
-                                        }
-                                        break;
-                                    default:
-                                        message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + jsonData.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + jsonData.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
-                                        break;
-                                }
-                            }
-                        });
-                    }
-                    if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                        builder.Prompts.choice(session, message, ['Reopen', 'Thank You']);
-                    } else {
-                        builder.Prompts.choice(session, message, ['Add a Comment', 'Close', 'Thank You']);
-                    }
-                }
+            builder.Prompts.time(session, 'Please enter your date of birth (MM/dd/yyyy):', {
+            retryPrompt: 'The value you entered is not a valid date. Please try again:',
+            maxRetries: 2
             });
+            // apiService.getStatusByList('FINALINCIDENT', function (data) {
+            //     if (!data) {
+            //         let msg = botDialogs.DEFAULT[lang];
+            //         session.endDialog(msg);
+            //         return false;
+            //     }
+            //     if (data.hasOwnProperty('error')) {
+            //         let msg = botDialogs.INCIDENTNOTFOUND[lang];
+            //         session.endDialog(msg);
+            //     } else {
+            //         let assignedTo = data.result[0].assigned_to == '' ? '-' : data.result[0].assigned_to.link;
+            //         var message;
+
+            //         session.conversationData.IncidentNumber = data.result[0].number;
+            //         session.conversationData.sys_id = data.result[0].sys_id;
+            //         session.conversationData.incident_state = data.result[0].incident_state;
+            //         session.conversationData.urgency = data.result[0].urgency;
+            //         session.conversationData.category = data.result[0].category;
+            //         session.conversationData.short_description = data.result[0].short_description;                    
+            //         if (assignedTo == '-') {
+            //             /* ### Finding the Channel - Previous/Last/Final Incident ### */
+            //             switch (session.message.source) {
+            //                 case 'slack':
+            //                     if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
+            //                         message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+            //                             .title(`*${session.conversationData.IncidentNumber}*`)
+            //                             .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${jsonData.incidentStatus[data.result[0].state][lang]} \nAssigned To : Unassigned`)
+            //                             .subtitle(`${data.result[0].short_description}`)
+            //                             .buttons([
+            //                                 builder.CardAction.imBack(session, "Reopen", "Reopen"),
+            //                                 builder.CardAction.imBack(session, "Thank You", "Thank You")
+            //                             ])
+            //                         );
+            //                     } else {
+            //                         message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+            //                             .title(`*${session.conversationData.IncidentNumber}*`)
+            //                             .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${jsonData.incidentStatus[data.result[0].state][lang]} \nAssigned To : Unassigned`)
+            //                             .subtitle(`${data.result[0].short_description}`)
+            //                             .buttons([
+            //                                 builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
+            //                                 builder.CardAction.imBack(session, "Close", "Close"),
+            //                                 builder.CardAction.imBack(session, "Thank You", "Thank You")
+            //                             ])
+            //                         );
+            //                     }
+            //                     break;
+            //                 case 'msteams':
+            //                     if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
+            //                         message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+            //                             .title(`${session.conversationData.IncidentNumber}`)
+            //                             .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${jsonData.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
+            //                             .subtitle(`${data.result[0].short_description}`)
+            //                             .buttons([
+            //                                 builder.CardAction.imBack(session, "Reopen", "Reopen"),
+            //                                 builder.CardAction.imBack(session, "Thank You", "Thank You")
+            //                             ])
+            //                         );
+            //                     } else {
+            //                         message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+            //                             .title(`${session.conversationData.IncidentNumber}`)
+            //                             .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${jsonData.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : Unassigned`)
+            //                             .subtitle(`${data.result[0].short_description}`)
+            //                             .buttons([
+            //                                 builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
+            //                                 builder.CardAction.imBack(session, "Close", "Close"),
+            //                                 builder.CardAction.imBack(session, "Thank You", "Thank You")
+            //                             ])
+            //                         );
+            //                     }
+            //                     break;
+            //                 default:
+            //                     message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + jsonData.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + jsonData.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: Unassigned';
+            //                     break;
+            //             }
+            //         } else {
+            //             /* ### Api to get `Assigned to` value for the incident ### */
+            //             apiService.getAssignedToDetails(assignedTo, function (resp) {
+            //                 if (!resp) {
+            //                     let msg = botDialogs.DEFAULT[lang];
+            //                     session.endDialog(msg);
+            //                     return false;
+            //                 } else {
+            //                     /* ### Finding the Channel - Previous/Last/Final Incident ### */
+            //                     switch (session.message.source) {
+            //                         case 'slack':
+            //                             if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
+            //                                 message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+            //                                     .title(`*${session.conversationData.IncidentNumber}*`)
+            //                                     .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${jsonData.incidentStatus[data.result[0].state][lang]} \nAssigned To : ${resp.result.name}`)
+            //                                     .subtitle(`${data.result[0].short_description}`)
+            //                                     .buttons([
+            //                                         builder.CardAction.imBack(session, "Reopen", "Reopen"),
+            //                                         builder.CardAction.imBack(session, "Thank You", "Thank You")
+            //                                     ])
+            //                                 );
+            //                             } else {
+            //                                 message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+            //                                     .title(`*${session.conversationData.IncidentNumber}*`)
+            //                                     .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} \nStatus : ${jsonData.incidentStatus[data.result[0].state][lang]} \nAssigned To : ${resp.result.name}`)
+            //                                     .subtitle(`${data.result[0].short_description}`)
+            //                                     .buttons([
+            //                                         builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
+            //                                         builder.CardAction.imBack(session, "Close", "Close"),
+            //                                         builder.CardAction.imBack(session, "Thank You", "Thank You")
+            //                                     ])
+            //                                 );
+            //                             }
+            //                             break;
+            //                         case 'msteams':
+            //                             if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
+            //                                 message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+            //                                     .title(`${session.conversationData.IncidentNumber}`)
+            //                                     .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${jsonData.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : ${resp.result.name}`)
+            //                                     .subtitle(`${data.result[0].short_description}`)
+            //                                     .buttons([
+            //                                         builder.CardAction.imBack(session, "Reopen", "Reopen"),
+            //                                         builder.CardAction.imBack(session, "Thank You", "Thank You")
+            //                                     ])
+            //                                 );
+            //                             } else {
+            //                                 message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+            //                                     .title(`${session.conversationData.IncidentNumber}`)
+            //                                     .text(`Urgency : ${jsonData.urgencyStatic[data.result[0].urgency][lang]} <br/>Status : ${jsonData.incidentStatus[data.result[0].state][lang]} <br/>Assigned To : ${resp.result.name}`)
+            //                                     .subtitle(`${data.result[0].short_description}`)
+            //                                     .buttons([
+            //                                         builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"),
+            //                                         builder.CardAction.imBack(session, "Close", "Close"),
+            //                                         builder.CardAction.imBack(session, "Thank You", "Thank You")
+            //                                     ])
+            //                                 );
+            //                             }
+            //                             break;
+            //                         default:
+            //                             message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Urgency : ' + jsonData.urgencyStatic[data.result[0].urgency][lang] + ' <br/>Status: ' + jsonData.incidentStatus[data.result[0].state][lang] + ' <br/>Assigned To: ' + resp.result.name;
+            //                             break;
+            //                     }
+            //                 }
+            //             });
+            //         }
+            //         if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
+            //             builder.Prompts.choice(session, message, ['Reopen', 'Thank You']);
+            //         } else {
+            //             builder.Prompts.choice(session, message, ['Add a Comment', 'Close', 'Thank You']);
+            //         }
+            //     }
+            // });
+        },
+        function (session, results) {
+            session.conversationData.test = results.response;
+            console.log(session.conversationData.test);
+            session.endDialog('Happy to help!');
         },
         function (session, results) {
             session.conversationData.capturedOption = results.response.entity;
