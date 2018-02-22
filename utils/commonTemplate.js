@@ -135,6 +135,9 @@
         var message = null;
         let cardText = null;
         if (platform == 'slack') {
+            if (messageType == 'IncidentUpdate') {
+                session.send('_Your comment has been added!_');
+            }
             cardText = text.split('<%>').join('\n');
             message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                 .title(`*${title}*`)
@@ -144,6 +147,9 @@
             );
         }
         else if (platform == 'msteams') {
+            if (messageType == 'IncidentUpdate') {
+                session.send('<i>Your comment has been added!</i>');
+            }
             cardText = text.split('<%>').join('<br/>');
             message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                 .title(`${title}`)
