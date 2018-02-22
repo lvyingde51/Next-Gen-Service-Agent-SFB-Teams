@@ -24,6 +24,7 @@ var lastIncidentBotDialog = require("./dialog/lastIncidentBotDialog");
 
 var QnAClient = require("./lib/client");
 var defaultBotDialog = require("./dialog/defaultBotDialog");
+var spellService = require("./util/spell-service");
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -73,6 +74,25 @@ const logUserConversation = event => {
 
 // Middleware for logging
 bot.use({
+  botbuilder: function(session, next) {
+    spellService
+
+      .getCorrectedText(session.message.text)
+
+      .then(function(text) {
+        console.log('Text corrected to "' + text + '"');
+
+        session.message.text = text;
+
+        next();
+      })
+
+      .catch(function(error) {
+        console.error(error);
+
+        next();
+      });
+  },
   receive: function(event, next) {
     logUserConversation(event);
     next();
@@ -89,8 +109,8 @@ var luisAPIKey = process.env.LuisAPIKey;
 var luisAPIHostName =
   process.env.LuisAPIHostName || "westus.api.cognitive.microsoft.com";
 
-const LuisModelUrl =process.env.LuisModelUrl;
- /* "https://" +
+const LuisModelUrl = process.env.LuisModelUrl;
+/* "https://" +
   luisAPIHostName +
   "/luis/v1/application?id=" +
   luisAppId +"&staging=true"
@@ -191,24 +211,24 @@ bot.recognizer({
         case "goodbye":
           intent = { score: 1.0, intent: "Goodbye" };
           break;
-          case "Good Bye":
+        case "Good Bye":
           intent = { score: 1.0, intent: "Goodbye" };
           break;
-          case "exit":
-          intent = { score: 1.0, intent: "Goodbye" };
-          break; 
-          case "quit":
+        case "exit":
           intent = { score: 1.0, intent: "Goodbye" };
           break;
-          case "Thank You":
+        case "quit":
           intent = { score: 1.0, intent: "Goodbye" };
-          break; 
-          case "Thankyou":
+          break;
+        case "Thank You":
           intent = { score: 1.0, intent: "Goodbye" };
-          break; 
-          case "Thanks":
+          break;
+        case "Thankyou":
           intent = { score: 1.0, intent: "Goodbye" };
-          break;   
+          break;
+        case "Thanks":
+          intent = { score: 1.0, intent: "Goodbye" };
+          break;
         case "cancel":
           intent = { score: 1.0, intent: "Cancel" };
           break;
@@ -221,7 +241,7 @@ bot.endConversationAction("goodbyeAction", "Ok... See you later.", {
   matches: "Goodbye"
 });
 bot.on("conversationUpdate", function(message) {
-/*if (message.membersAdded && message.membersAdded.length > 0) {
+  /*if (message.membersAdded && message.membersAdded.length > 0) {
     // Say hello
     //var isGroup = message.address.conversation.isGroup;
     var txt = `Hi ${
@@ -260,5 +280,5 @@ bot
     );
   })
   .triggerAction({ matches: "Help" });
-  
+
 bot.library(require("./dialog/progressIndicatorDialog"));
