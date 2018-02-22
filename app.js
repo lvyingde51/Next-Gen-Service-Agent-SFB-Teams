@@ -78,27 +78,28 @@ const logUserConversation = event => {
   bot.use({
     botbuilder: function(session, next) {
       var resText = session.message.text;
-      if(!resText.match(commonTemplate.regexPattern['INCIDENTREGEX']) || !resText.match(commonTemplate.regexPattern['SERVICEREGEX']))
-      {
-        spellService
+      if(resText.match(commonTemplate.regexPattern['INCIDENTREGEX'])) {
+          next();
+      } else if(resText.match(commonTemplate.regexPattern['SERVICEREGEX'])) {
+          next();
+      } else {        
+          spellService
 
-          .getCorrectedText(session.message.text)
+            .getCorrectedText(session.message.text)
 
-          .then(function(text) {
-            console.log('Text corrected to "' + text + '"');
+            .then(function(text) {
+              console.log('Text corrected to "' + text + '"');
 
-            session.message.text = text;
+              session.message.text = text;
 
-            next();
-          })
+              next();
+            })
 
-          .catch(function(error) {
-            console.error(error);
+            .catch(function(error) {
+              console.error(error);
 
-            next();
-          });
-      } else {
-        next();
+              next();
+            });
       }
     },
     receive: function(event, next) {
