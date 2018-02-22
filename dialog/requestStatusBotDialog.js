@@ -80,14 +80,12 @@
                     });
                 } else {
                     session.conversationData.short_description = data.result[0].short_description;
-                    session.conversationData.state = data.result[0].incident_state;
+                    session.conversationData.state = data.result[0].state;
                     session.conversationData.approval = data.result[0].approval.toUpperCase();
                     session.conversationData.Stage = data.result[0].stage.toUpperCase().split('_').join(' ');
                     session.conversationData.DueDate = data.result[0].due_date;
-                    console.log('coming or not');
                     console.log(session.conversationData.short_description, session.conversationData.state, session.conversationData.approval, session.conversationData.Stage, session.conversationData.DueDate)
                     message = commonTemplate.getFinalResponse(session.message.source, session, session.conversationData.SRNumber, `Installation Status : ${commonTemplate.incidentStatus[session.conversationData.state][lang]} <%>nApproval : ${session.conversationData.approval} <%>nStage : ${session.conversationData.Stage} <%>Due Date : ${session.conversationData.DueDate}`, session.conversationData.short_description, [], '', 'SRStatus');
-                    console.log('after coming or not');
                     session.endDialog(message).endConversation();
                     // switch (session.message.source) {
                     //     case 'slack':
