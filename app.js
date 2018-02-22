@@ -78,7 +78,7 @@ const logUserConversation = event => {
   bot.use({
     botbuilder: function(session, next) {
       var resText = session.message.text;
-      if(!resText.match(commonTemplate.regexPattern['INCIDENTREGEX']))
+      if(!resText.match(commonTemplate.regexPattern['INCIDENTREGEX']) || !resText.match(commonTemplate.regexPattern['SERVICEREGEX']))
       {
         spellService
 
