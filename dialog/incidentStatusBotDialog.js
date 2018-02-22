@@ -249,14 +249,15 @@
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType, session.conversationData.sys_id, function (data) {
                     message = commonTemplate.getFinalResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[session.conversationData.urgency][lang]} <%>Category : ${session.conversationData.category} <%>Status : ${commonTemplate.incidentStatus[session.conversationData.incident_state][lang]} <%>Comments : ${session.conversationData.comment}`, session.conversationData.short_description, [], null, 'IncidentUpdate');
                     session.endDialog(message);
-                    session.conversationData.capturedOption = '';
-                    session.conversationData.IncidentNumber = '';
-                    session.conversationData.comment = '';
-                    session.conversationData.incident_state = '';
-                    session.conversationData.urgency = '';
-                    session.conversationData.category = '';
-                    session.conversationData.short_description = '';
-                    session.conversationData.sys_id = '';
+                    session.endConversation();
+                    // session.conversationData.capturedOption = '';
+                    // session.conversationData.IncidentNumber = '';
+                    // session.conversationData.comment = '';
+                    // session.conversationData.incident_state = '';
+                    // session.conversationData.urgency = '';
+                    // session.conversationData.category = '';
+                    // session.conversationData.short_description = '';
+                    // session.conversationData.sys_id = '';
                     callback(`Start Over`);
                 });
             });
