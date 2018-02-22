@@ -13,7 +13,7 @@
     module.exports.beginDialog = [
         function (session) {
             if (session.conversationData.SoftwareName == '' || session.conversationData.SoftwareName == undefined) {
-                builder.Prompts.choice(session, 'Select Request Categories', ['Install Software','Desktop Allocation','Local Admin Privileges']);
+                builder.Prompts.choice(session, 'Select Request Categories', ['Install Software','Desktop Allocation','Admin Privileges']);
             } else {
                 builder.Prompts.choice(session, 'You requested for an installation sometime back. `' + session.conversationData.SoftwareName + '` Can we take this as your service request?', ['Yes', 'No']);
             }
