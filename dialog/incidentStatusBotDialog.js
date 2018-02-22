@@ -43,7 +43,15 @@
     module.exports.incidentID = [
         function (session, args, next) {
             if (!session.conversationData.IncidentNumber) {
-                builder.Prompts.text(session, 'Please provide your Incident Id');
+                if(session.conversationData.IncidentNumber != 'INC1234567')
+                {
+                    builder.Prompts.text(session, 'Please provide your Incident Id');
+                } else {
+                    builder.Prompts.text(session, 'Please provide your Incident Id', {
+                        retryPrompt: 'The value you entered is not a valid Incident ID. Please try again:',
+                        maxRetries: 2
+                    });
+                }
             } else {
                 next({ response: session.conversationData.IncidentNumber });
             }
