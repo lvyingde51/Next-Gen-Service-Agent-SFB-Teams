@@ -24,7 +24,7 @@ var lastIncidentBotDialog = require("./dialog/lastIncidentBotDialog");
 
 var QnAClient = require("./lib/client");
 var defaultBotDialog = require("./dialog/defaultBotDialog");
-var spellService = require("./util/spell-service");
+var spellService = require("./utils/spell-service");
 
 // Setup Restify Server
 var server = restify.createServer();
