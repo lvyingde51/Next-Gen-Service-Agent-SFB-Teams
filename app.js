@@ -97,6 +97,8 @@ const logUserConversation = event => {
 
             next();
           });
+      } else {
+        next();
       }
     },
     receive: function(event, next) {
