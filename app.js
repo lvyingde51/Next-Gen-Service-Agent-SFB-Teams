@@ -25,6 +25,7 @@ var lastIncidentBotDialog = require("./dialog/lastIncidentBotDialog");
 var QnAClient = require("./lib/client");
 var defaultBotDialog = require("./dialog/defaultBotDialog");
 var spellService = require("./utils/spell-service");
+var commonTemplate = require('./utils/commonTemplate');
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -73,39 +74,42 @@ const logUserConversation = event => {
 };
 
 // Middleware for logging
-bot.use({
-  botbuilder: function(session, next) {
+var resText = session.message.text;
+if(!resText.match(commonTemplate.regexPattern['INCIDENTREGEX']))
+{
+  bot.use({
+    botbuilder: function(session, next) {
 
-    spellService
+      spellService
 
-      .getCorrectedText(session.message.text)
+        .getCorrectedText(session.message.text)
 
-      .then(function(text) {
-        console.log('Text corrected to "' + text + '"');
+        .then(function(text) {
+          console.log('Text corrected to "' + text + '"');
 
-        session.message.text = text;
+          session.message.text = text;
 
-        next();
-      })
+          next();
+        })
 
-      .catch(function(error) {
-        console.error(error);
+        .catch(function(error) {
+          console.error(error);
 
-        next();
-      });
-  },
-  receive: function(event, next) {
+          next();
+        });
+    },
+    receive: function(event, next) {
+      
+      logUserConversation(event);
+      next();
+    },
+    send: function(event, next) {
     
-    logUserConversation(event);
-    next();
-  },
-  send: function(event, next) {
-   
-    logUserConversation(event);
-    next();
-  }
-});
-
+      logUserConversation(event);
+      next();
+    }
+  });
+}
 // Make sure you add code to validate these fields
 var luisAppId = process.env.LuisAppId;
 var luisAPIKey = process.env.LuisAPIKey;
