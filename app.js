@@ -95,12 +95,12 @@ bot.use({
       });
   },
   receive: function(event, next) {
-    console.log("Recieve Event::"+event);
+    console.log("Recieve Event::"+json.stringify(event));
     logUserConversation(event);
     next();
   },
   send: function(event, next) {
-    console.log("Send Event::"+event);
+    console.log("Send Event::"+json.stringify(event));
     logUserConversation(event);
     next();
   }
