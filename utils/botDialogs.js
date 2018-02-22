@@ -244,7 +244,7 @@
             "ENGLISH" : "Uh-oh! I couldn't find this incident. Please try again with a valid incident id."
         },
         "SRIDNOTFOUND" : {
-            "ENGLISH" : "Oh no..this Service Id does not exist. Please try again"
+            "ENGLISH" : "Oh no..this Service Id does not exist. Please try again with a valid service number."
         },
         "INCIDENTOPEN" : {
             "ENGLISH" : "Whoops! This incident is already open!"
