@@ -160,6 +160,8 @@
         } else {
             if (messageType == 'IncidentUpdate') {
                 message = 'Your comment has been added:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Urgency : ' + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + session.conversationData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
+            } else if (messageType == 'SRStatus') {
+                message = 'These are the details of the requested Service Request:- <br/>Requested Item Number : ' + session.conversationData.SRNumber + ' <br/>Short Description : ' + session.conversationData.short_description + ' <br/>Installation Status: ' + commonTemplate.incidentStatus[session.conversationData.state][lang] + ' <br/>Approval: ' + session.conversationData.approval + ' <br/>Stage: ' + session.conversationData.Stage + ' <br/>Due Date: ' + session.conversationData.DueDate;
             } else {
                 if (params == '-') {
                     message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + session.conversationData.short_description + ' <br/>Urgency : ' + urgencyStatic[session.conversationData.urgency][lang] + ' <br/>Status: ' + incidentStatus[session.conversationData.incident_state][lang] + ' <br/>Assigned To: Unassigned';

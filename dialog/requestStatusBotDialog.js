@@ -61,7 +61,7 @@
             // Make API call to Service Now with Service Id and get Response...
             session.send(pleaseWait["SRSTATUS"][lang]);
             apiService.getStatusByNumber(session.conversationData.SRNumber, reqType, function (data) {
-                log.consoleDefault(JSON.stringify(data));
+                var message = null;
                 if (!data) {
                     let msg = botDialogs.DEFAULT[lang];
                     session.endDialog(msg);
@@ -79,30 +79,37 @@
                         }
                     });
                 } else {
-                    switch (session.message.source) {
-                        case 'slack':
-                            // session.send('_These are the details of the requested Service Request_');
-                            session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                .title(`*${session.conversationData.SRNumber}*`)
-                                .text(`Installation Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nApproval : ${data.result[0].approval.toUpperCase()} \nStage : ${data.result[0].stage.toUpperCase().split('_').join(' ')} \nDue Date : ${data.result[0].due_date}`)
-                                .subtitle(`${data.result[0].short_description}`)
-                            ));
-                            session.endDialog();
-                            break;
-                        case 'msteams':
-                            // session.send('These are the details of the requested Service Request');
-                            session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                .title(`${session.conversationData.SRNumber}`)
-                                .text(`Installation Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Approval : ${data.result[0].approval.toUpperCase()} <br/>Stage : ${data.result[0].stage.toUpperCase().split('_').join(' ')} <br/>Due Date : ${data.result[0].due_date}`)
-                                .subtitle(`${data.result[0].short_description}`)
-                            ));
-                            session.endDialog();
-                            break;
-                        default:
-                            let msg = 'These are the details of the requested Service Request:- <br/>Requested Item Number : ' + session.conversationData.SRNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Installation Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Approval: ' + data.result[0].approval.toUpperCase() + ' <br/>Stage: ' + data.result[0].stage.toUpperCase().split('_').join(' ') + ' <br/>Due Date: ' + data.result[0].due_date;
-                            session.endDialog(msg);
-                            break;
-                    }
+                    session.conversationData.short_description = data.result[0].short_description;
+                    session.conversationData.state = data.result[0].incident_state;
+                    session.conversationData.approval = data.result[0].approval.toUpperCase();
+                    session.conversationData.Stage = data.result[0].stage.toUpperCase().split('_').join(' ');
+                    session.conversationData.DueDate = data.result[0].due_date;
+                    message = commonTemplate.getFinalResponse(session.message.source, session, session.conversationData.SRNumber, `Installation Status : ${commonTemplate.incidentStatus[session.conversationData.state][lang]} <%>nApproval : ${session.conversationData.approval} <%>nStage : ${session.conversationData.Stage} <%>Due Date : ${session.conversationData.DueDate}`, session.conversationData.short_description, [], '', 'SRStatus');
+                    session.endDialog(message).endConversation();
+                    // switch (session.message.source) {
+                    //     case 'slack':
+                    //         // session.send('_These are the details of the requested Service Request_');
+                    //         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                    //             .title(`*${session.conversationData.SRNumber}*`)
+                    //             .text(`Installation Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} \nApproval : ${data.result[0].approval.toUpperCase()} \nStage : ${data.result[0].stage.toUpperCase().split('_').join(' ')} \nDue Date : ${data.result[0].due_date}`)
+                    //             .subtitle(`${data.result[0].short_description}`)
+                    //         ));
+                    //         session.endDialog();
+                    //         break;
+                    //     case 'msteams':
+                    //         // session.send('These are the details of the requested Service Request');
+                    //         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                    //             .title(`${session.conversationData.SRNumber}`)
+                    //             .text(`Installation Status : ${commonTemplate.incidentStatus[data.result[0].state][lang]} <br/>Approval : ${data.result[0].approval.toUpperCase()} <br/>Stage : ${data.result[0].stage.toUpperCase().split('_').join(' ')} <br/>Due Date : ${data.result[0].due_date}`)
+                    //             .subtitle(`${data.result[0].short_description}`)
+                    //         ));
+                    //         session.endDialog();
+                    //         break;
+                    //     default:
+                    //         let msg = 'These are the details of the requested Service Request:- <br/>Requested Item Number : ' + session.conversationData.SRNumber + ' <br/>Short Description : ' + data.result[0].short_description + ' <br/>Installation Status: ' + commonTemplate.incidentStatus[data.result[0].state][lang] + ' <br/>Approval: ' + data.result[0].approval.toUpperCase() + ' <br/>Stage: ' + data.result[0].stage.toUpperCase().split('_').join(' ') + ' <br/>Due Date: ' + data.result[0].due_date;
+                    //         session.endDialog(msg);
+                    //         break;
+                    // }
                 }
             });
         }
