@@ -24,7 +24,6 @@
             } else {
                 session.send(pleaseWait["INCIDENTSTATUS"][lang]);
                 apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
-                    log.consoleDefault(JSON.stringify(data));
                     if (!data) {
                         let msg = botDialogs.DEFAULT[lang];
                         session.endDialog(msg);
@@ -37,21 +36,17 @@
                         return;
                     } else {
                         session.conversationData.sys_id = data.result[0].sys_id;
-                        console.log('-- sys_id --', session.conversationData.sys_id);
                         session.conversationData.incident_state = data.result[0].incident_state;
                         session.conversationData.urgency = data.result[0].urgency;
                         session.conversationData.category = data.result[0].category;
                         session.conversationData.short_description = data.result[0].short_description;
-                        console.log('--status of incident-- ', session.conversationData.incident_state);
                         if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                            builder.Prompts.text(session, 'Please give me a comment of the incident you’d like to reopen');
+                            builder.Prompts.text(session, 'Okay, Please enter your comment');
                         } else {
                             let msg = botDialogs.INCIDENTOPEN[lang];
                             session.endDialog(msg);
                             return;
                         }
-                        // let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.capturedStr + ' <br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[session.conversationData.incident_state][lang];
-                        // session.send(msg);
                     }
                 });
             }
@@ -61,7 +56,6 @@
                 session.conversationData.IncidentNumber = results.response;
                 session.send(pleaseWait["INCIDENTSTATUS"][lang]);
                 apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
-                    log.consoleDefault(JSON.stringify(data));
                     if (!data) {
                         let msg = botDialogs.DEFAULT[lang];
                         session.endDialog(msg);
@@ -73,27 +67,22 @@
                         session.endDialog(msg);
                     } else {
                         session.conversationData.sys_id = data.result[0].sys_id;
-                        console.log('-- sys_id --', session.conversationData.sys_id);
                         session.conversationData.incident_state = data.result[0].incident_state;
                         session.conversationData.urgency = data.result[0].urgency;
                         session.conversationData.category = data.result[0].category;
                         session.conversationData.short_description = data.result[0].short_description;
-                        console.log('--status of incident-- ', session.conversationData.incident_state);
                         if (session.conversationData.incident_state == 7 || session.conversationData.incident_state == 8) {
-                            builder.Prompts.text(session, 'Please give me a comment of the incident you’d like to reopen');
+                            builder.Prompts.text(session, 'Okay, Please enter your comment');
                         } else {
                             let msg = botDialogs.INCIDENTOPEN[lang];
                             session.endDialog(msg);
                             return;
                         }
-                        // let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.capturedStr + ' <br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[session.conversationData.incident_state][lang];
-                        // session.send(msg);
                     }
                 });
             } else {
                 session.conversationData.commentReopenIncident = results.response;
                 var objData = new jsonData.statusUpdate();
-                objData.caller_id = 'rubin.crotts@example.com';
                 objData.comments = session.conversationData.commentReopenIncident;
                 objData.incident_state = 'In Progress';
                 session.send(pleaseWait["INCIDENTREOPEN"][lang]);
@@ -136,7 +125,6 @@
             if (session.conversationData.IncidentNumber != '' || session.conversationData.IncidentNumber != undefined) {
                 session.conversationData.commentReopenIncident = results.response;
                 var objData = new jsonData.statusUpdate();
-                objData.caller_id = 'rubin.crotts@example.com';
                 objData.comments = session.conversationData.commentReopenIncident;
                 objData.incident_state = 'In Progress';
                 session.send(pleaseWait["INCIDENTREOPEN"][lang]);
@@ -207,9 +195,7 @@
                         session.conversationData.category = data.result[0].category;
                         session.conversationData.short_description = data.result[0].short_description;
                         console.log('--status of incident-- ', session.conversationData.incident_state);
-                        builder.Prompts.text(session, 'Please give me a comment of the incident you’d like to close');
-                        // let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.capturedStr + ' <br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[session.conversationData.incident_state][lang];
-                        // session.send(msg);
+                        builder.Prompts.text(session, 'Okay, Please enter your comment');
                     }
                 });
             }
@@ -231,21 +217,16 @@
                         session.endDialog(msg);
                     } else {
                         session.conversationData.sys_id = data.result[0].sys_id;
-                        console.log('-- sys_id --', session.conversationData.sys_id);
                         session.conversationData.incident_state = data.result[0].incident_state;
                         session.conversationData.urgency = data.result[0].urgency;
                         session.conversationData.category = data.result[0].category;
                         session.conversationData.short_description = data.result[0].short_description;
-                        console.log('--status of incident-- ', session.conversationData.incident_state);
-                        builder.Prompts.text(session, 'Please give me a comment of the incident you’d like to close');
-                        // let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.capturedStr + ' <br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[session.conversationData.incident_state][lang];
-                        // session.send(msg);
+                        builder.Prompts.text(session, 'Okay, Please enter your comment');
                     }
                 });
             } else {
                 session.conversationData.commentReopenIncident = results.response;
                 var objData = new jsonData.statusUpdate();
-                objData.caller_id = 'rubin.crotts@example.com';
                 objData.comments = session.conversationData.commentReopenIncident;
                 objData.incident_state = 'Closed';
                 session.send(pleaseWait["INCIDENTCLOSE"][lang]);
@@ -289,7 +270,6 @@
             if (session.conversationData.IncidentNumber != '' || session.conversationData.IncidentNumber != undefined) {
                 session.conversationData.commentReopenIncident = results.response;
                 var objData = new jsonData.statusUpdate();
-                objData.caller_id = 'rubin.crotts@example.com';
                 objData.comments = session.conversationData.commentReopenIncident;
                 objData.incident_state = 'Closed';
                 session.send(pleaseWait["INCIDENTCLOSE"][lang]);
@@ -355,15 +335,11 @@
                         session.endDialog(msg);
                     } else {
                         session.conversationData.sys_id = data.result[0].sys_id;
-                        console.log('-- sys_id --', session.conversationData.sys_id);
                         session.conversationData.incident_state = data.result[0].incident_state;
                         session.conversationData.urgency = data.result[0].urgency;
                         session.conversationData.category = data.result[0].category;
                         session.conversationData.short_description = data.result[0].short_description;
-                        console.log('--status of incident-- ', session.conversationData.incident_state);
-                        builder.Prompts.text(session, 'Please give me an additional comment of the incident');
-                        // let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.capturedStr + ' <br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[session.conversationData.incident_state][lang];
-                        // session.send(msg);
+                        builder.Prompts.text(session, 'Okay, Please enter your comment');
                     }
                 });
             }
@@ -385,21 +361,16 @@
                         session.endDialog(msg);
                     } else {
                         session.conversationData.sys_id = data.result[0].sys_id;
-                        console.log('-- sys_id --', session.conversationData.sys_id);
                         session.conversationData.incident_state = data.result[0].incident_state;
                         session.conversationData.urgency = data.result[0].urgency;
                         session.conversationData.category = data.result[0].category;
                         session.conversationData.short_description = data.result[0].short_description;
-                        console.log('--status of incident-- ', session.conversationData.incident_state);
-                        builder.Prompts.text(session, 'Please give me an additional comment of the incident');
-                        // let msg = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.capturedStr + ' <br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + commonTemplate.incidentStatus[session.conversationData.incident_state][lang];
-                        // session.send(msg);
+                        builder.Prompts.text(session, 'Okay, Please enter your comment');
                     }
                 });
             } else {
                 session.conversationData.commentReopenIncident = results.response;
                 var objData = new jsonData.statusUpdate();
-                objData.caller_id = 'rubin.crotts@example.com';
                 objData.comments = session.conversationData.commentReopenIncident;
                 session.send(pleaseWait["INCIDENTADDCOMMENT"][lang]);
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType, session.conversationData.sys_id, function (data) {
@@ -442,7 +413,6 @@
             if (session.conversationData.IncidentNumber != '' || session.conversationData.IncidentNumber != undefined) {
                 session.conversationData.commentReopenIncident = results.response;
                 var objData = new jsonData.statusUpdate();
-                objData.caller_id = 'rubin.crotts@example.com';
                 objData.comments = session.conversationData.commentReopenIncident;
                 session.send(pleaseWait["INCIDENTADDCOMMENT"][lang]);
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType, session.conversationData.sys_id, function (data) {

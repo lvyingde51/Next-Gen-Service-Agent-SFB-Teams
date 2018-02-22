@@ -43,7 +43,22 @@
     module.exports.incidentID = [
         function (session, args, next) {
             if (!session.conversationData.IncidentNumber) {
-                builder.Prompts.text(session, 'Please provide your Incident Id');
+                builder.IntentDialog()
+                    .onBegin(function (session, args) {
+                        console.log(args);
+                        console.log(args.prompt);
+                        console.log(args.retryPrompt);
+
+                        session.dialogData.retryPrompt = args.retryPrompt;
+                        session.send(args.prompt);
+                    }).matches(commonTemplate.regexPattern['INCIDENTREGEX'], function (session) {
+                        console.log('Regex matched');
+                        session.endDialogWithResult({ response: session.conversationData.IncidentNumber });
+                    }).onDefault(function (session) {
+                        session.send(session.dialogData.retryPrompt);
+                    });
+
+                // builder.Prompts.text(session, 'Please provide your Incident Id');
             } else {
                 next({ response: session.conversationData.IncidentNumber });
             }
