@@ -44,92 +44,84 @@
         function (session, args, next) {
             if (!session.conversationData.IncidentNumber) {
                 builder.Prompts.text(session, 'Please provide your Incident Id');
-            } else {                
+            } else {
                 next({ response: session.conversationData.IncidentNumber });
             }
         },
         function (session, results) {
-            if(session.conversationData.IncidentNumber == 'INC1234567') {
-                builder.Prompts.text(session, 'Please provide your Incident Id', {
-                    retryPrompt: 'The value you entered is not a valid Incident ID. Please try again:',
-                    maxRetries: 2
+            if (!results.response.match(commonTemplate.regexPattern['INCIDENTREGEX'])) {
+                session.endDialog(botDialogs.INVALIDINCIDENTFORMAT[lang]);
+                session.beginDialog('isSearchById', function (err) {
+                    if (err) {
+                        session.send(new builder.Message().text('Error Occurred with isSearchById ' + err.message));
+                    }
                 });
-            } else {
                 return false;
-            // if (!results.response.match(commonTemplate.regexPattern['INCIDENTREGEX'])) {
-            //     session.endDialog(botDialogs.INVALIDINCIDENTFORMAT[lang]);
-            //     session.beginDialog('isSearchById', function (err) {
-            //         if (err) {
-            //             session.send(new builder.Message().text('Error Occurred with isSearchById ' + err.message));
-            //         }
-            //     });
-            //     return false;
-            // }
-            // session.conversationData.IncidentNumber = results.response;
-            // // Make API call to Service Now with Incident Id and get Response...
-            // //  session.send(pleaseWait["INCIDENTSTATUS"][lang]);
-            // let options = {
-            //     initialText: pleaseWait["INCIDENTSTATUS"][lang],
-            //     text: 'Please wait... This is taking a little longer than expected.',
-            //     speak: '<speak>Please wait.<break time="2s"/></speak>'
-            // };
-
-            // progress(session, options, function (callback) {
-            //     apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
-            //         if (!data) {
-            //             let msg = botDialogs.DEFAULT[lang];
-            //             session.endDialog(msg);
-            //             return false;
-            //         }
-
-            //         if (data.hasOwnProperty('error')) {
-            //             let msg = botDialogs.INCIDENTNOTFOUND[lang];
-            //             session.endDialog(msg);
-
-            //             session.conversationData.IncidentNumber = '';
-            //             session.beginDialog('isSearchById', null, function (err) {
-            //                 if (err) {
-            //                     session.send(new builder.Message().text('Error Occurred with isSearchById: ' + err.message));
-            //                 }
-            //             });
-            //         } else {
-            //             let assignedTo = data.result[0].assigned_to == '' ? '-' : data.result[0].assigned_to.link;
-            //             log.consoleDefault(assignedTo);
-            //             log.consoleDefault(commonTemplate.incidentStatus[data.result[0].state][lang]);
-            //             session.conversationData.incident_state = data.result[0].incident_state;
-            //             session.conversationData.urgency = data.result[0].urgency;
-            //             session.conversationData.category = data.result[0].category;
-            //             session.conversationData.short_description = data.result[0].short_description;
-            //             session.conversationData.sys_id = data.result[0].sys_id;
-            //             var message = '';
-            //             var buttonArr = commonTemplate.getButtonsList(session, 'CardArray');
-
-            //             if (assignedTo == '-') {
-            //                 message = commonTemplate.getFinalResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[session.conversationData.urgency][lang]} <%>Status : ${commonTemplate.incidentStatus[session.conversationData.incident_state][lang]} <%>Assigned To : Unassigned`, session.conversationData.short_description, buttonArr, assignedTo, 'IncidentStatus');
-            //             } else {
-            //                 // session.send(pleaseWait["DEFAULT"][lang]);
-            //                 apiService.getAssignedToDetails(assignedTo, function (resp) {
-            //                     if (!resp) {
-            //                         let msg = botDialogs.DEFAULT[lang];
-            //                         session.endDialog(msg);
-            //                         return false;
-            //                     } else {
-            //                         assignedTo = resp.result.name;
-            //                         message = commonTemplate.getFinalResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[session.conversationData.urgency][lang]} <%>Status : ${commonTemplate.incidentStatus[session.conversationData.incident_state][lang]} <%>Assigned To : ${resp.result.name}`, session.conversationData.short_description, buttonArr, assignedTo, 'IncidentStatus');
-            //                     }
-            //                 });
-            //             }
-            //             session.endDialog();
-            //             callback(`Start Over`);
-            //             session.beginDialog('updateIncident', message, function (err) {
-            //                 if (err) {
-            //                     session.send(new builder.Message().text('Error Occurred with isSearchById: ' + err.message));
-            //                 }
-            //             });
-            //         }
-            //     });
-            // });
             }
+            session.conversationData.IncidentNumber = results.response;
+            // Make API call to Service Now with Incident Id and get Response...
+            //  session.send(pleaseWait["INCIDENTSTATUS"][lang]);
+            let options = {
+                initialText: pleaseWait["INCIDENTSTATUS"][lang],
+                text: 'Please wait... This is taking a little longer than expected.',
+                speak: '<speak>Please wait.<break time="2s"/></speak>'
+            };
+
+            progress(session, options, function (callback) {
+                apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
+                    if (!data) {
+                        let msg = botDialogs.DEFAULT[lang];
+                        session.endDialog(msg);
+                        return false;
+                    }
+
+                    if (data.hasOwnProperty('error')) {
+                        let msg = botDialogs.INCIDENTNOTFOUND[lang];
+                        session.endDialog(msg);
+
+                        session.conversationData.IncidentNumber = '';
+                        session.beginDialog('isSearchById', null, function (err) {
+                            if (err) {
+                                session.send(new builder.Message().text('Error Occurred with isSearchById: ' + err.message));
+                            }
+                        });
+                    } else {
+                        let assignedTo = data.result[0].assigned_to == '' ? '-' : data.result[0].assigned_to.link;
+                        log.consoleDefault(assignedTo);
+                        log.consoleDefault(commonTemplate.incidentStatus[data.result[0].state][lang]);
+                        session.conversationData.incident_state = data.result[0].incident_state;
+                        session.conversationData.urgency = data.result[0].urgency;
+                        session.conversationData.category = data.result[0].category;
+                        session.conversationData.short_description = data.result[0].short_description;
+                        session.conversationData.sys_id = data.result[0].sys_id;
+                        var message = '';
+                        var buttonArr = commonTemplate.getButtonsList(session, 'CardArray');
+
+                        if (assignedTo == '-') {
+                            message = commonTemplate.getFinalResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[session.conversationData.urgency][lang]} <%>Status : ${commonTemplate.incidentStatus[session.conversationData.incident_state][lang]} <%>Assigned To : Unassigned`, session.conversationData.short_description, buttonArr, assignedTo, 'IncidentStatus');
+                        } else {
+                            // session.send(pleaseWait["DEFAULT"][lang]);
+                            apiService.getAssignedToDetails(assignedTo, function (resp) {
+                                if (!resp) {
+                                    let msg = botDialogs.DEFAULT[lang];
+                                    session.endDialog(msg);
+                                    return false;
+                                } else {
+                                    assignedTo = resp.result.name;
+                                    message = commonTemplate.getFinalResponse(session.message.source, session, session.conversationData.IncidentNumber, `Urgency : ${commonTemplate.urgencyStatic[session.conversationData.urgency][lang]} <%>Status : ${commonTemplate.incidentStatus[session.conversationData.incident_state][lang]} <%>Assigned To : ${resp.result.name}`, session.conversationData.short_description, buttonArr, assignedTo, 'IncidentStatus');
+                                }
+                            });
+                        }
+                        session.endDialog();
+                        callback(`Start Over`);
+                        session.beginDialog('updateIncident', message, function (err) {
+                            if (err) {
+                                session.send(new builder.Message().text('Error Occurred with isSearchById: ' + err.message));
+                            }
+                        });
+                    }
+                });
+            });
         }
     ];
 
