@@ -15,7 +15,9 @@
             options: options
         });
     }
-
+    function capitalizeFirstLetter(string) {
+        return string[0].toUpperCase() + string.slice(1);
+    }
     module.exports.beginDialog = [
         // function (session) {
         //     if(session.conversationData.severity == '' || session.conversationData.severity == undefined) {
@@ -113,6 +115,7 @@
     module.exports.viewResult = [
         function (session) {
             console.log('Inside the viewResult');
+            session.conversationData.shortDescription=capitalizeFirstLetter(session.conversationData.shortDescription);
             var objData = new jsonData.jsonRequest();
             objData.caller_id = 'rubin.crotts@example.com';
             objData.category = session.conversationData.category;
@@ -247,14 +250,15 @@
                             session.conversationData.category = '';
                             session.conversationData.shortDescription = '';
                             session.conversationData.severity = '';
-                            session.send('I have created your incident!');
-                            session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                                .title(`${data.result.number}`)
-                                .text(`Category : ${objData.category}`)
-                                .subtitle(`${objData.short_description}`)
-                            ));
-                            session.send(`You can check the status of your incident by simply typing your incident number eg: <b>incident status ${data.result.number}</b>`);
-                            session.send('Your incident will be assigned to a live agent shortly.');
+                            session.send(`I have created your incident!<br/>You can check the status of your incident by simply typing your incident number eg: <b>incident status ${data.result.number}</b>`);
+                            
+                          // session.send(`You can check the status of your incident by simply typing your incident number eg: <b>incident status ${data.result.number}</b>`);
+                         //   session.send('Your incident will be assigned to a live agent shortly.');
+                         session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                         .title(`${data.result.number}`)
+                         .text(`Category : ${objData.category}`)
+                         .subtitle(`${objData.short_description}`)
+                          ));
                             session.endDialog();
 
                             break;
