@@ -123,7 +123,7 @@
 
     var PLEASE_WAIT_MESSAGE = {
         "DEFAULT": {
-            "ENGLISH": "Hold on for a moment..."
+            "ENGLISH": "Hold on..! ​​​​​​​​​​​​​​​​​​​​​​​​​​​​🌈"
         },
         "CREATEINCIDENT": {
             "ENGLISH": "Hold on... Adding your incident..."

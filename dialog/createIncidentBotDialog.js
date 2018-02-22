@@ -250,7 +250,7 @@
                             session.conversationData.category = '';
                             session.conversationData.shortDescription = '';
                             session.conversationData.severity = '';
-                            session.send(`I have created your incident!<br/>You can check the status of your incident by simply typing your incident number eg: <b>incident status ${data.result.number}</b>`);
+                            session.send(`<i>I have created your incident!<br/>You can check the status of your incident by simply typing your incident number eg: <b>incident status ${data.result.number}</b></i>`);
                             
                           // session.send(`You can check the status of your incident by simply typing your incident number eg: <b>incident status ${data.result.number}</b>`);
                          //   session.send('Your incident will be assigned to a live agent shortly.');
