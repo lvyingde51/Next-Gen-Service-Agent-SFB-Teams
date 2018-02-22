@@ -1,5 +1,6 @@
 (function () {
     'use strict';
+    var builder = require('botbuilder');
 
     function jsonRequest() {
         this.short_description = null;
@@ -105,6 +106,73 @@
         'SERVICEREGEX': /^(ritm)\w+\d{6}$/gim
     };
 
+    var getButtons = function (session) {
+
+    }
+
+    var getButtonsList = function (session, type) {
+        // 1 - New | 2 - In Progress | 3 - On Hold | 6 - Resolved | 7 - Closed | 8 - Cancelled
+        var response = [];
+        if (type == 'CardArray') {
+            if (session.conversationData.incident_state == '7' || session.conversationData.incident_state == '8') {
+                response.push(builder.CardAction.imBack(session, "Reopen", "Reopen"));
+            } else {
+                response.push(builder.CardAction.imBack(session, "Add a Comment", "Add a Comment"));
+                response.push(builder.CardAction.imBack(session, "Close", "Close"));
+            }
+            response.push(builder.CardAction.imBack(session, "Thank You", "Thank You"));
+        } else {
+            if (session.conversationData.incident_state == '7' || session.conversationData.incident_state == '8') {
+                response.push("Reopen", "Thank You");
+            } else {
+                response.push("Add a Comment", "Close", "Thank You");
+            }
+        }
+        return response;
+    };
+
+    var getFinalResponse = function (platform, session, title, text, subtitle, buttons, params, messageType) {
+        var message = null;
+        let cardText = null;
+        if (platform == 'slack') {
+            if (messageType == 'IncidentUpdate') {
+                session.send('_Your comment has been added!_');
+            }
+            cardText = text.split('<%>').join('\n');
+            message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                .title(`*${title}*`)
+                .text(`${cardText}`)
+                .subtitle(`${subtitle}`)
+                .buttons(buttons)
+            );
+        }
+        else if (platform == 'msteams') {
+            if (messageType == 'IncidentUpdate') {
+                session.send('<i>Your comment has been added!</i>');
+            }
+            cardText = text.split('<%>').join('<br/>');
+            message = new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                .title(`${title}`)
+                .text(`${cardText}`)
+                .subtitle(`${subtitle}`)
+                .buttons(buttons)
+            );
+        } else {
+            if (messageType == 'IncidentUpdate') {
+                message = 'Your comment has been added:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Urgency : ' + commonTemplate.urgencyStatic[session.conversationData.urgency][lang] + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + session.conversationData.incident_state + ' <br/> Comments : ' + session.conversationData.comment;
+            } else if (messageType == 'SRStatus') {
+                message = 'These are the details of the requested Service Request:- <br/>Requested Item Number : ' + session.conversationData.SRNumber + ' <br/>Short Description : ' + session.conversationData.short_description + ' <br/>Installation Status: ' + commonTemplate.incidentStatus[session.conversationData.state][lang] + ' <br/>Approval: ' + session.conversationData.approval + ' <br/>Stage: ' + session.conversationData.Stage + ' <br/>Due Date: ' + session.conversationData.DueDate;
+            } else {
+                if (params == '-') {
+                    message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + session.conversationData.short_description + ' <br/>Urgency : ' + urgencyStatic[session.conversationData.urgency][lang] + ' <br/>Status: ' + incidentStatus[session.conversationData.incident_state][lang] + ' <br/>Assigned To: Unassigned';
+                } else {
+                    message = 'Below are the details for the requested incident :- <br/>Incident Id : ' + session.conversationData.IncidentNumber + ' <br/>Short Description : ' + session.conversationData.short_description + ' <br/>Urgency : ' + urgencyStatic[session.conversationData.urgency][lang] + ' <br/>Status: ' + incidentStatus[session.conversationData.incident_state][lang] + ' <br/>Assigned To: ' + assignedTo;
+                }
+            }
+        }
+        return message;
+    };
+
     module.exports.jsonRequest = jsonRequest;
     module.exports.incidentStatus = incidentStatus;
     module.exports.categoryStatic = categoryStatic;
@@ -116,4 +184,6 @@
     module.exports.camelCase = capitaliseString;
     module.exports.regexPattern = regexPattern;
     module.exports.progress = progress;
+    module.exports.getButtonsList = getButtonsList;
+    module.exports.getFinalResponse = getFinalResponse;
 }());
