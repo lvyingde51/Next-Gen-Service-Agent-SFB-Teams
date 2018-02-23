@@ -112,6 +112,7 @@
         //     .images(imageUrlArr)
         //     .buttons(buttonArr);
         // }
+        
         return new builder.HeroCard(session)
             .title(title)
             .text(resp)
@@ -208,7 +209,7 @@
     var BOT_MESSAGES_TEAMS = {
         "GREETING": {
             "ENGLISH": (session) => {
-                createHeroCard(session, process.env.AgentName, `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/><br/>If you are stuck at any point, you can type ‘help’.<br/><br/>How may I help you today?`, [], [])
+                return createHeroCard(session, process.env.AgentName, `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/><br/>If you are stuck at any point, you can type ‘help’.<br/><br/>How may I help you today?`, [], [])
             }
         },
         "CREATEINCIDENT_1": {
@@ -242,7 +243,7 @@
     var BOT_MESSAGES_SLACK = {
         "GREETING": {
             "ENGLISH": (session) => {
-                createHeroCard(session, process.env.AgentName, `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/><br/>If you are stuck at any point, you can type ‘help’.<br/><br/>How may I help you today?`, [], [])
+                return createHeroCard(session, process.env.AgentName, `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/><br/>If you are stuck at any point, you can type ‘help’.<br/><br/>How may I help you today?`, [], [])
             }
         },
         "CREATEINCIDENT_1": {
