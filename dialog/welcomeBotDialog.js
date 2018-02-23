@@ -14,37 +14,10 @@
                 session.conversationData.GreetingType = session.message.text.toUpperCase();
                 next({ response: session.conversationData.GreetingType });
             } else {
-                console.log('Inside greeting');
-                botDialog.getMessage(session, "GREETING", lang);
-                // // var txt = `Hi ${session.message.user.name ? session.message.user.name : ' '}, I am your ${process.env.AgentName}.I can help you create incidents and requests.You can also ask me the status of your incidents/requests.<br/>If you are stuck at any point, you can type ‘help’. Or if you’d like to stop what you are currently doing you can type ‘goodbye’.<br/>How may I help you today?`;
-                // // builder.Prompts.choice(session, txt, ['Incident Management', 'Service Management']);
-
-                // var txt = `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/><br/>If you are stuck at any point, you can type ‘help’.<br/><br/>How may I help you today?`;
-                // var msg = '';
-                // // var reply = new builder.Message()
-                // //     .address(session.message.address)
-                // //     .text(txt);
-                // // session.send(reply);
-
-                // switch (session.message.source) {
-                //     case 'skypeforbusiness':
-                //         builder.Prompts.choice(session, txt, ['Incident Management', 'Service Management']);
-                //         break;
-                //     case 'slack':
-                //         txt = `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I am your ${process.env.AgentName}. I can help you create incidents and requests. You can also ask me the status of your incidents/requests.\n\nIf you are stuck at any point, you can type ‘help’. Or if you’d like to stop what you are currently doing you can type ‘goodbye’.\n\nHow may I help you today?`;
-                //         msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session, txt));
-                //         session.endDialog(msg);
-                //         break;
-                //     default:
-                //         msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session, txt));
-                //         session.endDialog(msg);
-                //         break;
-                // }
+                session.endDialog(botDialog.getMessage(session, "GREETING", lang));
             }
         },
         function (session, results) {
-            log.consoleDefault(results);
-
             if (results.response.entity) {
                 let resp = results.response.entity;
                 session.conversationData.GreetingType = resp.toUpperCase();

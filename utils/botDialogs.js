@@ -91,28 +91,32 @@
     }
 
     function createHeroCard(session, title, resp, imageUrlArr, buttonArr) {
-        console.log(title, resp, imageUrlArr, buttonArr);
-        if (imageUrlArr.length <= 0 && buttonArr.length <= 0) {
-            return new builder.HeroCard(session)
-            .title(title)
-            .text(resp);
-        } else if (imageUrlArr.length > 0 && buttonArr.length <= 0) {
-            return new builder.HeroCard(session)
-            .title(title)
-            .text(resp)
-            .images(imageUrlArr);
-        } else if (imageUrlArr.length <= 0 && buttonArr.length > 0) {
-            return new builder.HeroCard(session)
-            .title(title)
-            .text(resp)
-            .buttons(buttonArr);
-        } else {
-            return new builder.HeroCard(session)
+        // if (imageUrlArr.length <= 0 && buttonArr.length <= 0) {
+        //     return new builder.HeroCard(session)
+        //     .title(title)
+        //     .text(resp);
+        // } else if (imageUrlArr.length > 0 && buttonArr.length <= 0) {
+        //     return new builder.HeroCard(session)
+        //     .title(title)
+        //     .text(resp)
+        //     .images(imageUrlArr);
+        // } else if (imageUrlArr.length <= 0 && buttonArr.length > 0) {
+        //     return new builder.HeroCard(session)
+        //     .title(title)
+        //     .text(resp)
+        //     .buttons(buttonArr);
+        // } else {
+        //     return new builder.HeroCard(session)
+        //     .title(title)
+        //     .text(resp)
+        //     .images(imageUrlArr)
+        //     .buttons(buttonArr);
+        // }
+        return new builder.HeroCard(session)
             .title(title)
             .text(resp)
             .images(imageUrlArr)
             .buttons(buttonArr);
-        }        
     }
 
     function createIncidentHeroCard(session) {
@@ -175,7 +179,7 @@
     var BOT_MESSAGES = {
         "GREETING": {
             "ENGLISH": (session) => {
-                builder.Prompts.choice(session, `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/><br/>If you are stuck at any point, you can type ‘help’.<br/><br/>How may I help you today?`, ['Incident Management', 'Service Management']);
+                return `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/><br/>If you are stuck at any point, you can type ‘help’.<br/><br/>How may I help you today?`;
             }
         },
         "CREATEINCIDENT_1": {
