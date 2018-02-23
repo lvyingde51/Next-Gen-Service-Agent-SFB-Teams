@@ -42,7 +42,6 @@
                 break;
             case 'msteams':
                 botResp = BOT_MESSAGES_TEAMS[propertyName];
-                console.log(botResp);
                 if (botResp) {
                     let botMsg = botResp[language];
                     if (botMsg) {
@@ -92,13 +91,28 @@
     }
 
     function createHeroCard(session, title, resp, imageUrlArr, buttonArr) {
-        console.log('inside hero card');
         console.log(title, resp, imageUrlArr, buttonArr);
-        return new builder.HeroCard(session)
+        if (imageUrlArr.length <= 0 && buttonArr.length <= 0) {
+            return new builder.HeroCard(session)
+            .title(title)
+            .text(resp);
+        } else if (imageUrlArr.length > 0 && buttonArr.length <= 0) {
+            return new builder.HeroCard(session)
+            .title(title)
+            .text(resp)
+            .images(imageUrlArr);
+        } else if (imageUrlArr.length <= 0 && buttonArr.length > 0) {
+            return new builder.HeroCard(session)
+            .title(title)
+            .text(resp)
+            .buttons(buttonArr);
+        } else {
+            return new builder.HeroCard(session)
             .title(title)
             .text(resp)
             .images(imageUrlArr)
             .buttons(buttonArr);
+        }        
     }
 
     function createIncidentHeroCard(session) {
@@ -190,8 +204,7 @@
     var BOT_MESSAGES_TEAMS = {
         "GREETING": {
             "ENGLISH": (session) => {
-                console.log('inside greeting');
-                return createHeroCard(session, process.env.AgentName, `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/><br/>If you are stuck at any point, you can type ‘help’.<br/><br/>How may I help you today?`, [], [])
+                createHeroCard(session, process.env.AgentName, `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/><br/>If you are stuck at any point, you can type ‘help’.<br/><br/>How may I help you today?`, [], [])
             }
         },
         "CREATEINCIDENT_1": {
