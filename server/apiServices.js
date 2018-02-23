@@ -4,22 +4,22 @@
     var log = require('../utils/logs');
     var apiList = require('../utils/commonTemplate').apiList
     const ServiceNowUserName = process.env.ServiceNowUserName;
-    const ServiceNowPwd = process.env.ServiceNowPassword;    
+    const ServiceNowPwd = process.env.ServiceNowPassword;
 
     const header = {
         'Cache-Control': 'no-cache',
         Accept: 'application/json',
         'Content-Type': 'application/json'
     };
-    
-    function isJson(body) {
-        try {
-            JSON.parse(body);
-        } catch (e) {
-            log.consoleDefault('API Error:' + e);
+
+    function  isJson(body, callback)  {
+        try  {
+            JSON.parse(body);
+        }  catch  (e)  {
+            log.consoleDefault('API Error:' + e);
             callback(null);
-        }
-        callback(body);
+        }
+        callback(body);
     }
 
     function getStatusByNumber(ticketnumber, type, callback) {
@@ -47,7 +47,7 @@
                         //log.consoleDefault('headers:' + response.headers);
                         //log.consoleDefault('status code:' + response.statusCode);
                         // log.consoleDefault('JSON parser:' + JSON.parse(body));
-                        isJson(body);
+                        isJson(body, callback);
                     }
                     catch (e) {
                         log.consoleDefault('API Error:' + e);
@@ -171,9 +171,9 @@
     };
     function updateStatusCommentService(dataService, type, sys_id, callback) {
         try {
-            console.log('-- URL --',apiList[type]+'/'+sys_id+'?sysparm_exclude_ref_link=true');
+            console.log('-- URL --', apiList[type] + '/' + sys_id + '?sysparm_exclude_ref_link=true');
             var options = {
-                url: apiList[type]+'/'+sys_id,
+                url: apiList[type] + '/' + sys_id,
                 method: 'PATCH',
                 header: header,
                 body: dataService,
