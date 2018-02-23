@@ -4,44 +4,41 @@
     var builder = require('botbuilder');
     var log = require('../utils/logs');
     var commonTemplate = require('../utils/commonTemplate');
+    var botDialog = require('../utils/botDialogs');
     const lang = 'ENGLISH';
 
     // Incident Request Status List
     module.exports.beginGreeting = [
         function (session, args, next) {
-            log.consoleDefault(session.message.source);
-            log.consoleDefault(session.message.text);
-            log.consoleDefault(session.message.text.toUpperCase());
-            log.consoleDefault(session.message.text.toUpperCase() == 'INCIDENT MANAGEMENT');
             if (session.message.text.toUpperCase() == 'INCIDENT MANAGEMENT' || session.message.text.toUpperCase() == 'SERVICE MANAGEMENT') {
                 session.conversationData.GreetingType = session.message.text.toUpperCase();
-                log.consoleDefault(session.conversationData.GreetingType);
                 next({ response: session.conversationData.GreetingType });
             } else {
-                // var txt = `Hi ${session.message.user.name ? session.message.user.name : ' '}, I am your ${process.env.AgentName}.I can help you create incidents and requests.You can also ask me the status of your incidents/requests.<br/>If you are stuck at any point, you can type ‘help’. Or if you’d like to stop what you are currently doing you can type ‘goodbye’.<br/>How may I help you today?`;
-                // builder.Prompts.choice(session, txt, ['Incident Management', 'Service Management']);
+                botDialog.getMessage(session, "GREETING", lang);
+                // // var txt = `Hi ${session.message.user.name ? session.message.user.name : ' '}, I am your ${process.env.AgentName}.I can help you create incidents and requests.You can also ask me the status of your incidents/requests.<br/>If you are stuck at any point, you can type ‘help’. Or if you’d like to stop what you are currently doing you can type ‘goodbye’.<br/>How may I help you today?`;
+                // // builder.Prompts.choice(session, txt, ['Incident Management', 'Service Management']);
 
-                var txt = `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/><br/>If you are stuck at any point, you can type ‘help’.<br/><br/>How may I help you today?`;
-                var msg = '';
-                // var reply = new builder.Message()
-                //     .address(session.message.address)
-                //     .text(txt);
-                // session.send(reply);
+                // var txt = `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/><br/>If you are stuck at any point, you can type ‘help’.<br/><br/>How may I help you today?`;
+                // var msg = '';
+                // // var reply = new builder.Message()
+                // //     .address(session.message.address)
+                // //     .text(txt);
+                // // session.send(reply);
 
-                switch (session.message.source) {
-                    case 'skypeforbusiness':
-                        builder.Prompts.choice(session, txt, ['Incident Management', 'Service Management']);
-                        break;
-                    case 'slack':
-                        txt = `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I am your ${process.env.AgentName}. I can help you create incidents and requests. You can also ask me the status of your incidents/requests.\n\nIf you are stuck at any point, you can type ‘help’. Or if you’d like to stop what you are currently doing you can type ‘goodbye’.\n\nHow may I help you today?`;
-                        msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session, txt));
-                        session.endDialog(msg);
-                        break;
-                    default:
-                        msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session, txt));
-                        session.endDialog(msg);
-                        break;
-                }
+                // switch (session.message.source) {
+                //     case 'skypeforbusiness':
+                //         builder.Prompts.choice(session, txt, ['Incident Management', 'Service Management']);
+                //         break;
+                //     case 'slack':
+                //         txt = `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I am your ${process.env.AgentName}. I can help you create incidents and requests. You can also ask me the status of your incidents/requests.\n\nIf you are stuck at any point, you can type ‘help’. Or if you’d like to stop what you are currently doing you can type ‘goodbye’.\n\nHow may I help you today?`;
+                //         msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session, txt));
+                //         session.endDialog(msg);
+                //         break;
+                //     default:
+                //         msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session, txt));
+                //         session.endDialog(msg);
+                //         break;
+                // }
             }
         },
         function (session, results) {

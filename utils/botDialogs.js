@@ -6,34 +6,33 @@
         if (!language) {
             language = "ENGLISH";
         }
-
         let botResp = null;
-
         switch (session.message.source) {
             case 'slack':
-                botResp = BOT_MESSAGES_TEAMS[propertyName];
+                botResp = BOT_MESSAGES_SLACK[propertyName];
                 if (botResp) {
                     let botMsg = botResp[language];
                     if (botMsg) {
-                        if (!botMsg.title) {
-                            botMsg.title = "";
-                        }
-                        if (!botMsg.subtitle) {
-                            botMsg.subtitle = "";
-                        }
-                        if (!botMsg.text) {
-                            botMsg.text = "";
-                        }
-                        if (!botMsg.buttons) {
-                            botMsg.buttons = [];
-                        }
+                        return BOT_MESSAGES_SLACK[propertyName][language](session);
+                        // if (!botMsg.title) {
+                        //     botMsg.title = "";
+                        // }
+                        // if (!botMsg.subtitle) {
+                        //     botMsg.subtitle = "";
+                        // }
+                        // if (!botMsg.text) {
+                        //     botMsg.text = "";
+                        // }
+                        // if (!botMsg.buttons) {
+                        //     botMsg.buttons = [];
+                        // }
 
-                        return new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                            .title(botMsg.title)
-                            .subtitle(botMsg.subtitle)
-                            .text(botMsg.text)
-                            .images()
-                            .buttons(botMsg.buttons));
+                        // return new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
+                        //     .title(botMsg.title)
+                        //     .subtitle(botMsg.subtitle)
+                        //     .text(botMsg.text)
+                        //     .images()
+                        //     .buttons(botMsg.buttons));
                     } else {
                         return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
                     }
@@ -42,21 +41,30 @@
                 }
                 break;
             case 'msteams':
-                break;
-            default:
-                botResp = BOT_MESSAGES[propertyName];
+                botResp = BOT_MESSAGES_SLACK[propertyName];
                 if (botResp) {
                     let botMsg = botResp[language];
                     if (botMsg) {
-                        return botMsg;
+                        return BOT_MESSAGES_TEAMS[propertyName][language](session);
                     } else {
                         return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
                     }
                 } else {
                     return 'Error :: Bot Message configuration is not available for Property ' + propertyName;
                 }
-
-                return BOT_MESSAGES[propertyName][language];
+                break;
+            default:
+                botResp = BOT_MESSAGES[propertyName];
+                if (botResp) {
+                    let botMsg = botResp[language];
+                    if (botMsg) {
+                        return BOT_MESSAGES[propertyName][language](session);
+                    } else {
+                        return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
+                    }
+                } else {
+                    return 'Error :: Bot Message configuration is not available for Property ' + propertyName;
+                }
                 break;
         }
     }
@@ -82,19 +90,12 @@
         }
     }
 
-    function createWelcomeHeroCard(session, resp) {
+    function createHeroCard(session, title, resp, imageUrlArr, buttonArr) {
         return new builder.HeroCard(session)
-            .title(process.env.AgentName)
+            .title(title)
             .text(resp)
-            // .images([
-            //     builder.CardImage.create(session, process.env.LogoURL)
-            // ])
-            .buttons([
-                /* builder.CardAction.imBack(session, 'Create Incident', 'Create Incident'),
-                 builder.CardAction.imBack(session, 'Get Incidents','Get Incidents'),
-                 builder.CardAction.imBack(session, 'Create Service Request', 'Create Service Request'),
-                 builder.CardAction.imBack(session, 'Get Service Status','Get Service Status')*/
-            ]);
+            .images(imageUrlArr)
+            .buttons(buttonArr);
     }
 
     function createIncidentHeroCard(session) {
@@ -155,6 +156,11 @@
     };
 
     var BOT_MESSAGES = {
+        "GREETING": {
+            "ENGLISH": (session) => {
+                builder.Prompts.choice(session, `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/><br/>If you are stuck at any point, you can type ‘help’.<br/><br/>How may I help you today?`, ['Incident Management', 'Service Management']);
+            }
+        },
         "CREATEINCIDENT_1": {
             "ENGLISH": "I have created your incident!"
         },
@@ -179,6 +185,9 @@
     };
 
     var BOT_MESSAGES_TEAMS = {
+        "GREETING": {
+            "ENGLISH": (session) => createHeroCard(session, process.env.AgentName, `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/><br/>If you are stuck at any point, you can type ‘help’.<br/><br/>How may I help you today?`, [], [])
+        },
         "CREATEINCIDENT_1": {
             "ENGLISH": "I have created your incident!"
         },
@@ -208,6 +217,9 @@
     };
 
     var BOT_MESSAGES_SLACK = {
+        "GREETING": {
+            "ENGLISH": (session) => createHeroCard(session, process.env.AgentName, `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/><br/>If you are stuck at any point, you can type ‘help’.<br/><br/>How may I help you today?`, [], [])
+        },
         "CREATEINCIDENT_1": {
             "ENGLISH": "_I have created your incident!_"
         },
@@ -237,23 +249,23 @@
     };
 
     var ERROR_MESSAGES = {
-        "DEFAULT" : {
-            "ENGLISH" : "Oops! There was an error connecting to our service desk. Please try again later."
+        "DEFAULT": {
+            "ENGLISH": "Oops! There was an error connecting to our service desk. Please try again later."
         },
-        "INCIDENTNOTFOUND" : {
-            "ENGLISH" : "Uh-oh! I couldn't find this incident. Please try again with a valid incident id."
+        "INCIDENTNOTFOUND": {
+            "ENGLISH": "Uh-oh! I couldn't find this incident. Please try again with a valid incident id."
         },
-        "SRIDNOTFOUND" : {
-            "ENGLISH" : "Oh no..this Service Id does not exist. Please try again with a valid service number."
+        "SRIDNOTFOUND": {
+            "ENGLISH": "Oh no..this Service Id does not exist. Please try again with a valid service number."
         },
-        "INCIDENTOPEN" : {
-            "ENGLISH" : "Whoops! This incident is already open!"
+        "INCIDENTOPEN": {
+            "ENGLISH": "Whoops! This incident is already open!"
         },
-        "INVALIDINCIDENTFORMAT" : {
-            "ENGLISH" : "It seems you have entered the incident number in wrong format!"
+        "INVALIDINCIDENTFORMAT": {
+            "ENGLISH": "It seems you have entered the incident number in wrong format!"
         },
-        "INVALIDSERVICEFORMAT" : {
-            "ENGLISH" : "It seems you have entered the service number in wrong format!"
+        "INVALIDSERVICEFORMAT": {
+            "ENGLISH": "It seems you have entered the service number in wrong format!"
         }
     };
 
