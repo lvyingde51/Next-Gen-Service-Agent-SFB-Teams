@@ -112,12 +112,16 @@
         //     .images(imageUrlArr)
         //     .buttons(buttonArr);
         // }
-        
-        return new builder.HeroCard(session)
+
+        console.log('hero card');
+        let card = new builder.HeroCard(session)
             .title(title)
             .text(resp)
             .images(imageUrlArr)
             .buttons(buttonArr);
+
+            console.log(card);
+        return card;
     }
 
     function createIncidentHeroCard(session) {
