@@ -44,7 +44,6 @@
         function (session, args, next) {
             if (!session.conversationData.IncidentNumber) {
                 builder.Prompts.text(session, 'Please provide your Incident Id');
-                builder.Prompts.text(session, 'Please provide your Incident Id');
             } else {
                 next({ response: session.conversationData.IncidentNumber });
             }
