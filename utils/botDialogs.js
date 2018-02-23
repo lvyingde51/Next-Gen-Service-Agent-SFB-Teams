@@ -48,8 +48,9 @@
                     if (botMsg) {
                         console.log(botResp);
                         console.log(BOT_MESSAGES_TEAMS[propertyName][language]);
-                        console.log(BOT_MESSAGES_TEAMS[propertyName][language]());
+                        // console.log(BOT_MESSAGES_TEAMS[propertyName][language]());
                         console.log(BOT_MESSAGES_TEAMS[propertyName][language](session));
+                        BOT_MESSAGES_TEAMS[propertyName][language](session)
                         return BOT_MESSAGES_TEAMS[propertyName][language](session);
                     } else {
                         return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
@@ -192,6 +193,8 @@
     var BOT_MESSAGES_TEAMS = {
         "GREETING": {
             "ENGLISH": (session) => {
+                console.log('inside greeting');
+                console.log(session);
                 createHeroCard(session, process.env.AgentName, `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/><br/>If you are stuck at any point, you can type ‘help’.<br/><br/>How may I help you today?`, [], [])
             }
         },
