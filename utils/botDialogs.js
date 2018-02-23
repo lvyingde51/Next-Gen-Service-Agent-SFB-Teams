@@ -42,6 +42,7 @@
                 break;
             case 'msteams':
                 botResp = BOT_MESSAGES_SLACK[propertyName];
+                console.log(botResp);
                 if (botResp) {
                     let botMsg = botResp[language];
                     if (botMsg) {

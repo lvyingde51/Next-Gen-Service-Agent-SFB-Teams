@@ -14,6 +14,7 @@
                 session.conversationData.GreetingType = session.message.text.toUpperCase();
                 next({ response: session.conversationData.GreetingType });
             } else {
+                console.log('Inside greeting');
                 botDialog.getMessage(session, "GREETING", lang);
                 // // var txt = `Hi ${session.message.user.name ? session.message.user.name : ' '}, I am your ${process.env.AgentName}.I can help you create incidents and requests.You can also ask me the status of your incidents/requests.<br/>If you are stuck at any point, you can type ‘help’. Or if you’d like to stop what you are currently doing you can type ‘goodbye’.<br/>How may I help you today?`;
                 // // builder.Prompts.choice(session, txt, ['Incident Management', 'Service Management']);
