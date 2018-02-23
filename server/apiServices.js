@@ -11,16 +11,37 @@
         Accept: 'application/json',
         'Content-Type': 'application/json'
     };
+    function isJson(item, callback) {
+        item = typeof item !== "string"
+            ? JSON.stringify(item)
+            : item;
 
-    function  isJson(body, callback)  {
-        try  {
-            JSON.parse(body);
-        }  catch  (e)  {
-            log.consoleDefault('API Error:' + e);
+        try {
+            item = JSON.parse(item);
+        } catch (e) {
             callback(null);
+            log.consoleDefault('API Error:' + e);
+            return false;
         }
-        callback(body);
+
+        if (typeof item === "object" && item !== null) {
+            callback(item);
+            return true;
+        }
+        log.consoleDefault('API Error:' + e);
+        callback(null);
+        return false;
     }
+
+    // function  isJson(body, callback)  {
+    //     try  {
+    //         JSON.parse(body);
+    //     }  catch  (e)  {
+    //         log.consoleDefault('API Error:' + e);
+    //         callback(null);
+    //     }
+    //     callback(body);
+    // }
 
     function getStatusByNumber(ticketnumber, type, callback) {
         try {
