@@ -41,12 +41,14 @@
                 }
                 break;
             case 'msteams':
-                botResp = BOT_MESSAGES_SLACK[propertyName];
+                botResp = BOT_MESSAGES_TEAMS[propertyName];
                 console.log(botResp);
                 if (botResp) {
                     let botMsg = botResp[language];
                     if (botMsg) {
                         console.log(botResp);
+                        console.log(BOT_MESSAGES_TEAMS[propertyName][language]);
+                        console.log(BOT_MESSAGES_TEAMS[propertyName][language]());
                         console.log(BOT_MESSAGES_TEAMS[propertyName][language](session));
                         return BOT_MESSAGES_TEAMS[propertyName][language](session);
                     } else {
