@@ -51,6 +51,7 @@
         function (session, results) {
             if (!results.response.match(commonTemplate.regexPattern['INCIDENTREGEX'])) {
                 session.conversationData.IncidentNumber = '';
+                console.log('this is inside reprompt');
                 builder.Prompts.text(session, botDialogs.INVALIDINCIDENTFORMAT[lang], {
                     retryPrompt: 'Sorry This is not a message',
                     maxRetries: 2
