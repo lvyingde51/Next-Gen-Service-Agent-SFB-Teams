@@ -73,6 +73,7 @@
                     if (!data) {
                         let msg = botDialogs.DEFAULT[lang];
                         session.endDialog(msg);
+                        callback(`Start Over`);
                         return false;
                     }
 
