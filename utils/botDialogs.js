@@ -93,6 +93,7 @@
 
     function createHeroCard(session, title, resp, imageUrlArr, buttonArr) {
         console.log('inside hero card');
+        console.log(title, resp, imageUrlArr, buttonArr);
         return new builder.HeroCard(session)
             .title(title)
             .text(resp)
