@@ -11,6 +11,16 @@
         Accept: 'application/json',
         'Content-Type': 'application/json'
     };
+    
+    function isJson(body) {
+        try {
+            JSON.parse(body);
+        } catch (e) {
+            log.consoleDefault('API Error:' + e);
+            callback(null);
+        }
+        callback(body);
+    }
 
     function getStatusByNumber(ticketnumber, type, callback) {
         try {
@@ -37,7 +47,7 @@
                         //log.consoleDefault('headers:' + response.headers);
                         //log.consoleDefault('status code:' + response.statusCode);
                         // log.consoleDefault('JSON parser:' + JSON.parse(body));
-                        callback(body);
+                        isJson(body);
                     }
                     catch (e) {
                         log.consoleDefault('API Error:' + e);
