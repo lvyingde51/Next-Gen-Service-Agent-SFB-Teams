@@ -374,6 +374,7 @@
                 objData.comments = session.conversationData.commentReopenIncident;
                 session.send(pleaseWait["INCIDENTADDCOMMENT"][lang]);
                 apiService.updateStatusCommentService(JSON.parse(JSON.stringify(objData)), reqType, session.conversationData.sys_id, function (data) {
+                    console.log(session.message.source);
                     switch (session.message.source) {
                         case 'slack':
                             session.send('_Your comment has been added!_');
@@ -385,6 +386,7 @@
                             session.endDialog();
                             break;
                         case 'msteams':
+                        console.log('Y card is coming');
                             session.send('Your comment has been added!');
                             session.send(new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
                                 .title(`${session.conversationData.IncidentNumber}`)
@@ -394,6 +396,7 @@
                             session.endDialog();
                             break;
                         default:
+                        console.log('Y card not coming');
                             let msg = 'Your comment has been added:- <br/>Incident Id : ' + session.conversationData.IncidentNumber + '<br/>Category : ' + session.conversationData.category + '<br/>Short Description : ' + session.conversationData.short_description + ' <br/>Status: ' + jsonData.incidentStatus[session.conversationData.incident_state][lang] + ' <br/> Comments : ' + session.conversationData.commentReopenIncident;
                             session.endDialog(msg);
                             break;
