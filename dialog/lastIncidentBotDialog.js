@@ -172,11 +172,6 @@
             });
         },
         function (session, results) {
-            session.conversationData.test = results.response;
-            console.log(session.conversationData.test);
-            session.endDialog('Happy to help!');
-        },
-        function (session, results) {
             session.conversationData.capturedOption = results.response.entity;
             if (results.response.entity == 'Thank You') {
                 session.endDialog('Happy to help!');
