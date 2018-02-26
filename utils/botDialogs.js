@@ -81,30 +81,6 @@
             .buttons(buttonArr));
     }
 
-    function createIncidentHeroCard(session) {
-        return new builder.Message(session).addAttachment(new builder.HeroCard(session)
-            .title('Incident Management')
-            // .images([
-            //     builder.CardImage.create(session, process.env.IncidentLogo)
-            // ])
-            .buttons([
-                builder.CardAction.imBack(session, 'Create Incident', 'Create Incident'),
-                builder.CardAction.imBack(session, 'Incident Status', 'Incident Status')
-            ]));
-    }
-
-    function createServiceHeroCard(session) {
-        return new builder.Message(session).addAttachment(new builder.HeroCard(session)
-            .title('Service Management')
-            // .images([
-            //     builder.CardImage.create(session, process.env.ServiceReqLogo)
-            // ])
-            .buttons([
-                builder.CardAction.imBack(session, 'Create Service Request', 'Create Service Request'),
-                builder.CardAction.imBack(session, 'Service Status', 'Service Status')
-            ]));
-    }
-
     var PLEASE_WAIT_MESSAGE = {
         "DEFAULT": {
             "ENGLISH": "Hold on for a moment..."
@@ -135,6 +111,9 @@
         },
         "INCIDENTADDCOMMENT": {
             "ENGLISH": "Alright... Sending your comment..."
+        },
+        "PROCESSING" : {
+            "ENGLISH" : "Please wait... This is taking a little longer than expected..."
         }
     };
 
@@ -173,6 +152,16 @@
         "SRSTATUS": {
             "ENGLISH": {
 
+            }
+        },
+        "ADDCOMMENT": {
+            "ENGLISH" : (session) => {
+                return `Okay, Please enter your comment`;
+            }
+        },
+        "THANKYOU" : {
+            "ENGLISH" : (session) => {
+                return `Happy to help`;
             }
         }
     };
@@ -224,6 +213,16 @@
             "ENGLISH": {
 
             }
+        },
+        "ADDCOMMENT": {
+            "ENGLISH" : (session) => {
+                return `Okay, Please enter your comment`;
+            }
+        },
+        "THANKYOU" : {
+            "ENGLISH" : (session) => {
+                return `Happy to help`;
+            }
         }
     };
 
@@ -273,6 +272,16 @@
         "SRSTATUS": {
             "ENGLISH": {
 
+            }
+        },
+        "ADDCOMMENT": {
+            "ENGLISH" : (session) => {
+                return `Okay, Please enter your comment`;
+            }
+        },
+        "THANKYOU" : {
+            "ENGLISH" : (session) => {
+                return `Happy to help`;
             }
         }
     };

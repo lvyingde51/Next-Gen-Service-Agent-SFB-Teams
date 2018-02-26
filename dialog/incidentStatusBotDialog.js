@@ -11,7 +11,7 @@
     const lang = 'ENGLISH';
     const reqType = 'INCIDENTSTATUS';
     const reqListType = 'INCIDENTLIST';
-    var botDialogs = require('../utils/botDialogs').sendError;
+    var botDialog = require('../utils/botDialogs');
     var progress = require('../utils/commonTemplate').progress;
 
     // Incident Request Status List
@@ -51,7 +51,7 @@
         function (session, results) {
             if (!results.response.match(commonTemplate.regexPattern['INCIDENTREGEX'])) {
                 session.conversationData.IncidentNumber = '';
-                session.endDialog(botDialogs.INVALIDINCIDENTFORMAT[lang]);
+                session.endDialog(botDialog.sendError.INVALIDINCIDENTFORMAT[lang]);
                 // session.beginDialog('isSearchById', function (err) {
                 //     if (err) {
                 //         session.send(new builder.Message().text('Error Occurred with isSearchById ' + err.message));
@@ -71,13 +71,13 @@
             progress(session, options, function (callback) {
                 apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
                     if (!data) {
-                        let msg = botDialogs.DEFAULT[lang];
+                        let msg = botDialog.sendError.DEFAULT[lang];
                         session.endDialog(msg);
                         return false;
                     }
 
                     if (data.hasOwnProperty('error')) {
-                        let msg = botDialogs.INCIDENTNOTFOUND[lang];
+                        let msg = botDialog.sendError.INCIDENTNOTFOUND[lang];
                         session.endDialog(msg);
 
                         session.conversationData.IncidentNumber = '';
@@ -104,7 +104,7 @@
                             // session.send(pleaseWait["DEFAULT"][lang]);
                             apiService.getAssignedToDetails(assignedTo, function (resp) {
                                 if (!resp) {
-                                    let msg = botDialogs.DEFAULT[lang];
+                                    let msg = botDialog.sendError.DEFAULT[lang];
                                     session.endDialog(msg);
                                     return false;
                                 } else {
@@ -135,7 +135,7 @@
             session.send(pleaseWait["INCIDENTLIST"][lang]);
             apiService.getStatusByList(reqListType, function (data) {
                 if (!data) {
-                    let msg = botDialogs.DEFAULT[lang];
+                    let msg = botDialog.sendError.DEFAULT[lang];
                     session.endDialog(msg);
                     return false;
                 } else {
@@ -184,7 +184,7 @@
                 progress(session, options, function (callback) {
                     apiService.getAssignedToDetails(assignedTo, function (resp) {
                         if (!resp) {
-                            let msg = botDialogs.DEFAULT[lang];
+                            let msg = botDialog.sendError.DEFAULT[lang];
                             session.endDialog(msg);
                             return false;
                         } else {
@@ -210,7 +210,7 @@
             }
             catch (err) {
                 log.consoleDefault('Incident status Error:' + err);
-                let msg = botDialogs.DEFAULT[lang];
+                let msg = botDialog.sendError.DEFAULT[lang];
                 session.endDialog(msg);
                 return false;
             }
@@ -218,9 +218,9 @@
         function (session, results) {
             session.conversationData.capturedOption = results.response.entity;
             if (results.response.entity == 'Thank You') {
-                session.endDialog('Happy to help!');
+                session.endDialog(botDialog.getMessage(session, "THANKYOU", lang));
             } else {
-                builder.Prompts.text(session, 'Okay, Please enter your comment');
+                builder.Prompts.text(session, botDialog.getMessage(session, "ADDCOMMENT", lang));
             }
         },
         function (session, results) {
@@ -242,7 +242,7 @@
 
             let options = {
                 initialText: pleaseWait[waitType][lang],
-                text: 'Please wait... This is taking a little longer than expected.',
+                text: pleaseWait["PROCESSING"][lang],
                 speak: '<speak>Please wait.<break time="2s"/></speak>'
             };
 
