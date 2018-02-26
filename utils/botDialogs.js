@@ -28,6 +28,7 @@
                 if (botResp) {
                     botMsg = botResp[language];
                     if (botMsg) {
+                        console.log(BOT_MESSAGES_TEAMS[propertyName][language](session));
                         return BOT_MESSAGES_TEAMS[propertyName][language](session);
                     } else {
                         return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;

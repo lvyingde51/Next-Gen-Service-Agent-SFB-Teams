@@ -27,7 +27,8 @@
     module.exports.shortDescription = [
         function (session) {
             if (session.conversationData.shortDescription == '' || session.conversationData.shortDescription == undefined) {
-                builder.Prompts.text(session, botDialog.getMessage(session, "SHORTDESCPROMPT", lang));
+                let msg = botDialog.getMessage(session, "SHORTDESCPROMPT", lang)
+                builder.Prompts.text(session, msg);
             } else {
                 builder.Prompts.choice(session, 'We have a short description that you entered earlier ie., `' + session.conversationData.shortDescription + '` Can we take this as the description of the incident?', ['yes', 'no']);
             }
