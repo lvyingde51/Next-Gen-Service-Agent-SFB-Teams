@@ -14,7 +14,8 @@
                 if (botResp) {
                     botMsg = botResp[language];
                     if (botMsg) {
-                        return botMsg(session);
+                    botMsg = botResp[language];
+                        return BOT_MESSAGES_SLACK[propertyName][language](session);
                     } else {
                         return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
                     }
@@ -27,7 +28,7 @@
                 if (botResp) {
                     botMsg = botResp[language];
                     if (botMsg) {
-                        return botMsg(session);
+                        return BOT_MESSAGES_TEAMS[propertyName][language](session);
                     } else {
                         return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
                     }
@@ -40,7 +41,7 @@
                 if (botResp) {
                     botMsg = botResp[language];
                     if (botMsg) {
-                        return botMsg(session);
+                        return BOT_MESSAGES[propertyName][language](session);
                     } else {
                         return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
                     }
