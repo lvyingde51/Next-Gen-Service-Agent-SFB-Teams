@@ -45,7 +45,8 @@
                 if (botResp) {
                     let botMsg = botResp[language];
                     if (botMsg) {
-                        return BOT_MESSAGES_TEAMS[propertyName][language](session);
+                        return botMsg(session);
+                        // return BOT_MESSAGES_TEAMS[propertyName][language](session);
                     } else {
                         return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
                     }
@@ -119,7 +120,9 @@
             .text(resp)
             .images(imageUrlArr)
             .buttons(buttonArr);
-        return card;
+
+        session.send(card);
+        // return card;        
     }
 
     function createIncidentHeroCard(session) {

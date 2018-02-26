@@ -14,10 +14,7 @@
                 session.conversationData.GreetingType = session.message.text.toUpperCase();
                 next({ response: session.conversationData.GreetingType });
             } else {
-                let message = botDialog.getMessage(session, "GREETING", lang);
-                console.log(message);
-                session.send(message);
-                // session.endDialog(message);
+                session.endDialog(botDialog.getMessage(session, "GREETING", lang));
             }
         },
         function (session, results) {
