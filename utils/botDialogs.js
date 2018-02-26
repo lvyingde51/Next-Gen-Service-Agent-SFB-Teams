@@ -118,8 +118,8 @@
         let card = new builder.HeroCard(session)
             .title(title)
             .text(resp)
-            .images(imageUrlArr)
-            .buttons(buttonArr);
+            // .images(imageUrlArr)
+            // .buttons(buttonArr);
 
         session.send(card);
         // return card;        
