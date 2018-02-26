@@ -133,6 +133,9 @@
                 return builder.Prompts.choice(session, 'Choose a service', ['Create Service Request', 'Service Status']);
             }
         },
+        "SHORTDESCPROMPT": {
+            "ENGLISH": "Please give me a short description of the incident you’d like to report"
+        },
         "CREATEINCIDENT_1": {
             "ENGLISH": "I have created your incident!"
         },
@@ -187,6 +190,9 @@
                 buttonsArr.push(builder.CardAction.imBack(session, 'Service Status', 'Service Status'));
                 return createHeroCard(session, 'Service Management', '', [], buttonsArr)
             }
+        },
+        "SHORTDESCPROMPT": {
+            "ENGLISH": "Please give me a short description of the incident you’d like to report"
         },
         "CREATEINCIDENT_1": {
             "ENGLISH": "I have created your incident!"
@@ -247,6 +253,9 @@
                 buttonsArr.push(builder.CardAction.imBack(session, 'Service Status', 'Service Status'));
                 return createHeroCard(session, 'Service Management', '', [], buttonsArr)
             }
+        },
+        "SHORTDESCPROMPT": {
+            "ENGLISH": "Please give me a short description of the incident you’d like to report"
         },
         "CREATEINCIDENT_1": {
             "ENGLISH": "_I have created your incident!_"

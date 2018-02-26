@@ -8,6 +8,7 @@
     var mailer = require('../utils/commonMailer').sendMail;
     const lang = 'ENGLISH';
     const reqType = 'CREATEINCIDENT';
+    var botDialog = require('../utils/botDialogs');
   
     module.exports.beginDialog = [
         function (session) {
@@ -26,7 +27,7 @@
     module.exports.shortDescription = [
         function (session) {
             if (session.conversationData.shortDescription == '' || session.conversationData.shortDescription == undefined) {
-                builder.Prompts.text(session, 'Please give me a short description of the incident you’d like to report');
+                builder.Prompts.text(session, botDialog.getMessage(session, "SHORTDESCPROMPT", lang));
             } else {
                 builder.Prompts.choice(session, 'We have a short description that you entered earlier ie., `' + session.conversationData.shortDescription + '` Can we take this as the description of the incident?', ['yes', 'no']);
             }
