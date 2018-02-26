@@ -135,7 +135,7 @@
         },
         "SHORTDESCPROMPT": {
             "ENGLISH": (session) => {
-                "Please give me a short description of the incident you’d like to report"
+                return "Please give me a short description of the incident you’d like to report"
             }
         },
         "CREATEINCIDENT_1": {
@@ -195,7 +195,7 @@
         },
         "SHORTDESCPROMPT": {
             "ENGLISH": (session) => {
-                "Please give me a short description of the incident you’d like to report"
+                return "Please give me a short description of the incident you’d like to report"
             }
         },
         "CREATEINCIDENT_1": {
@@ -260,7 +260,7 @@
         },
         "SHORTDESCPROMPT": {
             "ENGLISH": (session) => {
-                "Please give me a short description of the incident you’d like to report"
+                return "Please give me a short description of the incident you’d like to report"
             }
         },
         "CREATEINCIDENT_1": {
