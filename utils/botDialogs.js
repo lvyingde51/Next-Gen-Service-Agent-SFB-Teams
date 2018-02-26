@@ -14,8 +14,7 @@
                 if (botResp) {
                     botMsg = botResp[language];
                     if (botMsg) {
-                    botMsg = botResp[language];
-                        return BOT_MESSAGES_SLACK[propertyName][language](session);
+                        return botMsg(session);
                     } else {
                         return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
                     }
@@ -28,7 +27,7 @@
                 if (botResp) {
                     botMsg = botResp[language];
                     if (botMsg) {
-                        return BOT_MESSAGES_TEAMS[propertyName][language](session);
+                        return botMsg(session);
                     } else {
                         return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
                     }
@@ -41,7 +40,7 @@
                 if (botResp) {
                     botMsg = botResp[language];
                     if (botMsg) {
-                        return BOT_MESSAGES[propertyName][language](session);
+                        return botMsg(session);
                     } else {
                         return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
                     }
@@ -116,8 +115,8 @@
         "INCIDENTADDCOMMENT": {
             "ENGLISH": "Alright... Sending your comment..."
         },
-        "PROCESSING" : {
-            "ENGLISH" : "Please wait... This is taking a little longer than expected..."
+        "PROCESSING": {
+            "ENGLISH": "Please wait... This is taking a little longer than expected..."
         }
     };
 
@@ -138,7 +137,9 @@
             }
         },
         "SHORTDESCPROMPT": {
-            "ENGLISH": "Please give me a short description of the incident you’d like to report"
+            "ENGLISH": (session) => {
+                "Please give me a short description of the incident you’d like to report"
+            }
         },
         "CREATEINCIDENT_1": {
             "ENGLISH": "I have created your incident!"
@@ -162,12 +163,12 @@
             }
         },
         "ADDCOMMENT": {
-            "ENGLISH" : (session) => {
+            "ENGLISH": (session) => {
                 return `Okay, Please enter your comment`;
             }
         },
-        "THANKYOU" : {
-            "ENGLISH" : (session) => {
+        "THANKYOU": {
+            "ENGLISH": (session) => {
                 return `Happy to help`;
             }
         }
@@ -196,7 +197,9 @@
             }
         },
         "SHORTDESCPROMPT": {
-            "ENGLISH": "Please give me a short description of the incident you’d like to report"
+            "ENGLISH": (session) => {
+                "Please give me a short description of the incident you’d like to report"
+            }
         },
         "CREATEINCIDENT_1": {
             "ENGLISH": "I have created your incident!"
@@ -225,12 +228,12 @@
             }
         },
         "ADDCOMMENT": {
-            "ENGLISH" : (session) => {
+            "ENGLISH": (session) => {
                 return `Okay, Please enter your comment`;
             }
         },
-        "THANKYOU" : {
-            "ENGLISH" : (session) => {
+        "THANKYOU": {
+            "ENGLISH": (session) => {
                 return `Happy to help`;
             }
         }
@@ -259,7 +262,9 @@
             }
         },
         "SHORTDESCPROMPT": {
-            "ENGLISH": "Please give me a short description of the incident you’d like to report"
+            "ENGLISH": (session) => {
+                "Please give me a short description of the incident you’d like to report"
+            }
         },
         "CREATEINCIDENT_1": {
             "ENGLISH": "_I have created your incident!_"
@@ -288,12 +293,12 @@
             }
         },
         "ADDCOMMENT": {
-            "ENGLISH" : (session) => {
+            "ENGLISH": (session) => {
                 return `Okay, Please enter your comment`;
             }
         },
-        "THANKYOU" : {
-            "ENGLISH" : (session) => {
+        "THANKYOU": {
+            "ENGLISH": (session) => {
                 return `Happy to help`;
             }
         }
