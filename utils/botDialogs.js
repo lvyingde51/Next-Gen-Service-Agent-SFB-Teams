@@ -15,25 +15,6 @@
                     botMsg = botResp[language];
                     if (botMsg) {
                         return botMsg(session);
-                        // if (!botMsg.title) {
-                        //     botMsg.title = "";
-                        // }
-                        // if (!botMsg.subtitle) {
-                        //     botMsg.subtitle = "";
-                        // }
-                        // if (!botMsg.text) {
-                        //     botMsg.text = "";
-                        // }
-                        // if (!botMsg.buttons) {
-                        //     botMsg.buttons = [];
-                        // }
-
-                        // return new builder.Message(session).addAttachment(new builder.ThumbnailCard(session)
-                        //     .title(botMsg.title)
-                        //     .subtitle(botMsg.subtitle)
-                        //     .text(botMsg.text)
-                        //     .images()
-                        //     .buttons(botMsg.buttons));
                     } else {
                         return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
                     }
@@ -70,27 +51,6 @@
         }
     }
 
-    var greetingMessage = {
-        'beginGreeting': (session, platform) => {
-            var txt = `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I am your ${process.env.AgentName}. I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/><br/>If you are stuck at any point, you can type ‘help’. Or if you’d like to stop what you are currently doing you can type ‘goodbye’.<br/><br/>How may I help you today?`;
-            var msg = '';
-            switch (session.message.source) {
-                case 'skypeforbusiness':
-                    builder.Prompts.choice(session, txt, ['Incident Management', 'Service Management']);
-                    break;
-                case 'slack':
-                    txt = `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I am your ${process.env.AgentName}. I can help you create incidents and requests. You can also ask me the status of your incidents/requests.\n\nIf you are stuck at any point, you can type ‘help’. Or if you’d like to stop what you are currently doing you can type ‘goodbye’.\n\nHow may I help you today?`;
-                    msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session, txt));
-                    session.endDialog(msg);
-                    break;
-                default:
-                    msg = new builder.Message(session).addAttachment(createWelcomeHeroCard(session, txt));
-                    session.endDialog(msg);
-                    break;
-            }
-        }
-    }
-
     function createHeroCard(session, title, resp, imageUrlArr, buttonArr) {
         // if (imageUrlArr.length <= 0 && buttonArr.length <= 0) {
         //     return new builder.HeroCard(session)
@@ -122,7 +82,7 @@
     }
 
     function createIncidentHeroCard(session) {
-        return new builder.HeroCard(session)
+        return new builder.Message(session).addAttachment(new builder.HeroCard(session)
             .title('Incident Management')
             // .images([
             //     builder.CardImage.create(session, process.env.IncidentLogo)
@@ -130,11 +90,11 @@
             .buttons([
                 builder.CardAction.imBack(session, 'Create Incident', 'Create Incident'),
                 builder.CardAction.imBack(session, 'Incident Status', 'Incident Status')
-            ]);
+            ]));
     }
 
     function createServiceHeroCard(session) {
-        return new builder.HeroCard(session)
+        return new builder.Message(session).addAttachment(new builder.HeroCard(session)
             .title('Service Management')
             // .images([
             //     builder.CardImage.create(session, process.env.ServiceReqLogo)
@@ -142,7 +102,7 @@
             .buttons([
                 builder.CardAction.imBack(session, 'Create Service Request', 'Create Service Request'),
                 builder.CardAction.imBack(session, 'Service Status', 'Service Status')
-            ]);
+            ]));
     }
 
     var PLEASE_WAIT_MESSAGE = {
@@ -184,6 +144,16 @@
                 return `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/><br/>If you are stuck at any point, you can type ‘help’.<br/><br/>How may I help you today?`;
             }
         },
+        "INCIDENTMGMT": {
+            "ENGLISH": (session) => {
+                return builder.Prompts.choice(session, 'Choose a service', ['Create Incident', 'Incident Status']);
+            }
+        },
+        "SERVICEMGMT": {
+            "ENGLISH": (session) => {
+                return builder.Prompts.choice(session, 'Choose a service', ['Create Service Request', 'Service Status']);
+            }
+        },
         "CREATEINCIDENT_1": {
             "ENGLISH": "I have created your incident!"
         },
@@ -211,6 +181,22 @@
         "GREETING": {
             "ENGLISH": (session) => {
                 return createHeroCard(session, process.env.AgentName, `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/><br/>If you are stuck at any point, you can type ‘help’.<br/><br/>How may I help you today?`, [], [])
+            }
+        },
+        "INCIDENTMGMT": {
+            "ENGLISH": (session) => {
+                let buttonsArr = [];
+                buttonsArr.push(builder.CardAction.imBack(session, 'Create Incident', 'Create Incident'));
+                buttonsArr.push(builder.CardAction.imBack(session, 'Incident Status', 'Incident Status'));
+                return createHeroCard(session, 'Incident Management', '', [], buttonsArr)
+            }
+        },
+        "SERVICEMGMT": {
+            "ENGLISH": (session) => {
+                let buttonsArr = [];
+                buttonsArr.push(builder.CardAction.imBack(session, 'Create Service Request', 'Create Service Request'));
+                buttonsArr.push(builder.CardAction.imBack(session, 'Service Status', 'Service Status'));
+                return createHeroCard(session, 'Service Management', '', [], buttonsArr)
             }
         },
         "CREATEINCIDENT_1": {
@@ -245,6 +231,22 @@
         "GREETING": {
             "ENGLISH": (session) => {
                 return createHeroCard(session, process.env.AgentName, `Hi ${session.message.user.name ? session.message.user.name.split(' ')[0] : ' '}, I can help you create incidents and requests. You can also ask me the status of your incidents/requests.<br/><br/>If you are stuck at any point, you can type ‘help’.<br/><br/>How may I help you today?`, [], [])
+            }
+        },
+        "INCIDENTMGMT": {
+            "ENGLISH": (session) => {
+                let buttonsArr = [];
+                buttonsArr.push(builder.CardAction.imBack(session, 'Create Incident', 'Create Incident'));
+                buttonsArr.push(builder.CardAction.imBack(session, 'Incident Status', 'Incident Status'));
+                return createHeroCard(session, 'Incident Management', '', [], buttonsArr)
+            }
+        },
+        "SERVICEMGMT": {
+            "ENGLISH": (session) => {
+                let buttonsArr = [];
+                buttonsArr.push(builder.CardAction.imBack(session, 'Create Service Request', 'Create Service Request'));
+                buttonsArr.push(builder.CardAction.imBack(session, 'Service Status', 'Service Status'));
+                return createHeroCard(session, 'Service Management', '', [], buttonsArr)
             }
         },
         "CREATEINCIDENT_1": {
@@ -296,7 +298,6 @@
         }
     };
 
-    module.exports.greetingMessage = greetingMessage;
     module.exports.pleaseWait = PLEASE_WAIT_MESSAGE;
     module.exports.sendError = ERROR_MESSAGES;
 

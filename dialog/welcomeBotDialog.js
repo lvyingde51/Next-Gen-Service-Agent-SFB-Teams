@@ -37,18 +37,16 @@
             log.consoleDefault(session.message.text);
             log.consoleDefault(session.conversationData.GreetingType);
             if (session.conversationData.GreetingType === 'INCIDENT MANAGEMENT' && session.message.source != 'skypeforbusiness') {
-                let msg = new builder.Message(session).addAttachment(createIncidentHeroCard(session));
-                session.endDialog(msg);
+                session.endDialog(botDialog.getMessage(session, "INCIDENTMGMT", lang));
             }
             else if (session.conversationData.GreetingType === 'SERVICE MANAGEMENT' && session.message.source != 'skypeforbusiness') {
-                let msg = new builder.Message(session).addAttachment(createServiceHeroCard(session));
-                session.endDialog(msg);
+                session.endDialog(botDialog.getMessage(session, "SERVICEMGMT", lang));
             }
             else if (session.conversationData.GreetingType === 'INCIDENT MANAGEMENT' && session.message.source === 'skypeforbusiness') {
-                builder.Prompts.choice(session, 'Choose a service', ['Create Incident', 'Incident Status']);
+                botDialog.getMessage(session, "INCIDENTMGMT", lang);
             }
             else if (session.conversationData.GreetingType === 'SERVICE MANAGEMENT' && session.message.source === 'skypeforbusiness') {
-                builder.Prompts.choice(session, 'Choose a service', ['Create Service Request', 'Service Status']);
+                botDialog.getMessage(session, "SERVICEMGMT", lang);
             }
         },
         function (session, results) {
@@ -88,43 +86,4 @@
             }
         }
     ];
-
-    function createWelcomeHeroCard(session, resp) {
-        return new builder.HeroCard(session)
-            .title(process.env.AgentName)
-            .text(resp)
-            // .images([
-            //     builder.CardImage.create(session, process.env.LogoURL)
-            // ])
-            .buttons([
-                /* builder.CardAction.imBack(session, 'Create Incident', 'Create Incident'),
-                 builder.CardAction.imBack(session, 'Get Incidents','Get Incidents'),
-                 builder.CardAction.imBack(session, 'Create Service Request', 'Create Service Request'),
-                 builder.CardAction.imBack(session, 'Get Service Status','Get Service Status')*/
-            ]);
-    }
-
-    function createIncidentHeroCard(session) {
-        return new builder.HeroCard(session)
-            .title('Incident Management')
-            // .images([
-            //     builder.CardImage.create(session, process.env.IncidentLogo)
-            // ])
-            .buttons([
-                builder.CardAction.imBack(session, 'Create Incident', 'Create Incident'),
-                builder.CardAction.imBack(session, 'Incident Status', 'Incident Status')
-            ]);
-    }
-
-    function createServiceHeroCard(session) {
-        return new builder.HeroCard(session)
-            .title('Service Management')
-            // .images([
-            //     builder.CardImage.create(session, process.env.ServiceReqLogo)
-            // ])
-            .buttons([
-                builder.CardAction.imBack(session, 'Create Service Request', 'Create Service Request'),
-                builder.CardAction.imBack(session, 'Service Status', 'Service Status')
-            ]);
-    }
 }());
