@@ -14,8 +14,7 @@
                 if (botResp) {
                     botMsg = botResp[language];
                     if (botMsg) {
-                        botMsg = botResp[language];
-                        return BOT_MESSAGES_SLACK[propertyName][language](session);
+                        return botMsg(session);
                     } else {
                         return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
                     }
@@ -28,8 +27,7 @@
                 if (botResp) {
                     botMsg = botResp[language];
                     if (botMsg) {
-                        console.log(BOT_MESSAGES_TEAMS[propertyName][language](session));
-                        return BOT_MESSAGES_TEAMS[propertyName][language](session);
+                        return botMsg(session);
                     } else {
                         return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
                     }
@@ -42,7 +40,7 @@
                 if (botResp) {
                     botMsg = botResp[language];
                     if (botMsg) {
-                        return BOT_MESSAGES[propertyName][language](session);
+                        return botMsg(session);
                     } else {
                         return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
                     }
@@ -136,7 +134,9 @@
             }
         },
         "SHORTDESCPROMPT": {
-            "ENGLISH": "Please give me a short description of the incident you’d like to report"
+            "ENGLISH": (session) => {
+                "Please give me a short description of the incident you’d like to report"
+            }
         },
         "CREATEINCIDENT_1": {
             "ENGLISH": "I have created your incident!"
@@ -194,7 +194,9 @@
             }
         },
         "SHORTDESCPROMPT": {
-            "ENGLISH": "Please give me a short description of the incident you’d like to report"
+            "ENGLISH": (session) => {
+                "Please give me a short description of the incident you’d like to report"
+            }
         },
         "CREATEINCIDENT_1": {
             "ENGLISH": "I have created your incident!"
@@ -257,7 +259,9 @@
             }
         },
         "SHORTDESCPROMPT": {
-            "ENGLISH": "Please give me a short description of the incident you’d like to report"
+            "ENGLISH": (session) => {
+                "Please give me a short description of the incident you’d like to report"
+            }
         },
         "CREATEINCIDENT_1": {
             "ENGLISH": "_I have created your incident!_"
