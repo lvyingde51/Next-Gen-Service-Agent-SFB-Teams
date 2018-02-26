@@ -53,6 +53,11 @@
         },
         function (session, results) {
             if (session.conversationData.IncidentNumber == '' || session.conversationData.IncidentNumber == undefined) {
+                if (!results.response.match(jsonData.regexPattern['INCIDENTREGEX'])) {
+                    session.conversationData.IncidentNumber = '';
+                    session.endDialog(botDialog.sendError.INVALIDINCIDENTFORMAT[lang]);
+                    return false;
+                }
                 session.conversationData.IncidentNumber = results.response;
                 session.send(pleaseWait["INCIDENTSTATUS"][lang]);
                 apiService.getStatusByNumber(session.conversationData.IncidentNumber, reqType, function (data) {
