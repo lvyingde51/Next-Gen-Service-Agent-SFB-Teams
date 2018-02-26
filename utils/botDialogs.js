@@ -14,7 +14,7 @@
                 if (botResp) {
                     botMsg = botResp[language];
                     if (botMsg) {
-                    botMsg = botResp[language];
+                        botMsg = botResp[language];
                         return BOT_MESSAGES_SLACK[propertyName][language](session);
                     } else {
                         return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
@@ -113,8 +113,8 @@
         "INCIDENTADDCOMMENT": {
             "ENGLISH": "Alright... Sending your comment..."
         },
-        "PROCESSING" : {
-            "ENGLISH" : "Please wait... This is taking a little longer than expected..."
+        "PROCESSING": {
+            "ENGLISH": "Please wait... This is taking a little longer than expected..."
         }
     };
 
@@ -159,12 +159,12 @@
             }
         },
         "ADDCOMMENT": {
-            "ENGLISH" : (session) => {
+            "ENGLISH": (session) => {
                 return `Okay, Please enter your comment`;
             }
         },
-        "THANKYOU" : {
-            "ENGLISH" : (session) => {
+        "THANKYOU": {
+            "ENGLISH": (session) => {
                 return `Happy to help`;
             }
         }
@@ -222,12 +222,12 @@
             }
         },
         "ADDCOMMENT": {
-            "ENGLISH" : (session) => {
+            "ENGLISH": (session) => {
                 return `Okay, Please enter your comment`;
             }
         },
-        "THANKYOU" : {
-            "ENGLISH" : (session) => {
+        "THANKYOU": {
+            "ENGLISH": (session) => {
                 return `Happy to help`;
             }
         }
@@ -285,12 +285,12 @@
             }
         },
         "ADDCOMMENT": {
-            "ENGLISH" : (session) => {
+            "ENGLISH": (session) => {
                 return `Okay, Please enter your comment`;
             }
         },
-        "THANKYOU" : {
-            "ENGLISH" : (session) => {
+        "THANKYOU": {
+            "ENGLISH": (session) => {
                 return `Happy to help`;
             }
         }
