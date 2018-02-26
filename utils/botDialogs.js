@@ -7,13 +7,14 @@
             language = "ENGLISH";
         }
         let botResp = null;
+        let botMsg = null;
         switch (session.message.source) {
             case 'slack':
                 botResp = BOT_MESSAGES_SLACK[propertyName];
                 if (botResp) {
-                    let botMsg = botResp[language];
+                    botMsg = botResp[language];
                     if (botMsg) {
-                        return BOT_MESSAGES_SLACK[propertyName][language](session);
+                        return botMsg(session);
                         // if (!botMsg.title) {
                         //     botMsg.title = "";
                         // }
@@ -43,10 +44,9 @@
             case 'msteams':
                 botResp = BOT_MESSAGES_TEAMS[propertyName];
                 if (botResp) {
-                    let botMsg = botResp[language];
+                    botMsg = botResp[language];
                     if (botMsg) {
                         return botMsg(session);
-                        // return BOT_MESSAGES_TEAMS[propertyName][language](session);
                     } else {
                         return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
                     }
@@ -57,9 +57,9 @@
             default:
                 botResp = BOT_MESSAGES[propertyName];
                 if (botResp) {
-                    let botMsg = botResp[language];
+                    botMsg = botResp[language];
                     if (botMsg) {
-                        return BOT_MESSAGES[propertyName][language](session);
+                        return botMsg(session);
                     } else {
                         return 'Error :: Bot Message is not available for Property ' + propertyName + ' on Language ' + language;
                     }
@@ -114,15 +114,11 @@
         //     .buttons(buttonArr);
         // }
 
-        console.log('hero card');
-        let card = new builder.Message(session).addAttachment(new builder.HeroCard(session)
+        return new builder.Message(session).addAttachment(new builder.HeroCard(session)
             .title(title)
             .text(resp)
             .images(imageUrlArr)
             .buttons(buttonArr));
-
-        // session.send(card);
-        return card;        
     }
 
     function createIncidentHeroCard(session) {
