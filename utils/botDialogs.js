@@ -120,7 +120,7 @@
             .images(imageUrlArr)
             .buttons(buttonArr);
 
-            console.log(card);
+        console.log(card);
         return card;
     }
 
