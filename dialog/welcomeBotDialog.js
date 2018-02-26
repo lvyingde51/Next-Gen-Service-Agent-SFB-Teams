@@ -16,8 +16,8 @@
             } else {
                 let message = botDialog.getMessage(session, "GREETING", lang);
                 console.log(message);
-                session.send('Y not working?');
-                session.endDialog(message);
+                session.send(message);
+                // session.endDialog(message);
             }
         },
         function (session, results) {
