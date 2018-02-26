@@ -106,6 +106,9 @@
         "INCIDENTREOPEN": {
             "ENGLISH": "One sec... Sending your request..."
         },
+        "LASTINCIDENT": {
+            "ENGLISH": "Hang in there... Getting your last incident..."
+        },
         "INCIDENTCLOSE": {
             "ENGLISH": "Just a moment... Closing your incident..."
         },
