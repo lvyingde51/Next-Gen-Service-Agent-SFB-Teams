@@ -36,17 +36,12 @@
         function (session, args) {
             log.consoleDefault(session.message.text);
             log.consoleDefault(session.conversationData.GreetingType);
-            if (session.conversationData.GreetingType === 'INCIDENT MANAGEMENT' && session.message.source != 'skypeforbusiness') {
-                session.endDialog(botDialog.getMessage(session, "INCIDENTMGMT", lang));
+            let propertyType = session.conversationData.GreetingType === 'INCIDENT MANAGEMENT' ? "INCIDENTMGMT" : "SERVICEMGMT";
+            if (session.message.source != 'skypeforbusiness') {
+                session.endDialog(botDialog.getMessage(session, propertyType, lang));
             }
-            else if (session.conversationData.GreetingType === 'SERVICE MANAGEMENT' && session.message.source != 'skypeforbusiness') {
-                session.endDialog(botDialog.getMessage(session, "SERVICEMGMT", lang));
-            }
-            else if (session.conversationData.GreetingType === 'INCIDENT MANAGEMENT' && session.message.source === 'skypeforbusiness') {
-                botDialog.getMessage(session, "INCIDENTMGMT", lang);
-            }
-            else if (session.conversationData.GreetingType === 'SERVICE MANAGEMENT' && session.message.source === 'skypeforbusiness') {
-                botDialog.getMessage(session, "SERVICEMGMT", lang);
+            else {
+                botDialog.getMessage(session, propertyType, lang);
             }
         },
         function (session, results) {
