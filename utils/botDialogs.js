@@ -119,8 +119,6 @@
             .text(resp)
             .images(imageUrlArr)
             .buttons(buttonArr);
-
-        console.log(card);
         return card;
     }
 
